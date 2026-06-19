@@ -128,7 +128,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .phone-screen:hover .play{transform:scale(1.08)}
   .play svg{width:22px;height:22px;color:#1a1206;margin-left:3px}
   .phone-screen .cap{font-family:'Clash Display';font-size:1rem;line-height:1.3}
-  .phone-screen .sub{font-size:.78rem;color:var(--muted)}
+  .phone-screen .sub{font-size:.78rem;color:#d7d7dc}
+  .phone-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .phone-screen::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,8,10,.25) 0%,rgba(8,8,10,.55) 60%,rgba(8,8,10,.78) 100%);z-index:1}
+  .phone-screen .label,.phone-screen .play,.phone-screen .cap,.phone-screen .sub{position:relative;z-index:2}
   .float-card{position:absolute;background:var(--bg-elevated);border:1px solid var(--line);border-radius:12px;padding:11px 14px;box-shadow:0 18px 44px -18px rgba(0,0,0,.8)}
   .float-card .k{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--faint)}
   .float-card .v{font-family:'Clash Display';font-size:1.25rem;font-weight:700}
@@ -329,6 +332,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-visual">
     <div class="phone-wrap">
       <div class="phone"><div class="phone-screen" id="playVideo">
+        <img class="phone-thumb" src="assets/poster.jpg" alt="Prévia do vídeo do Gustavo explicando o serviço" loading="lazy">
         <span class="label">Gustavo · Gustavo Digital</span>
         <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
         <div class="cap">Por que não é<br>só um site</div>
