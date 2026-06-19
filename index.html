@@ -4,6 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ===== Consentimento (Google Consent Mode v2 — LGPD) =====
+     Por padrão, análise e anúncios ficam NEGADOS até o usuário aceitar os cookies. -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent','default',{
+    ad_storage:'denied', analytics_storage:'denied',
+    ad_user_data:'denied', ad_personalization:'denied',
+    functionality_storage:'granted', security_storage:'granted', wait_for_update:500
+  });
+  try{ if(document.cookie.indexOf('gd_consent=1')>-1){
+    gtag('consent','update',{ad_storage:'granted',analytics_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
+  }}catch(e){}
+</script>
+
 <!-- ===== Google Tag Manager (contêiner GTM-WCPZTHHB) ===== -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -267,6 +282,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sticky-cta{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(160%);z-index:90;transition:transform .5s var(--ease);width:calc(100% - 36px);max-width:420px}
   .sticky-cta.show{transform:translateX(-50%) translateY(0)}
   .sticky-cta .btn{width:100%;box-shadow:0 16px 40px -10px rgba(242,163,60,.5)}
+
+  /* banner de cookies (LGPD) */
+  .cookie-bar{position:fixed;bottom:0;left:0;width:100%;z-index:130;background:var(--bg-elevated);border-top:1px solid var(--line-strong);padding:16px 22px;display:flex;gap:14px 18px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 -16px 40px -20px rgba(0,0,0,.8)}
+  .cookie-bar p{font-size:.86rem;color:var(--muted);max-width:58ch;margin:0}
+  .cookie-bar a{color:var(--accent);text-decoration:underline}
+  .cookie-bar .ck-actions{display:flex;gap:10px;flex-shrink:0}
+  .cookie-bar .btn{min-height:44px;padding:11px 20px;font-size:.9rem}
+  @media(max-width:600px){.cookie-bar .ck-actions{width:100%}.cookie-bar .btn{flex:1}}
 
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.86);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center;padding:22px}
   .modal.open{display:flex}
@@ -569,6 +592,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div class="sticky-cta" id="stickyCta"><a href="#aplicacao" class="btn btn-primary">Ver se minha empresa se encaixa</a></div>
 
+<!-- Banner de cookies (LGPD) -->
+<div class="cookie-bar" id="cookieBar" style="display:none">
+  <p>Usamos cookies para medir resultados e melhorar sua experiência. Você pode aceitar ou recusar — veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+  <div class="ck-actions">
+    <button class="btn btn-ghost" id="ckReject">Recusar</button>
+    <button class="btn btn-primary" id="ckAccept">Aceitar</button>
+  </div>
+</div>
+
 <div class="modal" id="videoModal"><div class="modal-box">
   <button class="modal-close" id="closeModal" aria-label="Fechar">✕</button>
   <video id="heroVideo" controls playsinline preload="none" poster="assets/dashboard-1.png">
@@ -658,6 +690,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const msg=`*Aplicação — Gustavo Digital*%0A%0A*Nome:* ${g('nome')}%0A*Empresa:* ${g('empresa')}%0A*Cidade:* ${g('cidade')}%0A*Segmento:* ${g('segmento')}%0A*Já funciona:* ${g('ativa')}%0A*Faturamento:* ${g('faturamento')}%0A*Já anuncia:* ${g('anuncia')}%0A*Tem site:* ${g('site')}%0A*Google Meu Negócio:* ${g('gmn')}%0A*Objetivo:* ${g('objetivo')}%0A*Urgência:* ${g('urgencia')}%0A*Verba/mês:* ${g('verba')}%0A*O que trava:* ${g('contexto')}`;
     window.open(`https://wa.me/${WHATSAPP}?text=${msg.replace(/ /g,'%20')}`,'_blank');
   });
+
+  // ===== Banner de cookies (LGPD) + atualização do Consent Mode =====
+  (function(){
+    var bar=document.getElementById('cookieBar'); if(!bar) return;
+    if(document.cookie.indexOf('gd_consent=')===-1){ bar.style.display='flex'; }
+    function decide(v){
+      document.cookie='gd_consent='+v+';path=/;max-age='+(60*60*24*180)+';SameSite=Lax';
+      if(v==='1' && typeof gtag==='function'){
+        gtag('consent','update',{ad_storage:'granted',analytics_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
+        track('cookie_consent',{consent:'granted'});
+      }
+      bar.style.display='none';
+    }
+    var a=document.getElementById('ckAccept'), r=document.getElementById('ckReject');
+    if(a) a.addEventListener('click',function(){decide('1');});
+    if(r) r.addEventListener('click',function(){decide('0');});
+  })();
 </script>
 </body>
 </html>
