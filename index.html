@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO ===== -->
+<title>Marketing para Empresas Locais em Curitiba | Gustavo Digital</title>
+<meta name="description" content="Operação de aquisição de clientes para empresas locais de Curitiba que já faturam: site estratégico, SEO local, Google Meu Negócio, Google Ads, Meta Ads e dashboard de resultados. Aplique para um diagnóstico estratégico.">
+<meta name="keywords" content="marketing digital em Curitiba, gestão de tráfego em Curitiba, Google Ads para negócios locais, agência de marketing para empresas locais, SEO local Curitiba, Google Meu Negócio Curitiba, criação de sites em Curitiba, anúncios para empresas locais">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://gustavodigital.online/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gustavo Digital — Operação de aquisição de clientes para empresas locais">
+<meta property="og:description" content="Eu não vendo site. Monto a estrutura para sua empresa aparecer no Google, atrair clientes pelo WhatsApp e medir o que dá resultado. Para empresas locais de Curitiba que já faturam.">
+<meta property="og:locale" content="pt_BR">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Gustavo Digital",
+  "description": "Operação de aquisição de clientes para empresas locais: site, SEO local, Google Ads, Meta Ads e dashboard de resultados.",
+  "areaServed": "Curitiba e Região Metropolitana, PR",
+  "url": "https://gustavodigital.online/",
+  "knowsAbout": ["Marketing digital","Google Ads","SEO local","Google Meu Negócio","Meta Ads","Gestão de tráfego"]
+}
+</script>
+
+<!-- ===== Fonts premium (Fontshare) ===== -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+
+<!-- ===== Libs ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.23/dist/lenis.css">
+<script src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+
+<style>
+  :root{
+    --bg:#0B0B0D; --bg-elevated:#131316; --surface:#1A1A1F;
+    --text:#F4F2EE; --muted:#9A9AA4; --faint:#6A6A72;
+    --accent:#F2A33C; --accent-soft:#C8985A; --accent-hover:#FFB855;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.14);
+    --bad:#E06B5B;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Satoshi',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,.display{font-family:'Clash Display',sans-serif;font-weight:600;line-height:1.05;letter-spacing:-.01em}
+  img{max-width:100%;display:block;background:linear-gradient(135deg,var(--surface),var(--bg-elevated))}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
+  .accent{color:var(--accent)}
+  .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .muted{color:var(--muted)}
+  section{padding-block:72px}
+  @media(min-width:768px){section{padding-block:110px}}
+  @media(min-width:1024px){section{padding-block:140px}}
+
+  h1{font-size:clamp(2.25rem,6vw,4.6rem)}
+  h2{font-size:clamp(1.8rem,4vw,3.2rem)}
+  h3{font-size:clamp(1.1rem,2vw,1.4rem)}
+  .lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--muted);max-width:60ch}
+
+  /* ===== NAV ===== */
+  nav{position:fixed;top:0;left:0;width:100%;z-index:100;backdrop-filter:blur(10px);background:rgba(11,11,13,.65);border-bottom:1px solid transparent;transition:border-color .4s,background .4s}
+  nav.scrolled{border-color:var(--line);background:rgba(11,11,13,.85)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:'Clash Display';font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+  .logo span{color:var(--accent)}
+  .nav-links{display:none;gap:34px;align-items:center}
+  .nav-links a{font-size:.92rem;color:var(--muted);transition:color .3s}
+  .nav-links a:hover{color:var(--text)}
+  @media(min-width:900px){.nav-links{display:flex}}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Satoshi';font-weight:700;font-size:.95rem;padding:13px 24px;border-radius:10px;cursor:pointer;border:1px solid transparent;transition:transform .3s var(--ease),background .3s,color .3s,border-color .3s;white-space:nowrap}
+  .btn-primary{background:var(--accent);color:#1a1206}
+  .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+  .nav .btn{padding:10px 20px}
+  .burger{display:flex;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px}
+  .burger span{width:24px;height:2px;background:var(--text);transition:.3s}
+  @media(min-width:900px){.burger{display:none}}
+  .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:99;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:40px;transform:translateX(100%);transition:transform .5s var(--ease)}
+  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu a{font-family:'Clash Display';font-size:1.8rem;color:var(--text)}
+  .mobile-menu .btn{margin-top:20px;justify-content:center}
+
+  /* ===== HERO ===== */
+  .hero{min-height:100vh;display:flex;align-items:center;padding-top:90px;position:relative}
+  .hero::before{content:"";position:absolute;top:-10%;right:-10%;width:60%;height:70%;background:radial-gradient(circle,rgba(242,163,60,.16),transparent 65%);pointer-events:none;z-index:0}
+  .hero-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:center;position:relative;z-index:1}
+  @media(min-width:1024px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
+  .hero h1{margin:18px 0 22px}
+  .hero .lead{margin-bottom:32px}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px}
+  .filter-line{font-size:.92rem;color:var(--faint);display:flex;align-items:center;gap:9px}
+  .filter-line::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* dashboard mockup */
+  .panel{background:linear-gradient(160deg,var(--bg-elevated),#0d0d10);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+  .panel-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .panel-top .t{font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+  .dot-row{display:flex;gap:6px}
+  .dot-row i{width:9px;height:9px;border-radius:50%;background:var(--surface)}
+  .kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+  .kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .kpi .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
+  .kpi .v{font-family:'Clash Display';font-size:1.7rem;font-weight:700;margin-top:4px}
+  .kpi .v small{font-size:.8rem;color:var(--accent);font-family:'Satoshi'}
+  .chart{display:flex;align-items:flex-end;gap:7px;height:74px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .chart i{flex:1;background:linear-gradient(180deg,var(--accent),rgba(242,163,60,.25));border-radius:4px 4px 0 0;opacity:.85}
+
+  /* ===== PROBLEMA ===== */
+  .grid-cards{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:640px){.grid-cards{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.grid-cards{grid-template-columns:1fr 1fr 1fr 1fr}}
+  .pain{background:var(--bg-elevated);border:1px solid var(--line);border-radius:14px;padding:24px;transition:border-color .3s,transform .3s var(--ease)}
+  .pain:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+  .pain svg{width:22px;height:22px;color:var(--accent-soft);margin-bottom:14px}
+  .pain p{font-size:.96rem;color:var(--muted)}
+
+  /* ===== SOLUÇÃO ===== */
+  .sol{display:grid;grid-template-columns:1fr;gap:20px}
+  @media(min-width:768px){.sol{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.sol{grid-template-columns:1fr 1fr 1fr}}
+  .sol-item{padding:26px;border:1px solid var(--line);border-radius:14px;background:var(--bg-elevated)}
+  .sol-item svg{width:22px;height:22px;color:var(--accent-soft);margin-bottom:14px}
+  .sol-item h3{font-size:1.12rem;margin-bottom:8px;font-family:'Clash Display'}
+  .sol-item p{font-size:.93rem;color:var(--muted)}
+
+  /* ===== PARA QUEM ===== */
+  .twocol{display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:900px){.twocol{grid-template-columns:1fr 1fr;gap:28px}}
+  .qual{padding:34px;border-radius:18px;border:1px solid var(--line)}
+  .qual.yes{background:linear-gradient(180deg,rgba(242,163,60,.07),transparent);border-color:rgba(242,163,60,.3)}
+  .qual.no{background:var(--bg-elevated)}
+  .qual h3{font-size:1.4rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+  .qual ul{list-style:none;display:flex;flex-direction:column;gap:13px}
+  .qual li{display:flex;gap:12px;font-size:.97rem;color:var(--muted);align-items:flex-start}
+  .qual li svg{width:19px;height:19px;flex-shrink:0;margin-top:3px}
+  .qual.yes li svg{color:var(--accent)}
+  .qual.no li svg{color:var(--bad)}
+
+  /* ===== PLANOS ===== */
+  .plans{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:768px){.plans{grid-template-columns:1fr 1fr}}
+  @media(min-width:1100px){.plans{grid-template-columns:repeat(4,1fr)}}
+  .plan{background:var(--bg-elevated);border:1px solid var(--line);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;transition:border-color .3s,transform .3s var(--ease)}
+  .plan:hover{border-color:var(--line-strong);transform:translateY(-4px)}
+  .plan.featured{border-color:var(--accent);background:linear-gradient(180deg,rgba(242,163,60,.08),var(--bg-elevated))}
+  .plan .tag{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .plan.featured .tag{color:var(--accent)}
+  .plan h3{font-size:1.25rem;margin:10px 0 4px;font-family:'Clash Display'}
+  .plan .price{font-family:'Clash Display';font-size:1.9rem;font-weight:700;margin:12px 0 4px}
+  .plan .price small{font-size:.8rem;color:var(--muted);font-family:'Satoshi';font-weight:400}
+  .plan .desc{font-size:.9rem;color:var(--muted);margin-bottom:18px;min-height:60px}
+  .plan ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:22px;flex:1}
+  .plan li{font-size:.86rem;color:var(--muted);padding-left:20px;position:relative}
+  .plan li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border:1.4px solid var(--accent);transform:rotate(45deg)}
+  .plan .btn{justify-content:center;width:100%}
+  .media-note{text-align:center;color:var(--faint);font-size:.85rem;margin-top:22px}
+
+  /* ===== PROCESSO ===== */
+  .steps{display:grid;grid-template-columns:1fr;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media(min-width:768px){.steps{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.steps{grid-template-columns:1fr 1fr 1fr}}
+  .step{background:var(--bg-elevated);padding:28px 26px}
+  .step .n{font-family:'Clash Display';font-size:1.1rem;color:var(--accent);font-weight:700}
+  .step h3{font-size:1.1rem;margin:8px 0 6px}
+  .step p{font-size:.92rem;color:var(--muted)}
+
+  /* ===== PROVAS ===== */
+  .proof{display:grid;grid-template-columns:1fr;gap:18px}
+  @media(min-width:768px){.proof{grid-template-columns:1fr 1fr 1fr}}
+  .proof-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg-elevated)}
+  .proof-card img{height:180px;width:100%;object-fit:cover;filter:grayscale(.3) contrast(1.05)}
+  .proof-card .pc{padding:20px}
+  .proof-card h3{font-size:1.05rem;margin-bottom:6px}
+  .proof-card p{font-size:.9rem;color:var(--muted)}
+  .disclaimer{margin-top:22px;font-size:.85rem;color:var(--faint);border-left:2px solid var(--accent-soft);padding-left:14px;max-width:70ch}
+
+  /* ===== FORM ===== */
+  .form-wrap{background:linear-gradient(180deg,var(--bg-elevated),#0d0d10);border:1px solid var(--line);border-radius:22px;padding:34px}
+  @media(min-width:768px){.form-wrap{padding:48px}}
+  .form-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:28px}
+  @media(min-width:680px){.form-grid{grid-template-columns:1fr 1fr}}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:.82rem;color:var(--muted);font-weight:500}
+  .field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'Satoshi';font-size:.95rem;transition:border-color .3s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+  .field textarea{resize:vertical;min-height:90px}
+  .form-wrap .btn{margin-top:26px;width:100%;justify-content:center;font-size:1.02rem;padding:16px}
+  .form-foot{text-align:center;color:var(--faint);font-size:.82rem;margin-top:14px}
+
+  /* ===== FOOTER ===== */
+  footer{border-top:1px solid var(--line);padding:54px 0 40px;background:var(--bg-elevated)}
+  .foot-grid{display:flex;flex-direction:column;gap:24px;justify-content:space-between}
+  @media(min-width:768px){.foot-grid{flex-direction:row;align-items:flex-start}}
+  .foot-grid p{font-size:.9rem;color:var(--muted);max-width:38ch}
+  .foot-links{display:flex;gap:26px;flex-wrap:wrap}
+  .foot-links a{font-size:.9rem;color:var(--muted);transition:color .3s}
+  .foot-links a:hover{color:var(--accent)}
+  .copyr{margin-top:38px;font-size:.8rem;color:var(--faint);border-top:1px solid var(--line);padding-top:22px}
+
+  /* sticky cta */
+  .sticky-cta{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(140%);z-index:90;transition:transform .5s var(--ease)}
+  .sticky-cta.show{transform:translateX(-50%) translateY(0)}
+  .sticky-cta .btn{box-shadow:0 16px 40px -10px rgba(242,163,60,.5)}
+
+  .section-head{max-width:62ch;margin-bottom:46px}
+  .section-head h2{margin:14px 0 16px}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav id="nav">
+  <div class="wrap nav-in">
+    <div class="logo">Gustavo<span>.</span>Digital</div>
+    <div class="nav-links">
+      <a href="#problema">O problema</a>
+      <a href="#operacao">A operação</a>
+      <a href="#planos">Planos</a>
+      <a href="#processo">Processo</a>
+      <a href="#aplicacao" class="btn btn-primary">Ver se minha empresa se encaixa</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#problema">O problema</a>
+  <a href="#operacao">A operação</a>
+  <a href="#planos">Planos</a>
+  <a href="#processo">Processo</a>
+  <a href="#aplicacao" class="btn btn-primary">Ver se minha empresa se encaixa</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <span class="eyebrow">Aquisição de clientes · Empresas locais · Curitiba</span>
+      <h1 class="hero-headline">Não é só um site. É uma estrutura para transformar <span class="accent">Google, anúncios e WhatsApp</span> em clientes.</h1>
+      <p class="lead">Eu ajudo empresas locais que já estão em operação a aparecerem melhor, atrair oportunidades qualificadas e medir o que realmente traz resultado.</p>
+      <div class="hero-ctas">
+        <a href="#aplicacao" class="btn btn-primary">Ver se minha empresa se encaixa</a>
+        <a href="#operacao" class="btn btn-ghost">Conhecer a operação</a>
+      </div>
+      <div class="filter-line">Para empresas que já vendem e querem crescer com marketing profissional.</div>
+    </div>
+
+    <div class="panel" aria-hidden="true">
+      <div class="panel-top"><span class="t">Painel de resultados · últimos 30 dias</span><span class="dot-row"><i></i><i></i><i></i></span></div>
+      <div class="kpis">
+        <div class="kpi"><div class="k">Leads no WhatsApp</div><div class="v">128 <small>↑</small></div></div>
+        <div class="kpi"><div class="k">Custo por lead</div><div class="v">R$ 14 <small>↓</small></div></div>
+        <div class="kpi"><div class="k">Buscas no Google</div><div class="v">3.4k</div></div>
+        <div class="kpi"><div class="k">Ligações (Maps)</div><div class="v">76</div></div>
+      </div>
+      <div class="chart"><i style="height:38%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i><i style="height:58%"></i><i style="height:78%"></i><i style="height:71%"></i><i style="height:92%"></i><i style="height:84%"></i><i style="height:100%"></i></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PROBLEMA ===== -->
+<section id="problema">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">O que trava o seu crescimento</span>
+      <h2>Se sua empresa já vende, mas ainda depende de indicação, você está deixando dinheiro na mesa.</h2>
+      <p class="lead">A maioria dos negócios locais não tem um problema de qualidade. Tem um problema de estrutura: ninguém os encontra na hora certa, e ninguém mede de onde vem o cliente.</p>
+    </div>
+    <div class="grid-cards">
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><p>Você tem site, mas ele não gera cliente nenhum.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/></svg><p>Seu negócio não aparece bem no Google quando procuram pelo serviço.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><p>O WhatsApp não recebe contatos qualificados — só curioso.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="m7 14 3-3 4 4 5-6"/></svg><p>Os anúncios rodam, mas ninguém sabe o que realmente funciona.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/></svg><p>Você depende só de indicação — e indicação não é previsível.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m13 2-3 7h6l-3 7"/><path d="M5 13h2M17 13h2"/></svg><p>O concorrente aparece primeiro, mesmo entregando menos que você.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg><p>Não existe dashboard nem clareza nenhuma dos números.</p></div>
+      <div class="pain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v6m0 8v6M2 12h6m8 0h6"/></svg><p>O dinheiro do anúncio vaza todo mês sem controle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOLUÇÃO ===== -->
+<section id="operacao" style="background:var(--bg-elevated)">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">A operação</span>
+      <h2>Eu monto a estrutura para sua empresa aparecer, ser encontrada e medir cada oportunidade.</h2>
+      <p class="lead">Não é uma lista de ferramentas. É um sistema onde cada peça existe por um motivo: trazer e medir cliente.</p>
+    </div>
+    <div class="sol">
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><h3>Site / Landing de conversão</h3><p>Não um site bonito e parado. Uma página feita pra uma coisa só: virar contato no WhatsApp.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg><h3>Google Meu Negócio</h3><p>Não é só cadastro. É aparecer melhor no mapa, nas buscas locais e gerar ligações diretas.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><h3>SEO local</h3><p>Não é só palavra-chave. É ser encontrado exatamente quando alguém procura pelo seu serviço na sua região.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg><h3>Google Ads</h3><p>Aparecer na frente de quem já está procurando comprar — a intenção mais quente que existe.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><h3>Meta Ads</h3><p>Instagram e Facebook trabalhando para gerar demanda e lembrar quem já te viu.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20v-6M6 20v-4M18 20v-9"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg><h3>Analytics e tags</h3><p>Não é configuração técnica. É saber, com clareza, quais canais realmente geram clientes.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h3>Integração com WhatsApp</h3><p>Cada clique vira conversa rastreada — você sabe de onde veio cada contato.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v6"/></svg><h3>Dashboard de resultados</h3><p>Um painel simples, em linguagem de dono: quantos leads, quanto custou cada um, o que dá retorno.</p></div>
+      <div class="sol-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v5h5"/></svg><h3>Otimização contínua</h3><p>A operação não para. Mês a mês, baixamos o custo por lead e melhoramos a qualidade.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARA QUEM ===== -->
+<section id="paraquem">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Honestidade antes da conversa</span>
+      <h2>Isso não é para todo mundo — e tudo bem.</h2>
+    </div>
+    <div class="twocol">
+      <div class="qual yes">
+        <h3>É para você se…</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Sua empresa já está em operação e já tem clientes.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Você quer mais ligações, orçamentos ou agendamentos — com consistência.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Você tem margem para investir em marketing como um ativo.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Você quer clareza dos números, não achismo.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Você entende que marketing é investimento, não gasto.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Você tem ticket médio maior ou recorrência e quer crescer.</li>
+        </ul>
+      </div>
+      <div class="qual no">
+        <h3>Não é para você se…</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Você procura o site mais barato do mercado.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Você não tem verba para investir em mídia.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Você quer resultado sem campanha, estrutura ou acompanhamento.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Você quer só "uma arte" ou "uma ideia rápida".</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Você não está disposto a olhar os números.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg> Sua operação ainda não está funcionando.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLANOS ===== -->
+<section id="planos" style="background:var(--bg-elevated)">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Formas de entrada</span>
+      <h2>Você escolhe o nível de operação. Eu cuido da estrutura.</h2>
+      <p class="lead">Não é tabela de freelancer. É uma operação de aquisição — do projeto pontual ao crescimento contínuo com dados.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <span class="tag">Projeto pontual</span>
+        <h3>Projeto Estratégico</h3>
+        <div class="price">a partir de R$ 4.000</div>
+        <p class="desc">Para quem precisa do site com estrutura profissional de verdade.</p>
+        <ul><li>Site ou landing de conversão</li><li>SEO on-page</li><li>Google Meu Negócio</li><li>Analytics, tags e eventos</li><li>Integração com WhatsApp</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Aplicar para diagnóstico</a>
+      </div>
+      <div class="plan featured">
+        <span class="tag">Mais procurado</span>
+        <h3>Operação Local</h3>
+        <div class="price">a partir de R$ 3.500<small>/mês</small></div>
+        <p class="desc">Para negócios locais que querem aparecer melhor e gerar contato todo mês.</p>
+        <ul><li>Tudo do Projeto Estratégico</li><li>SEO local contínuo</li><li>Google Ads (intenção)</li><li>Dashboard de resultados</li><li>Otimização mensal</li></ul>
+        <a href="#aplicacao" class="btn btn-primary">Quero esta operação</a>
+      </div>
+      <div class="plan">
+        <span class="tag">Escala</span>
+        <h3>Operação Growth</h3>
+        <div class="price">a partir de R$ 7.500<small>/mês</small></div>
+        <p class="desc">Para quem quer escala, campanhas robustas e acompanhamento próximo.</p>
+        <ul><li>Tudo da Operação Local</li><li>Google + Meta Ads</li><li>Criativos e testes</li><li>Otimização avançada</li><li>Acompanhamento próximo</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Aplicar para diagnóstico</a>
+      </div>
+      <div class="plan">
+        <span class="tag">Operação completa</span>
+        <h3>Operação Completa</h3>
+        <div class="price">a partir de R$ 15.000<small>/mês</small></div>
+        <p class="desc">Para empresas com operação maior, múltiplas campanhas e funil completo.</p>
+        <ul><li>Tudo da Operação Growth</li><li>Funil completo de aquisição</li><li>Múltiplas campanhas</li><li>Dados e BI dedicado</li><li>Crescimento contínuo</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Solicitar avaliação</a>
+      </div>
+    </div>
+    <p class="media-note">A verba de mídia (Google Ads e Meta Ads) é paga separadamente, direto nas plataformas. Você mantém o controle do seu investimento.</p>
+  </div>
+</section>
+
+<!-- ===== PROCESSO ===== -->
+<section id="processo">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Como funciona</span>
+      <h2>Um processo claro — do diagnóstico ao crescimento medido.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><h3>Aplicação</h3><p>Você preenche um formulário rápido para vermos, juntos, se faz sentido trabalharmos.</p></div>
+      <div class="step"><div class="n">02</div><h3>Diagnóstico</h3><p>Analiso sua presença digital, Google, site, anúncios e onde estão as oportunidades.</p></div>
+      <div class="step"><div class="n">03</div><h3>Estrutura</h3><p>Montagem ou ajuste de site, SEO, tags, analytics, Google Meu Negócio e campanhas.</p></div>
+      <div class="step"><div class="n">04</div><h3>Campanhas</h3><p>Ativação no Google e/ou Meta Ads, com foco em intenção e conversão real.</p></div>
+      <div class="step"><div class="n">05</div><h3>Medição</h3><p>Dashboard e relatório simples, com números que você entende de verdade.</p></div>
+      <div class="step"><div class="n">06</div><h3>Otimização</h3><p>Ajustes contínuos para melhorar custo por lead, qualidade e conversão.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROVAS ===== -->
+<section id="provas" style="background:var(--bg-elevated)">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">O que a operação gera</span>
+      <h2>A operação certa mostra de onde vem o cliente, quanto ele custou e onde o dinheiro está vazando.</h2>
+    </div>
+    <div class="proof">
+      <div class="proof-card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=80&auto=format&fit=crop" alt="Dashboard de resultados de campanhas"><div class="pc"><h3>Dashboard de resultados</h3><p>Leads, custo por contato e canais que convertem — num painel que o dono entende.</p></div></div>
+      <div class="proof-card"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format&fit=crop" alt="Crescimento de buscas no Google"><div class="pc"><h3>Mais visibilidade no Google</h3><p>Ser encontrado na busca e no mapa quando o cliente procura pelo seu serviço.</p></div></div>
+      <div class="proof-card"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=700&q=80&auto=format&fit=crop" alt="Leads chegando no WhatsApp"><div class="pc"><h3>WhatsApp com contato qualificado</h3><p>Conversas de quem realmente quer comprar — não curioso pedindo só orçamento.</p></div></div>
+    </div>
+    <p class="disclaimer">Resultados variam conforme segmento, oferta, verba e operação comercial. O foco é criar estrutura, medir e otimizar continuamente. Marketing não é mágica — é processo, dados e consistência.</p>
+  </div>
+</section>
+
+<!-- ===== IA / BASTIDOR ===== -->
+<section id="ia">
+  <div class="wrap" style="max-width:780px;text-align:center">
+    <span class="eyebrow">Tecnologia a serviço da estratégia</span>
+    <h2 style="margin:16px 0">Você compra clareza, clientes e estrutura — não uma ferramenta.</h2>
+    <p class="lead" style="margin:0 auto">Uso tecnologia e processos (inclusive IA) para acelerar análise, criação e otimização. Mas a estratégia continua humana e focada no seu negócio. A IA é bastidor; o resultado é seu.</p>
+  </div>
+</section>
+
+<!-- ===== FORMULÁRIO ===== -->
+<section id="aplicacao">
+  <div class="wrap">
+    <div class="form-wrap">
+      <span class="eyebrow">Aplicação para Diagnóstico Estratégico</span>
+      <h2 style="margin:14px 0 12px">Antes de conversar, preciso entender se consigo te ajudar.</h2>
+      <p class="muted" style="max-width:62ch">Este diagnóstico é indicado para empresas em operação que querem investir em crescimento com mais clareza. Leva 1 minuto — e já chega pra mim com tudo que preciso.</p>
+
+      <form id="qualForm" class="form-grid" novalidate>
+        <div class="field"><label>Nome</label><input name="nome" required placeholder="Seu nome"></div>
+        <div class="field"><label>WhatsApp</label><input name="whats" required placeholder="(41) 9...."></div>
+        <div class="field"><label>Nome da empresa</label><input name="empresa" placeholder="Sua empresa"></div>
+        <div class="field"><label>Cidade / região</label><input name="cidade" placeholder="Curitiba, PR"></div>
+        <div class="field"><label>Segmento</label><input name="segmento" placeholder="Ex.: clínica, oficina, advocacia..."></div>
+        <div class="field"><label>A empresa já está funcionando?</label><select name="ativa"><option>Sim, já atendo clientes</option><option>Estou começando agora</option></select></div>
+        <div class="field"><label>Faturamento mensal aproximado</label><select name="faturamento"><option>Até R$ 10 mil/mês</option><option>R$ 10 mil a R$ 30 mil/mês</option><option>R$ 30 mil a R$ 80 mil/mês</option><option>R$ 80 mil a R$ 200 mil/mês</option><option>Acima de R$ 200 mil/mês</option></select></div>
+        <div class="field"><label>Você já investe em anúncios?</label><select name="anuncia"><option>Sim, atualmente</option><option>Já investi, parei</option><option>Nunca investi</option></select></div>
+        <div class="field"><label>Você já tem site?</label><select name="site"><option>Sim</option><option>Não</option></select></div>
+        <div class="field"><label>Você já tem Google Meu Negócio?</label><select name="gmn"><option>Sim</option><option>Não</option><option>Não sei</option></select></div>
+        <div class="field full"><label>Qual seu principal objetivo?</label><input name="objetivo" placeholder="Ex.: mais agendamentos, mais orçamentos, mais ligações..."></div>
+        <div class="field full"><label>Você tem disponibilidade para investir a partir de R$ 3.500/mês + verba de anúncios?</label><select name="verba"><option>Não tenho verba agora</option><option>Tenho até R$ 1.000/mês</option><option>Tenho de R$ 1.000 a R$ 3.500/mês</option><option>Tenho de R$ 3.500 a R$ 7.500/mês</option><option>Tenho acima de R$ 7.500/mês</option></select></div>
+        <div class="field"><label>Qual a urgência?</label><select name="urgencia"><option>Quero resolver agora</option><option>Próximos 30 dias</option><option>Próximos 90 dias</option><option>Só estou pesquisando</option></select></div>
+        <div class="field"><label>&nbsp;</label><div class="muted" style="font-size:.82rem;padding-top:13px">Tudo é enviado direto pro WhatsApp do Gustavo.</div></div>
+        <div class="field full"><label>Conte rapidamente o que está travando seu crescimento hoje</label><textarea name="contexto" placeholder="Escreva em poucas linhas..."></textarea></div>
+        <button type="submit" class="btn btn-primary">Enviar aplicação e falar com o Gustavo</button>
+      </form>
+      <p class="form-foot">Ao enviar, abro seu WhatsApp com as respostas preenchidas. Sem compromisso — só conversamos se fizer sentido pros dois lados.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px">Gustavo<span>.</span>Digital</div>
+        <p>Operação de aquisição de clientes para empresas locais de Curitiba que já faturam e querem crescer com presença digital, dados e acompanhamento real.</p>
+      </div>
+      <div class="foot-links">
+        <a href="#problema">O problema</a>
+        <a href="#operacao">A operação</a>
+        <a href="#planos">Planos</a>
+        <a href="#processo">Processo</a>
+        <a href="#aplicacao">Aplicar</a>
+      </div>
+    </div>
+    <div class="copyr">© 2026 Gustavo Digital · Marketing para empresas locais · Curitiba e região, PR</div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta"><a href="#aplicacao" class="btn btn-primary">Ver se minha empresa se encaixa</a></div>
+
+<script>
+  // ===== CONFIG: troque pelo seu WhatsApp (só dígitos, com 55 + DDD) =====
+  const WHATSAPP = "5541900000000";
+
+  const isMobile = window.matchMedia('(max-width:768px)').matches || 'ontouchstart' in window;
+  if (typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined') gsap.registerPlugin(ScrollTrigger);
+
+  // Lenis (desktop)
+  if (typeof Lenis!=='undefined' && !isMobile){
+    try{
+      const lenis=new Lenis({duration:1.2,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,syncTouch:false});
+      if(typeof gsap!=='undefined'){lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);}
+    }catch(e){}
+  }
+
+  // Nav scrolled + sticky cta
+  const nav=document.getElementById('nav'), sticky=document.getElementById('stickyCta');
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    nav.classList.toggle('scrolled',y>40);
+    sticky.classList.toggle('show', y>700 && y < document.body.scrollHeight - window.innerHeight - 700);
+  });
+
+  // Burger
+  const burger=document.getElementById('burger'), mm=document.getElementById('mobileMenu');
+  burger.addEventListener('click',()=>mm.classList.toggle('open'));
+  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+  // Hero headline kinetic
+  if(typeof SplitType!=='undefined' && typeof gsap!=='undefined'){
+    try{
+      const t=new SplitType('.hero-headline',{types:'words'});
+      gsap.from(t.words,{opacity:0,y:30,duration:1,stagger:.06,ease:'cubic-bezier(0.22,1,0.36,1)'});
+    }catch(e){}
+  }
+
+  // Reveal staggered
+  if(typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined'){
+    gsap.utils.toArray('section').forEach(sec=>{
+      const items=sec.querySelectorAll('.section-head, .pain, .sol-item, .qual, .plan, .step, .proof-card, .media-note, .form-wrap');
+      if(!items.length) return;
+      gsap.from(items,{opacity:0,y:40,duration:.8,stagger:.08,ease:'cubic-bezier(0.22,1,0.36,1)',
+        scrollTrigger:{trigger:sec,start:'top 80%',toggleActions:'play none none none'}});
+    });
+  }
+
+  // Form -> WhatsApp pré-preenchido (filtra antes de chegar em você)
+  document.getElementById('qualForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    const f=new FormData(this), g=k=>f.get(k)||'-';
+    const msg=
+`*Aplicação — Diagnóstico Estratégico*%0A%0A`+
+`*Nome:* ${g('nome')}%0A`+
+`*Empresa:* ${g('empresa')}%0A`+
+`*Cidade:* ${g('cidade')}%0A`+
+`*Segmento:* ${g('segmento')}%0A`+
+`*Já funciona:* ${g('ativa')}%0A`+
+`*Faturamento:* ${g('faturamento')}%0A`+
+`*Já anuncia:* ${g('anuncia')}%0A`+
+`*Tem site:* ${g('site')}%0A`+
+`*Google Meu Negócio:* ${g('gmn')}%0A`+
+`*Objetivo:* ${g('objetivo')}%0A`+
+`*Verba disponível:* ${g('verba')}%0A`+
+`*Urgência:* ${g('urgencia')}%0A`+
+`*O que trava:* ${g('contexto')}`;
+    window.open(`https://wa.me/${WHATSAPP}?text=${msg.replace(/ /g,'%20')}`,'_blank');
+  });
+</script>
+</body>
+</html>
