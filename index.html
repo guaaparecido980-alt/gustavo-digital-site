@@ -182,7 +182,25 @@
   .plan li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border:1.4px solid var(--accent);transform:rotate(45deg)}
   .plan li.dash{color:var(--text);font-weight:600}
   .plan .btn{width:100%}
-  .media-note{text-align:center;color:var(--faint);font-size:.86rem;margin-top:20px}
+  .media-note{text-align:center;color:var(--muted);font-size:.92rem;line-height:1.65;margin:34px auto 0;max-width:78ch}
+  /* grupos de planos */
+  .group-label{font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:14px;margin:0 0 22px}
+  .group-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .group-label b{color:var(--accent);font-weight:700}
+  .plans-base{display:grid;grid-template-columns:1fr;gap:26px;align-items:center}
+  @media(min-width:880px){.plans-base{grid-template-columns:minmax(0,370px) 1fr}}
+  .base-aside .big{font-family:'Clash Display';font-size:1.2rem;color:var(--text);margin-bottom:10px;line-height:1.3}
+  .base-aside p{color:var(--muted);font-size:.96rem;max-width:46ch}
+  .group-divider{height:1px;background:var(--line);margin:50px 0}
+  .plans-op{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:680px){.plans-op{grid-template-columns:1fr 1fr}}
+  @media(min-width:1024px){.plans-op{grid-template-columns:repeat(3,1fr)}}
+  /* hierarquia de preço */
+  .price-lead{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+  .price-num{font-family:'Clash Display';font-size:1.7rem;font-weight:700;margin:5px 0 3px;line-height:1.1}
+  .price-num .per{font-family:'Satoshi';font-size:.82rem;color:var(--muted);font-weight:400}
+  .price-verba{font-size:.84rem;color:var(--accent-soft);font-weight:600}
+  .price-once{font-size:.84rem;color:var(--muted);font-weight:500}
 
   .steps{display:grid;grid-template-columns:1fr;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
   @media(min-width:560px){.steps{grid-template-columns:1fr 1fr}}
@@ -388,43 +406,69 @@
 <section id="planos"><div class="wrap">
   <div class="section-head reveal">
     <span class="eyebrow">Formas de entrada</span>
-    <h2>Construir a base ou operar o crescimento.</h2>
-    <p class="lead">Projeto pontual cria a estrutura. Operação mensal mantém aquisição, campanhas, dados e otimização acontecendo todos os meses.</p>
+    <h2>Escolha entre construir a base ou operar o crescimento.</h2>
+    <p class="lead">Projeto pontual cria a base digital. Operação mensal mantém campanhas, dados, otimização e aquisição rodando todos os meses.</p>
   </div>
-  <div class="plans">
-    <div class="plan reveal">
-      <span class="tag">Projeto pontual</span><h3>Projeto Estratégico</h3>
-      <div class="price">a partir de R$ 4.000<small>pagamento único</small></div>
-      <p class="desc">Para construir ou refazer a base digital com mais seriedade — uma estrutura pronta pra receber tráfego, em vez de uma presença improvisada.</p>
-      <ul><li>Site ou landing page + copy</li><li>SEO on-page</li><li>Google Meu Negócio</li><li>Analytics, tags e eventos</li><li>Integração com WhatsApp</li><li class="dash">Relatório inicial de entrega</li></ul>
-      <a href="#aplicacao" class="btn btn-ghost">Aplicar para projeto</a>
-    </div>
-    <div class="plan featured reveal">
-      <span class="tag">Mais procurado</span><h3>Operação Local</h3>
-      <div class="price">R$ 3.500<small>/mês + verba de anúncios</small></div>
-      <div class="setup">Setup inicial a partir de R$ 2.000</div>
-      <p class="desc">Pra negócios locais que querem aparecer melhor no Google, gerar contatos e acompanhar os números todo mês.</p>
-      <ul><li>Ajustes no site + SEO local</li><li>Google Ads</li><li>Meta Ads quando fizer sentido</li><li>Tags e Analytics</li><li class="dash">Dashboard essencial</li><li>Otimização mensal</li></ul>
-      <a href="#aplicacao" class="btn btn-primary">Aplicar para operação local</a>
-    </div>
-    <div class="plan reveal">
-      <span class="tag">Escala</span><h3>Operação Growth</h3>
-      <div class="price">R$ 7.500<small>/mês + verba de anúncios</small></div>
-      <div class="setup">Setup inicial a partir de R$ 3.500</div>
-      <p class="desc">Pra quem quer escala com mais canais, testes, criativos e análise mais próxima dos resultados.</p>
-      <ul><li>Google Ads + Meta Ads</li><li>Criativos e testes</li><li>Landing pages</li><li class="dash">Dashboard completo por canal</li><li>Análise por campanha</li><li>Otimização avançada</li></ul>
-      <a href="#aplicacao" class="btn btn-ghost">Aplicar para Growth</a>
-    </div>
-    <div class="plan reveal">
-      <span class="tag">Completa</span><h3>Operação Completa</h3>
-      <div class="price">R$ 15.000<small>/mês + verba de anúncios</small></div>
-      <div class="setup">Setup sob análise</div>
-      <p class="desc">Pra empresas com operação maior, múltiplas campanhas, funil completo e necessidade de visão executiva.</p>
-      <ul><li>Funil completo de aquisição</li><li>Múltiplos canais</li><li class="dash">BI / dashboard avançado</li><li>Estratégia contínua</li><li>Relatórios executivos</li></ul>
-      <a href="#aplicacao" class="btn btn-ghost">Solicitar avaliação estratégica</a>
+
+  <!-- GRUPO 1: CONSTRUÇÃO DA BASE -->
+  <div class="reveal">
+    <div class="group-label"><b>1.</b> Construção da base · projeto pontual</div>
+    <div class="plans-base">
+      <div class="plan">
+        <span class="tag">Construção da base</span><h3>Projeto Estratégico</h3>
+        <div class="price-num">a partir de R$ 4.000</div>
+        <div class="price-once">pagamento único</div>
+        <p class="desc">Para construir ou refazer a base digital com mais seriedade — uma estrutura pronta para receber tráfego, medir conversões e transformar visitas em contatos.</p>
+        <ul><li>Site ou landing page + copy</li><li>SEO on-page</li><li>Google Meu Negócio</li><li>Analytics, tags e eventos</li><li>Integração com WhatsApp</li><li class="dash">Relatório inicial de entrega</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Aplicar para projeto</a>
+      </div>
+      <div class="base-aside">
+        <div class="big">A base vem primeiro. Sem ela, tráfego vira desperdício.</div>
+        <p>Site, rastreamento e Google organizados são o que transforma clique em contato — e o que permite medir tudo depois. É a fundação sobre a qual qualquer operação mensal funciona.</p>
+      </div>
     </div>
   </div>
-  <p class="media-note reveal">A verba de anúncios é paga separadamente para Google e Meta — o investimento fica sob controle da empresa. Os valores podem variar conforme segmento, estrutura atual, quantidade de campanhas, páginas, integrações e nível de acompanhamento.</p>
+
+  <div class="group-divider"></div>
+
+  <!-- GRUPO 2: OPERAÇÃO MENSAL -->
+  <div class="reveal">
+    <div class="group-label"><b>2.</b> Operação mensal · aquisição contínua</div>
+    <div class="plans-op">
+      <div class="plan featured">
+        <span class="tag">Mais procurado</span><h3>Operação Local</h3>
+        <span class="price-lead">Gestão mensal a partir de</span>
+        <div class="price-num">R$ 3.500 <span class="per">/mês</span></div>
+        <div class="price-verba">+ verba de anúncios</div>
+        <div class="setup">Setup inicial a partir de R$ 2.000</div>
+        <p class="desc">Para negócios locais que querem aparecer melhor no Google, gerar contatos e acompanhar os números todos os meses.</p>
+        <ul><li>Ajustes no site + SEO local</li><li>Google Ads como base de captação</li><li>Apoio em Meta Ads quando estratégico</li><li>Tags e Analytics</li><li class="dash">Dashboard essencial</li><li>Otimização mensal</li></ul>
+        <a href="#aplicacao" class="btn btn-primary">Aplicar para operação local</a>
+      </div>
+      <div class="plan">
+        <span class="tag">Escala</span><h3>Operação Growth</h3>
+        <span class="price-lead">Gestão mensal a partir de</span>
+        <div class="price-num">R$ 7.500 <span class="per">/mês</span></div>
+        <div class="price-verba">+ verba de anúncios</div>
+        <div class="setup">Setup inicial a partir de R$ 3.500</div>
+        <p class="desc">Para empresas que querem escalar com mais canais, testes, criativos e análise mais próxima dos resultados.</p>
+        <ul><li>Google Ads + Meta Ads</li><li>Criativos e testes</li><li>Landing pages</li><li class="dash">Dashboard completo por canal</li><li>Análise por campanha</li><li>Otimização avançada</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Aplicar para Growth</a>
+      </div>
+      <div class="plan">
+        <span class="tag">Completa</span><h3>Operação Completa</h3>
+        <span class="price-lead">Gestão mensal a partir de</span>
+        <div class="price-num">R$ 15.000 <span class="per">/mês</span></div>
+        <div class="price-verba">+ verba de anúncios</div>
+        <div class="setup">Setup sob análise</div>
+        <p class="desc">Para empresas com operação maior, múltiplas campanhas, funil completo e necessidade de visão executiva.</p>
+        <ul><li>Funil completo de aquisição</li><li>Múltiplos canais</li><li class="dash">BI / dashboard avançado</li><li>Estratégia contínua</li><li>Relatórios executivos</li></ul>
+        <a href="#aplicacao" class="btn btn-ghost">Solicitar avaliação estratégica</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="media-note reveal">A verba de anúncios é paga separadamente para Google e Meta — o investimento fica sob controle da empresa. Os valores podem variar conforme segmento, estrutura atual, número de campanhas, páginas, integrações e nível de acompanhamento necessário.</p>
 </div></section>
 
 <!-- PROCESSO -->
