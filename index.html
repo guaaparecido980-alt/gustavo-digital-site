@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ===== Google Tag Manager =====================================
+     TROQUE "GTM-XXXXXXX" (nas DUAS ocorrências: aqui e logo após <body>)
+     pelo ID do seu contêiner GTM. É a ÚNICA coisa que falta preencher. -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+<!-- ===== Fim Google Tag Manager ================================= -->
+
 <title>Gustavo Digital | Marketing para Empresas Locais em Curitiba</title>
 <meta name="description" content="Operação de marketing para empresas locais que querem gerar clientes pelo Google, site, anúncios e WhatsApp — com rastreamento, dados e dashboard de resultados. Curitiba e região.">
 <meta name="keywords" content="marketing digital Curitiba, gestão de tráfego Curitiba, criação de sites Curitiba, Google Ads Curitiba, Meta Ads Curitiba, SEO local Curitiba, Google Meu Negócio Curitiba, dashboard de marketing, marketing para empresas locais, site com rastreamento de conversões">
@@ -74,8 +84,8 @@
   .mobile-menu a{font-family:'Clash Display';font-size:1.6rem}
 
   /* HERO */
-  .hero{min-height:100vh;display:flex;align-items:center;padding-top:92px;padding-bottom:48px;position:relative}
-  .hero::before{content:"";position:absolute;top:-6%;right:-6%;width:52%;height:66%;background:radial-gradient(circle,rgba(242,163,60,.15),transparent 64%);pointer-events:none}
+  .hero{min-height:100vh;display:flex;align-items:center;padding-top:92px;padding-bottom:48px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-20%;right:-10%;width:75%;height:90%;background:radial-gradient(closest-side,rgba(242,163,60,.11),transparent 72%);filter:blur(12px);pointer-events:none;z-index:0}
   /* mobile: ordem = headline/sub -> video -> CTA -> dashboard (ordem do HTML) */
   .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:30px;align-items:center;position:relative;z-index:1;min-width:0;width:100%}
   .hero-grid>*{min-width:0;max-width:100%}
@@ -268,6 +278,10 @@
 </style>
 </head>
 <body>
+<!-- ===== Google Tag Manager (noscript) — TROQUE GTM-XXXXXXX ===== -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- ===== Fim Google Tag Manager (noscript) ===== -->
 
 <nav id="nav"><div class="wrap nav-in">
   <div class="logo">Gustavo<span>.</span>Digital</div>
@@ -568,6 +582,31 @@
   const WHATSAPP = "5541987095245";
   const isMobile = window.matchMedia('(max-width:768px)').matches || 'ontouchstart' in window;
 
+  // ===== Rastreamento (dataLayer -> GTM) =====
+  window.dataLayer = window.dataLayer || [];
+  function track(name, params){ try{ window.dataLayer.push(Object.assign({event:name}, params||{})); }catch(e){} }
+
+  // clique nos CTAs principais
+  document.querySelectorAll('a.btn').forEach(function(b){
+    b.addEventListener('click',function(){ track('cta_click',{cta_text:(b.textContent||'').trim(),cta_href:b.getAttribute('href')||''}); });
+  });
+  // clique em telefone (se houver link tel:)
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+    a.addEventListener('click',function(){ track('phone_click',{phone:a.getAttribute('href')}); });
+  });
+  // clique direto em WhatsApp (se houver link wa.me)
+  document.querySelectorAll('a[href*="wa.me"],a[href*="api.whatsapp"]').forEach(function(a){
+    a.addEventListener('click',function(){ track('whatsapp_click',{}); });
+  });
+  // visualização da seção de aplicação
+  (function(){
+    var sec=document.getElementById('aplicacao');
+    if(sec && 'IntersectionObserver' in window){
+      var o=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){track('view_aplicacao'); o.disconnect();}});},{threshold:.35});
+      o.observe(sec);
+    }
+  })();
+
   // Lenis opcional (desktop). Se falhar, scroll nativo segue.
   window.addEventListener('load',()=>{
     if(typeof Lenis!=='undefined' && !isMobile){try{const l=new Lenis({duration:1.1,smoothWheel:true});function raf(t){l.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);}catch(e){}}
@@ -607,9 +646,17 @@
   document.getElementById('closeModal').addEventListener('click',()=>{modal.classList.remove('open');vid.pause();});
   modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');vid.pause();}});
 
-  // form -> WhatsApp
+  // form -> dispara evento de LEAD (GTM) e abre WhatsApp
   document.getElementById('qualForm').addEventListener('submit',function(e){
     e.preventDefault();const f=new FormData(this),g=k=>f.get(k)||'-';
+    // >>> EVENTO PRINCIPAL DE CONVERSÃO (o Google reconhece o lead por aqui) <<<
+    track('form_submit_aplicacao',{
+      form_id:'aplicacao',
+      lead_segmento:g('segmento'), lead_cidade:g('cidade'),
+      lead_faturamento:g('faturamento'), lead_verba:g('verba'),
+      lead_urgencia:g('urgencia'), lead_anuncia:g('anuncia')
+    });
+    track('generate_lead',{}); // evento padrão recomendado p/ GA4 / Google Ads
     const msg=`*Aplicação — Gustavo Digital*%0A%0A*Nome:* ${g('nome')}%0A*Empresa:* ${g('empresa')}%0A*Cidade:* ${g('cidade')}%0A*Segmento:* ${g('segmento')}%0A*Já funciona:* ${g('ativa')}%0A*Faturamento:* ${g('faturamento')}%0A*Já anuncia:* ${g('anuncia')}%0A*Tem site:* ${g('site')}%0A*Google Meu Negócio:* ${g('gmn')}%0A*Objetivo:* ${g('objetivo')}%0A*Urgência:* ${g('urgencia')}%0A*Verba/mês:* ${g('verba')}%0A*O que trava:* ${g('contexto')}`;
     window.open(`https://wa.me/${WHATSAPP}?text=${msg.replace(/ /g,'%20')}`,'_blank');
   });
