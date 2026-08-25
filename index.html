@@ -37,10 +37,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://gustavodigital.online/">
 <meta property="og:title" content="Site profissional para o seu negócio por R$200/mês">
 <meta property="og:description" content="Hospedagem e domínio inclusos, botão de WhatsApp e alterações sempre que precisar. Sem taxa de criação, sem fidelidade.">
+<meta property="og:image" content="https://gustavodigital.online/assets/trabalhos/barbearia-clube.webp">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Site profissional para o seu negócio por R$200/mês">
 <meta name="twitter:description" content="Hospedagem e domínio inclusos, botão de WhatsApp e alterações sempre que precisar. Sem taxa de criação, sem fidelidade.">
+<meta name="twitter:image" content="https://gustavodigital.online/assets/trabalhos/barbearia-clube.webp">
 
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Service","serviceType":"Criação e manutenção de site profissional para pequenos negócios",
@@ -64,6 +66,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/trabalhos/barbearia-clube.webp" fetchpriority="high">
 
 <style>
   :root{
@@ -74,7 +77,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --wa:#25D366;--good:#46C28E;--ease:cubic-bezier(0.22,1,0.36,1);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:clip}
   body{font-family:'Satoshi',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   h1,h2,h3,.display{font-family:'Clash Display',system-ui,sans-serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
   img{max-width:100%;display:block}
@@ -93,10 +96,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .section-head h2{margin:12px 0 14px}
   .center{margin-left:auto;margin-right:auto;text-align:center}
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  /* ================= ANIMACAO ================= */
+  @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(4%,3%,0) scale(1.12)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.45)}70%{box-shadow:0 0 0 12px rgba(37,211,102,0)}}
+  .anim{opacity:0;animation:rise .82s var(--ease) forwards;animation-delay:var(--d,0s)}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .72s var(--ease),transform .72s var(--ease);transition-delay:var(--d,0s)}
   .reveal.in{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}
-    html{scroll-behavior:auto}}
+  .progress{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;
+    background:linear-gradient(90deg,var(--accent-soft),var(--accent-hover));z-index:101;will-change:transform}
+  .dot-live{width:7px;height:7px;border-radius:50%;background:var(--good);flex:none;animation:pulse 2.4s infinite}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1!important;transform:none!important;transition:none}
+    .anim{opacity:1!important;animation:none!important}
+    .marq-track,.aurora,.phone,.dot-live,.beat{animation:none!important}
+    .marq{overflow-x:auto}
+  }
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 
   /* ---------- NAV ---------- */
@@ -106,41 +124,67 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .logo{font-family:'Clash Display';font-weight:700;font-size:1.2rem;letter-spacing:-.02em}
   .logo span{color:var(--accent)}
   .nav-links{display:none;gap:26px;align-items:center}
-  .nav-links a{font-size:.92rem;color:var(--muted);transition:color .25s}
+  .nav-links a{font-size:.92rem;color:var(--muted);transition:color .25s;position:relative}
+  .nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;transition:transform .3s var(--ease)}
   .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{transform:scaleX(1)}
   @media(min-width:900px){.nav-links{display:flex}}
   .nav-price{display:none;font-size:.9rem;color:var(--muted)}
   @media(min-width:560px){.nav-price{display:block}}
+  @media(max-width:400px){
+    .nav-in{gap:8px}
+    .logo{font-size:1.04rem}
+    .nav-in .btn{padding:9px 12px;font-size:.84rem;min-height:42px}
+  }
   .nav-price b{color:var(--text);font-weight:700}
 
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Satoshi';font-weight:700;font-size:.96rem;min-height:48px;padding:13px 22px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease);white-space:nowrap;text-align:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Satoshi';font-weight:700;font-size:.96rem;min-height:48px;padding:13px 22px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease),box-shadow .25s;white-space:nowrap;text-align:center;position:relative;overflow:hidden}
+  .btn>span,.btn>svg{position:relative;z-index:2}
+  .btn::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(110deg,transparent 32%,rgba(255,255,255,.32),transparent 68%);transform:translateX(-130%)}
+  .btn:hover::after{transform:translateX(130%);transition:transform .8s ease}
   .btn-primary{background:var(--accent);color:#1a1206}
-  .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
+  .btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px);box-shadow:0 12px 30px rgba(242,163,60,.28)}
   .btn-wa{background:var(--wa);color:#04310f}
-  .btn-wa:hover{filter:brightness(1.07);transform:translateY(-2px)}
+  .btn-wa:hover{filter:brightness(1.07);transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,211,102,.28)}
+  .btn-wa.beat{animation:pulse 2.6s ease-out infinite}
   .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
   .btn-lg{font-size:1.04rem;min-height:56px;padding:16px 28px;border-radius:13px}
   .btn svg{width:19px;height:19px;flex:none}
 
   .burger{display:flex;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:8px;min-height:44px;min-width:44px;align-items:center;justify-content:center}
-  .burger span{width:23px;height:2px;background:var(--text);transition:.3s}
+  .burger span{width:23px;height:2px;background:var(--text);transition:.3s var(--ease)}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   @media(min-width:900px){.burger{display:none}}
-  .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:99;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:40px;transform:translateX(100%);transition:transform .45s var(--ease)}
-  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:99;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:40px;
+    opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .3s var(--ease),transform .38s var(--ease),visibility .38s}
+  .mobile-menu.open{opacity:1;visibility:visible;transform:none}
+  .mobile-menu a:not(.btn){opacity:0;transform:translateY(14px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .mobile-menu.open a:not(.btn){opacity:1;transform:none}
+  .mobile-menu.open a:nth-child(1){transition-delay:.06s}
+  .mobile-menu.open a:nth-child(2){transition-delay:.11s}
+  .mobile-menu.open a:nth-child(3){transition-delay:.16s}
+  .mobile-menu.open a:nth-child(4){transition-delay:.21s}
+  .mobile-menu.open a:nth-child(5){transition-delay:.26s}
   .mobile-menu a:not(.btn){font-family:'Clash Display';font-size:1.55rem}
 
   /* ---------- HERO ---------- */
-  .hero{padding:104px 0 46px}
-  @media(min-width:768px){.hero{padding:132px 0 70px}}
-  .hero-grid{display:grid;gap:38px}
-  @media(min-width:1000px){.hero-grid{grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}}
+  .hero{padding:104px 0 46px;overflow:hidden}
+  @media(min-width:768px){.hero{padding:128px 0 70px}}
+  .aurora{position:absolute;inset:-25% -15% auto;height:88vh;pointer-events:none;z-index:0;
+    background:radial-gradient(46% 46% at 26% 26%,rgba(242,163,60,.16),transparent 68%),
+               radial-gradient(40% 40% at 78% 14%,rgba(242,163,60,.09),transparent 70%);
+    filter:blur(22px);animation:drift 20s ease-in-out infinite alternate}
+  .hero-grid{display:grid;gap:38px;position:relative;z-index:1}
+  @media(min-width:1000px){.hero-grid{grid-template-columns:1.04fr .96fr;gap:52px;align-items:center}}
   .hero h1{margin:15px 0 16px}
   @media(max-width:420px){.hero h1{font-size:1.92rem;line-height:1.14}}
   .hero .lead{max-width:50ch}
 
   .price-block{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:26px 0 6px}
-  .price-big{font-family:'Clash Display';font-weight:700;font-size:clamp(2.6rem,7vw,3.5rem);line-height:1;color:var(--accent);letter-spacing:-.02em}
+  .price-big{font-family:'Clash Display';font-weight:700;font-size:clamp(2.6rem,7vw,3.5rem);line-height:1;color:var(--accent);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .price-per{font-size:1.05rem;color:var(--muted);font-weight:500}
   .price-note{font-size:.95rem;color:var(--muted)}
   .price-note b{color:var(--text)}
@@ -151,40 +195,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .micro span{display:inline-flex;align-items:center;gap:7px}
   .micro svg{width:15px;height:15px;color:var(--good);flex:none}
 
-  /* ---------- MOCKUP DE CELULAR (CSS puro) ---------- */
-  .phone-stage{position:relative;display:flex;justify-content:center;padding:8px 0}
-  .phone-stage::before{content:"";position:absolute;width:min(78%,340px);aspect-ratio:1;border-radius:50%;
-    background:radial-gradient(circle,rgba(242,163,60,.16),transparent 68%);filter:blur(8px);z-index:0}
-  .phone{position:relative;z-index:1;width:min(262px,72vw);border-radius:34px;background:#17171B;border:1px solid var(--line-strong);
-    padding:9px;box-shadow:0 28px 70px rgba(0,0,0,.62)}
-  .phone-screen{border-radius:26px;overflow:hidden;background:#0E0E11;aspect-ratio:9/17.6;display:flex;flex-direction:column}
-  .mk-bar{display:flex;align-items:center;gap:6px;padding:9px 11px;background:#0A0A0C;border-bottom:1px solid var(--line)}
-  .mk-dot{width:6px;height:6px;border-radius:50%;background:#33333A}
-  .mk-url{flex:1;text-align:center;font-size:.5rem;color:var(--faint);letter-spacing:.04em;overflow:hidden;white-space:nowrap}
-  .mk-body{flex:1;display:flex;flex-direction:column;overflow:hidden}
-  .mk-hero{position:relative;padding:16px 13px 15px;background:linear-gradient(160deg,#1E1A16,#0E0E11 78%);border-bottom:1px solid var(--line)}
-  .mk-logo{font-family:'Clash Display';font-weight:700;font-size:.62rem;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
-  .mk-h1{font-family:'Clash Display';font-weight:600;font-size:.98rem;line-height:1.14;margin:9px 0 7px}
-  .mk-sub{font-size:.53rem;color:var(--muted);line-height:1.45}
-  .mk-cta{margin-top:11px;display:inline-flex;align-items:center;gap:5px;background:var(--wa);color:#04310f;font-weight:700;font-size:.55rem;padding:7px 11px;border-radius:7px}
-  .mk-cta i{width:6px;height:6px;border-radius:50%;background:#04310f;display:block}
-  .mk-row{display:flex;gap:7px;padding:12px 13px}
-  .mk-card{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 7px}
-  .mk-card b{display:block;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
-  .mk-line{height:3px;border-radius:3px;background:#2C2C33;margin-bottom:4px}
-  .mk-line.s{width:62%}
-  .mk-photos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;padding:0 13px 12px}
-  .mk-ph{aspect-ratio:1;border-radius:6px;background:linear-gradient(135deg,#26262C,#17171B)}
-  .mk-foot{margin-top:auto;padding:9px 13px;border-top:1px solid var(--line);display:flex;align-items:center;gap:6px;font-size:.5rem;color:var(--faint)}
-  .mk-pin{width:9px;height:9px;border-radius:50%;border:2px solid var(--accent);flex:none}
-  .mk-tag{position:absolute;top:10px;right:10px;font-size:.46rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line-strong);border-radius:99px;padding:3px 7px;background:rgba(10,10,12,.8)}
-
-  .float-note{position:absolute;z-index:2;background:var(--bg-elevated);border:1px solid var(--line-strong);border-radius:12px;padding:10px 13px;box-shadow:0 14px 34px rgba(0,0,0,.5)}
-  .float-note .k{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-  .float-note .v{font-family:'Clash Display';font-weight:600;font-size:.92rem;margin-top:2px}
-  .fn1{left:0;top:16%}
-  .fn2{right:0;bottom:14%}
-  @media(max-width:520px){.fn1{left:-2px;top:10%}.fn2{right:-2px;bottom:8%}.float-note{padding:8px 10px}.float-note .v{font-size:.82rem}}
+  /* celular do hero mostrando sites reais */
+  .phone-stage{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px 0}
+  .phone{position:relative;z-index:1;width:min(268px,74vw);border-radius:36px;background:#17171B;border:1px solid var(--line-strong);
+    padding:9px;box-shadow:0 30px 74px rgba(0,0,0,.66);animation:float 7s ease-in-out infinite;will-change:transform}
+  .phone-inner{position:relative;border-radius:28px;overflow:hidden;background:#0E0E11;aspect-ratio:420/862}
+  .phone-inner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .9s var(--ease)}
+  .phone-inner img.on{opacity:1}
+  .phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:36%;height:18px;background:#17171B;border-radius:0 0 12px 12px;z-index:3}
+  .shot-tag{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);background:rgba(18,18,21,.9);border:1px solid var(--line);padding:8px 14px;border-radius:99px}
+  .shot-tag b{color:var(--text);font-weight:600}
 
   /* ---------- TRUST ---------- */
   .trust{border-block:1px solid var(--line);background:var(--bg-elevated)}
@@ -197,37 +217,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cards{display:grid;gap:14px}
   @media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
   @media(min-width:1000px){.cards.c3{grid-template-columns:repeat(3,1fr)}}
-  .card{background:var(--bg-elevated);border:1px solid var(--line);border-radius:15px;padding:22px}
-  .card svg{width:22px;height:22px;color:var(--accent);margin-bottom:12px}
+  .card{background:var(--bg-elevated);border:1px solid var(--line);border-radius:15px;padding:22px;transition:transform .4s var(--ease),border-color .35s,background .35s}
+  .card:hover{transform:translateY(-5px);border-color:rgba(242,163,60,.35);background:#15151A}
+  .card svg{width:22px;height:22px;color:var(--accent);margin-bottom:12px;transition:transform .4s var(--ease)}
+  .card:hover svg{transform:scale(1.12) rotate(-4deg)}
   .card h3{margin-bottom:7px}
   .card p{color:var(--muted);font-size:.96rem}
 
-  .pain{display:flex;gap:13px;align-items:flex-start;background:var(--bg-elevated);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .pain{display:flex;gap:13px;align-items:flex-start;background:var(--bg-elevated);border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .4s var(--ease),border-color .35s}
+  .pain:hover{transform:translateY(-4px);border-color:var(--line-strong)}
   .pain svg{width:20px;height:20px;color:var(--accent-soft);flex:none;margin-top:2px}
   .pain p{font-size:.98rem;color:var(--muted)}
 
-  /* ---------- VITRINE ---------- */
-  .show-grid{display:grid;gap:16px}
-  @media(min-width:640px){.show-grid{grid-template-columns:1fr 1fr}}
-  @media(min-width:1000px){.show-grid{grid-template-columns:repeat(4,1fr)}}
-  .demo{background:var(--bg-elevated);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-  .demo-top{padding:11px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;background:#0A0A0C}
-  .demo-screen{padding:17px 15px 15px;min-height:196px;flex:1;display:flex;flex-direction:column;background:linear-gradient(165deg,var(--demo-tint,#1B1712),var(--bg-elevated) 72%)}
-  .demo-kicker{font-family:'Clash Display';font-weight:700;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--demo-accent,var(--accent))}
-  .demo-title{font-family:'Clash Display';font-weight:600;font-size:1.06rem;line-height:1.14;margin:9px 0 8px}
-  .demo-txt{font-size:.78rem;color:var(--muted);line-height:1.5}
-  .demo-btn{margin-top:13px;align-self:flex-start;font-size:.68rem;font-weight:700;padding:7px 12px;border-radius:7px;background:var(--wa);color:#04310f}
-  .demo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:auto;padding-top:15px}
-  .demo-strip i{display:block;aspect-ratio:1.25;border-radius:5px;background:linear-gradient(140deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.05)}
-  .demo-cap{padding:11px 14px;border-top:1px solid var(--line);font-size:.78rem;color:var(--faint);display:flex;justify-content:space-between;gap:10px;align-items:center;min-height:52px}
-  .demo-cap b{color:var(--muted);font-weight:500}
-  .badge-ex{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line-strong);border-radius:99px;padding:3px 8px;color:var(--faint);white-space:nowrap}
+  /* ---------- VITRINE REAL ---------- */
+  .marq{position:relative;overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+            mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+  .marq + .marq{margin-top:20px}
+  .marq-track{display:flex;gap:16px;width:max-content;animation:slide 64s linear infinite;will-change:transform}
+  .marq.rev .marq-track{animation-direction:reverse}
+  .marq:hover .marq-track,.marq:focus-within .marq-track{animation-play-state:paused}
+  .work{flex:none;width:186px;display:block;transition:transform .4s var(--ease)}
+  @media(min-width:768px){.work{width:212px}}
+  .work:hover{transform:translateY(-8px)}
+  .work-frame{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#111;
+    box-shadow:0 16px 40px rgba(0,0,0,.45);transition:border-color .35s,box-shadow .35s}
+  .work:hover .work-frame{border-color:rgba(242,163,60,.5);box-shadow:0 22px 54px rgba(0,0,0,.6)}
+  .work-frame::before{content:"";position:absolute;top:0;left:0;right:0;height:62px;z-index:1;background:linear-gradient(180deg,rgba(10,10,12,.78),transparent)}
+  .work-frame img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover;object-position:top;display:block}
+  .work-frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(10,10,12,.9))}
+  .work-live{position:absolute;top:9px;left:9px;z-index:2;display:flex;align-items:center;gap:6px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    background:rgba(10,10,12,.78);border:1px solid var(--line-strong);border-radius:99px;padding:4px 9px;color:var(--muted)}
+  .work-open{position:absolute;right:10px;bottom:10px;z-index:2;font-size:.72rem;color:var(--accent);opacity:0;transform:translateY(6px);transition:.35s var(--ease)}
+  .work:hover .work-open{opacity:1;transform:none}
+  .work-meta{padding:11px 3px 0}
+  .work-meta b{display:block;font-family:'Clash Display';font-weight:600;font-size:.98rem;letter-spacing:-.01em}
+  .work-meta span{font-size:.79rem;color:var(--faint)}
+  .works-foot{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:.94rem}
+  .works-foot b{color:var(--text)}
 
   /* ---------- PASSOS ---------- */
   .steps{display:grid;gap:14px;counter-reset:s}
   @media(min-width:600px){.steps{grid-template-columns:1fr 1fr}}
   @media(min-width:1000px){.steps{grid-template-columns:repeat(4,1fr)}}
-  .step{background:var(--bg-elevated);border:1px solid var(--line);border-radius:15px;padding:22px}
+  .step{background:var(--bg-elevated);border:1px solid var(--line);border-radius:15px;padding:22px;position:relative;overflow:hidden;transition:transform .4s var(--ease),border-color .35s}
+  .step:hover{transform:translateY(-5px);border-color:rgba(242,163,60,.35)}
+  .step::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--ease)}
+  .step:hover::before{transform:scaleX(1)}
   .step .n{font-family:'Clash Display';font-weight:700;font-size:.9rem;color:var(--accent);margin-bottom:10px}
   .step h3{margin-bottom:6px}
   .step p{color:var(--muted);font-size:.95rem}
@@ -235,13 +271,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ---------- PREÇO ---------- */
   .pricing{display:grid;gap:22px;align-items:center}
   @media(min-width:940px){.pricing{grid-template-columns:minmax(0,430px) 1fr;gap:44px}}
-  .price-card{background:linear-gradient(180deg,#17151A,var(--bg-elevated));border:1px solid rgba(242,163,60,.32);border-radius:20px;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .price-card{position:relative;overflow:hidden;background:linear-gradient(180deg,#17151A,var(--bg-elevated));border:1px solid rgba(242,163,60,.32);border-radius:20px;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .price-card::before{content:"";position:absolute;width:220px;height:220px;top:-90px;right:-70px;border-radius:50%;background:radial-gradient(circle,rgba(242,163,60,.18),transparent 70%);animation:drift 14s ease-in-out infinite alternate}
+  .price-card>*{position:relative}
   @media(min-width:768px){.price-card{padding:34px 30px}}
   .price-card .tag{display:inline-block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#1a1206;background:var(--accent);padding:5px 11px;border-radius:99px;margin-bottom:16px}
   .price-card h3{font-size:1.35rem;margin-bottom:4px}
   .price-card .sub{color:var(--muted);font-size:.95rem}
   .price-card .val{display:flex;align-items:baseline;gap:10px;margin:20px 0 4px}
-  .price-card .val .n{font-family:'Clash Display';font-weight:700;font-size:3.3rem;line-height:1;letter-spacing:-.02em}
+  .price-card .val .n{font-family:'Clash Display';font-weight:700;font-size:3.3rem;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .price-card .val .p{color:var(--muted);font-size:1.02rem}
   .price-card .zero{font-size:.92rem;color:var(--good);font-weight:500;margin-bottom:22px}
   .price-card ul{list-style:none;display:grid;gap:11px;margin-bottom:24px}
@@ -250,23 +288,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .price-card .btn{width:100%}
   .price-foot{font-size:.86rem;color:var(--faint);margin-top:13px;text-align:center}
   .anchor-list{display:grid;gap:16px}
-  .anchor{border-left:2px solid var(--accent-soft);padding-left:16px}
+  .anchor{border-left:2px solid var(--accent-soft);padding-left:16px;transition:padding .35s var(--ease),border-color .35s}
+  .anchor:hover{padding-left:20px;border-color:var(--accent)}
   .anchor b{display:block;font-family:'Clash Display';font-weight:600;font-size:1.08rem;margin-bottom:4px}
   .anchor p{color:var(--muted);font-size:.97rem}
 
   /* ---------- FAQ ---------- */
   .faq{display:grid;gap:10px;max-width:820px;margin:0 auto}
   details{background:var(--bg-elevated);border:1px solid var(--line);border-radius:13px;overflow:hidden}
-  details[open]{border-color:var(--line-strong)}
+  details:hover{border-color:var(--line-strong)}
+  details[open]{border-color:rgba(242,163,60,.32)}
   summary{cursor:pointer;list-style:none;padding:17px 20px;font-weight:700;font-size:1rem;display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:56px}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";font-family:'Clash Display';font-size:1.4rem;color:var(--accent);line-height:1;flex:none;transition:transform .25s}
-  details[open] summary::after{content:"–"}
+  summary::after{content:"+";font-family:'Clash Display';font-size:1.4rem;color:var(--accent);line-height:1;flex:none;transition:transform .3s var(--ease)}
+  details[open] summary::after{transform:rotate(135deg)}
   details p{padding:0 20px 19px;color:var(--muted);font-size:.97rem;max-width:64ch}
+  details[open] p{animation:rise .42s var(--ease)}
 
   /* ---------- CTA FINAL ---------- */
-  .final{background:var(--bg-elevated);border-block:1px solid var(--line)}
-  .final .wrap{text-align:center}
+  .final{background:var(--bg-elevated);border-block:1px solid var(--line);overflow:hidden}
+  .final .wrap{text-align:center;position:relative;z-index:1}
   .final h2{margin:14px auto 16px;max-width:22ch}
   .final .lead{margin:0 auto}
   .final .price-block{justify-content:center;margin:26px 0 4px}
@@ -308,81 +349,75 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WCPZTHHB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ===== Fim Google Tag Manager (noscript) ===== -->
 
+<div class="progress" id="progress"></div>
+
 <nav id="nav"><div class="wrap nav-in">
   <a href="#topo" class="logo" aria-label="Gustavo Digital — início">Gustavo<span>.</span>Digital</a>
   <div class="nav-links">
+    <a href="#trabalhos">Trabalhos</a>
     <a href="#incluso">O que está incluso</a>
-    <a href="#exemplos">Exemplos</a>
     <a href="#como">Como funciona</a>
     <a href="#preco">Preço</a>
     <a href="#faq">Perguntas</a>
   </div>
   <div style="display:flex;align-items:center;gap:14px">
     <div class="nav-price"><b>R$200</b>/mês</div>
-    <a href="#preco" class="btn btn-primary" style="min-height:44px;padding:10px 18px;font-size:.9rem" data-cta="nav">Quero meu site</a>
+    <a href="#preco" class="btn btn-primary" style="min-height:44px;padding:10px 18px;font-size:.9rem" data-cta="nav"><span>Quero meu site</span></a>
     <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </div></nav>
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="#incluso">O que está incluso</a>
-  <a href="#exemplos">Exemplos</a>
+  <a href="#trabalhos">Trabalhos</a>
   <a href="#como">Como funciona</a>
   <a href="#preco">Preço</a>
   <a href="#faq">Perguntas</a>
-  <a href="#preco" class="btn btn-primary btn-lg" data-cta="menu-mobile">Quero meu site · R$200/mês</a>
+  <a href="#preco" class="btn btn-primary btn-lg" data-cta="menu-mobile"><span>Quero meu site · R$200/mês</span></a>
 </div>
 
 <!-- ========================= HERO ========================= -->
-<header class="hero" id="topo"><div class="wrap hero-grid">
-  <div>
-    <span class="eyebrow">Site profissional para pequenos negócios</span>
-    <h1>Seu negócio com um site profissional por <span class="accent">R$200 por mês</span>.</h1>
-    <p class="lead">Uma página feita para apresentar seus serviços, passar confiança para quem procura você na internet e levar o cliente direto para o seu WhatsApp.</p>
+<header class="hero" id="topo">
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow anim" style="--d:.05s">Site profissional para pequenos negócios</span>
+      <h1 class="anim" style="--d:.15s">Seu negócio com um site profissional por <span class="accent">R$200 por mês</span>.</h1>
+      <p class="lead anim" style="--d:.28s">Uma página feita para apresentar seus serviços, passar confiança para quem procura você na internet e levar o cliente direto para o seu WhatsApp.</p>
 
-    <div class="price-block">
-      <span class="price-big">R$200</span>
-      <span class="price-per">/mês</span>
-    </div>
-    <p class="price-note"><b>Sem taxa de criação.</b> Hospedagem e domínio inclusos.</p>
+      <div class="price-block anim" style="--d:.4s">
+        <span class="price-big" data-count="200" data-prefix="R$">R$200</span>
+        <span class="price-per">/mês</span>
+      </div>
+      <p class="price-note anim" style="--d:.48s"><b>Sem taxa de criação.</b> Hospedagem e domínio inclusos.</p>
 
-    <div class="hero-ctas">
-      <a href="#preco" class="btn btn-primary btn-lg" data-cta="hero-principal">Quero meu site</a>
-      <a href="#exemplos" class="btn btn-ghost btn-lg" data-cta="hero-exemplos">Ver exemplos</a>
-    </div>
+      <div class="hero-ctas anim" style="--d:.56s">
+        <a href="#preco" class="btn btn-primary btn-lg" data-cta="hero-principal"><span>Quero meu site</span></a>
+        <a href="#trabalhos" class="btn btn-ghost btn-lg" data-cta="hero-trabalhos"><span>Ver trabalhos</span></a>
+      </div>
 
-    <div class="micro">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Sem fidelidade</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Alterações inclusas</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Você não mexe em nada técnico</span>
-    </div>
-  </div>
-
-  <div class="phone-stage">
-    <div class="float-note fn1"><div class="k">Feito para</div><div class="v">Celular</div></div>
-    <div class="float-note fn2"><div class="k">Contato</div><div class="v">Direto no WhatsApp</div></div>
-    <div class="phone" aria-hidden="true">
-      <div class="phone-screen">
-        <div class="mk-bar"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url">seunegocio.com.br</span></div>
-        <div class="mk-body">
-          <div class="mk-hero">
-            <span class="mk-tag">Exemplo</span>
-            <div class="mk-logo">Seu Negócio</div>
-            <div class="mk-h1">Atendimento de confiança, perto de você.</div>
-            <div class="mk-sub">Veja os serviços, os horários e fale com a gente em um toque.</div>
-            <div class="mk-cta"><i></i> Chamar no WhatsApp</div>
-          </div>
-          <div class="mk-row">
-            <div class="mk-card"><b>Serviços</b><div class="mk-line"></div><div class="mk-line s"></div></div>
-            <div class="mk-card"><b>Horários</b><div class="mk-line"></div><div class="mk-line s"></div></div>
-          </div>
-          <div class="mk-photos"><span class="mk-ph"></span><span class="mk-ph"></span><span class="mk-ph"></span></div>
-          <div class="mk-foot"><span class="mk-pin"></span> Endereço e mapa do seu negócio</div>
-        </div>
+      <div class="micro anim" style="--d:.64s">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Sem fidelidade</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Alterações inclusas</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg> Você não mexe em nada técnico</span>
       </div>
     </div>
+
+    <div class="phone-stage anim" style="--d:.35s">
+      <div class="phone" id="phone">
+        <div class="phone-notch" aria-hidden="true"></div>
+        <div class="phone-inner" id="phoneInner">
+          <img src="assets/trabalhos/barbearia-clube.webp" class="on" width="420" height="862" fetchpriority="high" alt="Site da Barbearia Clube, feito pela Gustavo Digital" data-nome="Barbearia Clube">
+          <img src="assets/trabalhos/maxima.webp" width="420" height="862" loading="lazy" alt="Site da Máxima Desentupidora" data-nome="Máxima Desentupidora">
+          <img src="assets/trabalhos/quadros.webp" width="420" height="862" loading="lazy" alt="Site da Quadros Gym" data-nome="Quadros Gym">
+          <img src="assets/trabalhos/wander.webp" width="420" height="862" loading="lazy" alt="Site do designer de interiores Wander Aguiar" data-nome="Wander Aguiar">
+          <img src="assets/trabalhos/dieff.webp" width="420" height="862" loading="lazy" alt="Site da Dieff Detailing, estética automotiva" data-nome="Dieff Detailing">
+        </div>
+      </div>
+      <div class="shot-tag"><span class="dot-live"></span> No ar agora: <b id="shotNome">Barbearia Clube</b></div>
+    </div>
   </div>
-</div></header>
+</header>
 
 <!-- ========================= TRUST ========================= -->
 <div class="trust"><div class="wrap trust-in">
@@ -392,8 +427,113 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v5h5"/></svg> Alterações sempre que precisar</div>
 </div></div>
 
+<!-- ========================= TRABALHOS ========================= -->
+<section id="trabalhos"><div class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Trabalhos no ar</span>
+    <h2>Sites que a gente já fez — e que estão funcionando agora.</h2>
+    <p class="lead">Barbearia, oficina, academia, advocacia, encanador, borracharia, obra. Toque em qualquer um para abrir o site de verdade, no seu celular.</p>
+  </div>
+</div>
+
+<div class="marq"><div class="marq-track">
+  <a class="work" href="https://barbeariaclube.com.br/" target="_blank" rel="noopener" data-cta="trabalho-barbearia-clube">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/barbearia-clube.webp" width="420" height="862" loading="lazy" alt="Site da Barbearia Clube, em Curitiba">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Barbearia Clube</b><span>Barbearia · Mercês, Curitiba</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/Desentupidora/" target="_blank" rel="noopener" data-cta="trabalho-maxima">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/maxima.webp" width="420" height="862" loading="lazy" alt="Site da Máxima Desentupidora">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Máxima</b><span>Desentupidora 24h · Curitiba</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/quadrosgym/" target="_blank" rel="noopener" data-cta="trabalho-quadros">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/quadros.webp" width="420" height="862" loading="lazy" alt="Site da Quadros Gym, academia no Batel">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Quadros Gym</b><span>Academia · Batel, Curitiba</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/ajl/" target="_blank" rel="noopener" data-cta="trabalho-ajl">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/ajl.webp" width="420" height="862" loading="lazy" alt="Site da AJL Encanamentos">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>AJL Encanamentos</b><span>Encanador · Curitiba</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/arquiteto/" target="_blank" rel="noopener" data-cta="trabalho-wander">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/wander.webp" width="420" height="862" loading="lazy" alt="Site de Wander Aguiar, design de interiores">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Wander Aguiar</b><span>Design de interiores</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/limpeza-automotiva/" target="_blank" rel="noopener" data-cta="trabalho-dieff">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/dieff.webp" width="420" height="862" loading="lazy" alt="Site da Dieff Detailing, estética automotiva">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Dieff Detailing</b><span>Estética automotiva · Araucária</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/despachante/" target="_blank" rel="noopener" data-cta="trabalho-kaviski">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/kaviski.webp" width="420" height="862" loading="lazy" alt="Site do despachante Kaviski">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Kaviski</b><span>Despachante · Curitiba</span></div>
+  </a>
+</div></div>
+
+<div class="marq rev"><div class="marq-track">
+  <a class="work" href="https://guaaparecido980-alt.github.io/dubigode-barbearia/" target="_blank" rel="noopener" data-cta="trabalho-dubigode">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/dubigode.webp" width="420" height="862" loading="lazy" alt="Site da barbearia Du Bigode">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Du Bigode</b><span>Barbearia · Cidade Industrial</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/obras/" target="_blank" rel="noopener" data-cta="trabalho-lhm">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/lhm.webp" width="420" height="862" loading="lazy" alt="Site da LHM Engenharia, casas em steel frame">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>LHM Engenharia</b><span>Steel frame · Curitiba e litoral</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/advogado/" target="_blank" rel="noopener" data-cta="trabalho-cls">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/cls.webp" width="420" height="862" loading="lazy" alt="Site da CLS Advocacia">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>CLS Advocacia</b><span>Advocacia de família · Curitiba</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/borracharia/" target="_blank" rel="noopener" data-cta="trabalho-chimarrao">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/chimarrao.webp" width="420" height="862" loading="lazy" alt="Site da Borracharia Chimarrão, na BR-376">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Chimarrão</b><span>Borracharia 24h · BR-376</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/moveis/" target="_blank" rel="noopener" data-cta="trabalho-envelopar">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/envelopar.webp" width="420" height="862" loading="lazy" alt="Site da Envelopar Art e Decor">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Envelopar Art &amp; Decor</b><span>Envelopamento de móveis</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/studio7barbearia/" target="_blank" rel="noopener" data-cta="trabalho-studio7">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/studio7.webp" width="420" height="862" loading="lazy" alt="Site da Studio 7 Barbearia">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Studio 7</b><span>Barbearia · Campo Comprido</span></div>
+  </a>
+  <a class="work" href="https://guaaparecido980-alt.github.io/visionary-barbershop/" target="_blank" rel="noopener" data-cta="trabalho-visionary">
+    <div class="work-frame"><span class="work-live"><span class="dot-live"></span> No ar</span>
+      <img src="assets/trabalhos/visionary.webp" width="420" height="862" loading="lazy" alt="Site da Visionary Barbershop">
+      <span class="work-open">abrir ↗</span></div>
+    <div class="work-meta"><b>Visionary</b><span>Barbearia · Curitiba</span></div>
+  </a>
+</div></div>
+
+<div class="wrap"><div class="works-foot reveal">
+  <span><b>14 sites</b> no ar nesta página — todos feitos por nós.</span>
+  <a href="#preco" class="btn btn-primary" data-cta="trabalhos"><span>Quero o meu por R$200/mês</span></a>
+</div></div>
+</section>
+
 <!-- ========================= PROBLEMA ========================= -->
-<section id="problema"><div class="wrap">
+<section id="problema" style="background:var(--bg-elevated)"><div class="wrap">
   <div class="section-head reveal">
     <span class="eyebrow">A situação de hoje</span>
     <h2>Seu trabalho é bom. Mas quem procura você na internet não consegue ver isso.</h2>
@@ -410,7 +550,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div></section>
 
 <!-- ========================= SOLUÇÃO / INCLUSO ========================= -->
-<section id="incluso" style="background:var(--bg-elevated)"><div class="wrap">
+<section id="incluso"><div class="wrap">
   <div class="section-head reveal">
     <span class="eyebrow">A solução</span>
     <h2>Uma presença profissional para o seu negócio — sem você precisar entender de tecnologia.</h2>
@@ -466,65 +606,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </div></section>
 
-<!-- ========================= EXEMPLOS ========================= -->
-<section id="exemplos"><div class="wrap">
-  <div class="section-head reveal">
-    <span class="eyebrow">Como ficaria o seu</span>
-    <h2>Cada negócio ganha uma página própria.</h2>
-    <p class="lead">Os modelos abaixo são demonstrações visuais para você imaginar o seu — não são clientes reais. O seu site é montado com as suas fotos, seus serviços e suas cores.</p>
-  </div>
-
-  <div class="show-grid">
-    <div class="demo reveal" style="--demo-tint:#1B1712;--demo-accent:#D9B27C">
-      <div class="demo-top"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url">barbearia</span></div>
-      <div class="demo-screen">
-        <div class="demo-kicker">Barbearia</div>
-        <div class="demo-title">Corte e barba com hora marcada.</div>
-        <div class="demo-txt">Serviços, valores e a equipe. Agendamento em um toque.</div>
-        <div class="demo-btn">Agendar no WhatsApp</div>
-        <div class="demo-strip"><i></i><i></i><i></i></div>
-      </div>
-      <div class="demo-cap"><b>Barbearia / salão</b><span class="badge-ex">Exemplo visual</span></div>
-    </div>
-
-    <div class="demo reveal" style="--demo-tint:#121A1B;--demo-accent:#6FC7C2">
-      <div class="demo-top"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url">oficina</span></div>
-      <div class="demo-screen">
-        <div class="demo-kicker">Oficina mecânica</div>
-        <div class="demo-title">Seu carro nas mãos de quem entende.</div>
-        <div class="demo-txt">Revisão, freios, suspensão e elétrica. Orçamento sem compromisso.</div>
-        <div class="demo-btn">Pedir orçamento</div>
-        <div class="demo-strip"><i></i><i></i><i></i></div>
-      </div>
-      <div class="demo-cap"><b>Oficina / auto center</b><span class="badge-ex">Exemplo visual</span></div>
-    </div>
-
-    <div class="demo reveal" style="--demo-tint:#161320;--demo-accent:#A99BE0">
-      <div class="demo-top"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url">estetica</span></div>
-      <div class="demo-screen">
-        <div class="demo-kicker">Estética & bem-estar</div>
-        <div class="demo-title">Cuidado com hora marcada, perto de você.</div>
-        <div class="demo-txt">Procedimentos, antes e depois, valores e horários de atendimento.</div>
-        <div class="demo-btn">Marcar horário</div>
-        <div class="demo-strip"><i></i><i></i><i></i></div>
-      </div>
-      <div class="demo-cap"><b>Estética / clínica</b><span class="badge-ex">Exemplo visual</span></div>
-    </div>
-
-    <div class="demo reveal" style="--demo-tint:#1A1710;--demo-accent:#E0B15C">
-      <div class="demo-top"><span class="mk-dot"></span><span class="mk-dot"></span><span class="mk-url">reformas</span></div>
-      <div class="demo-screen">
-        <div class="demo-kicker">Obras e reformas</div>
-        <div class="demo-title">Serviço feito direito, do começo ao fim.</div>
-        <div class="demo-txt">Trabalhos realizados, tipos de serviço e área atendida.</div>
-        <div class="demo-btn">Falar com a equipe</div>
-        <div class="demo-strip"><i></i><i></i><i></i></div>
-      </div>
-      <div class="demo-cap"><b>Reforma / prestador</b><span class="badge-ex">Exemplo visual</span></div>
-    </div>
-  </div>
-</div></section>
-
 <!-- ========================= COMO FUNCIONA ========================= -->
 <section id="como" style="background:var(--bg-elevated)"><div class="wrap">
   <div class="section-head reveal">
@@ -565,9 +646,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg> Botão de WhatsApp e contato direto</li>
       </ul>
 
-      <a href="#" class="btn btn-wa btn-lg js-wa" data-cta="pricing">
+      <a href="#" class="btn btn-wa btn-lg js-wa beat" data-cta="pricing">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m5.8 14.13c-.24.68-1.42 1.31-1.96 1.36-.5.05-.98.24-3.3-.69-2.79-1.1-4.55-3.96-4.69-4.15-.14-.19-1.13-1.5-1.13-2.87s.72-2.03.97-2.31c.25-.28.55-.35.73-.35s.37 0 .53.01c.17 0 .4-.06.62.48.24.57.8 1.97.87 2.11.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.28.73 1.2 1.56 1.94 1.07.95 1.98 1.25 2.26 1.39.28.14.44.12.61-.07.16-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.65.78 1.93.92.28.14.47.21.54.33.07.11.07.66-.17 1.34"/></svg>
-        Quero meu site
+        <span>Quero meu site</span>
       </a>
       <p class="price-foot">Chama no WhatsApp e a gente vê se a solução faz sentido para o seu negócio.</p>
     </div>
@@ -626,7 +707,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <p>Depois que você envia as informações, montamos o site e te mostramos antes de publicar. O prazo a gente combina no primeiro contato, de acordo com o material que você já tem em mãos.</p></details>
 
     <details class="reveal"><summary>Serve para o meu tipo de negócio?</summary>
-      <p>Serve para quem atende cliente: barbearia, salão, manicure, oficina, estética, clínica, obra e reforma, loja de bairro, fotógrafo, personal e prestador de serviço em geral. Se você tem serviço para apresentar e um WhatsApp para receber contato, funciona.</p></details>
+      <p>Serve para quem atende cliente: barbearia, salão, manicure, oficina, estética, clínica, obra e reforma, loja de bairro, fotógrafo, personal e prestador de serviço em geral. Os trabalhos lá em cima dão uma boa ideia do que dá para fazer — e são de segmentos bem diferentes.</p></details>
 
     <details class="reveal"><summary>Vocês também fazem anúncio no Google e no Instagram?</summary>
       <p>A mensalidade de R$200 é do site. Anúncio é outro assunto, com verba e acompanhamento próprios — se mais para frente você quiser, a gente conversa separadamente. Nada disso é obrigatório para ter o seu site.</p></details>
@@ -634,7 +715,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div></section>
 
 <!-- ========================= CTA FINAL ========================= -->
-<section class="final"><div class="wrap">
+<section class="final">
+  <div class="aurora" aria-hidden="true" style="height:60vh;opacity:.75"></div>
+  <div class="wrap">
   <span class="eyebrow reveal">Para começar</span>
   <h2 class="reveal">Seu negócio já é profissional. Sua presença na internet também pode ser.</h2>
   <p class="lead center reveal">Manda uma mensagem, conta o que você faz, e a gente te mostra como o seu site pode ficar.</p>
@@ -643,9 +726,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <p class="price-note reveal"><b>Sem taxa de criação.</b> Sem fidelidade. Domínio e hospedagem inclusos.</p>
 
   <div class="hero-ctas reveal">
-    <a href="#" class="btn btn-wa btn-lg js-wa" data-cta="final">
+    <a href="#" class="btn btn-wa btn-lg js-wa beat" data-cta="final">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m5.8 14.13c-.24.68-1.42 1.31-1.96 1.36-.5.05-.98.24-3.3-.69-2.79-1.1-4.55-3.96-4.69-4.15-.14-.19-1.13-1.5-1.13-2.87s.72-2.03.97-2.31c.25-.28.55-.35.73-.35s.37 0 .53.01c.17 0 .4-.06.62.48.24.57.8 1.97.87 2.11.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.3.37-.42.5-.14.14-.29.29-.12.57.16.28.73 1.2 1.56 1.94 1.07.95 1.98 1.25 2.26 1.39.28.14.44.12.61-.07.16-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.65.78 1.93.92.28.14.47.21.54.33.07.11.07.66-.17 1.34"/></svg>
-      Quero meu site
+      <span>Quero meu site</span>
     </a>
   </div>
   <div class="micro reveal">
@@ -663,7 +746,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <div class="foot-links">
       <a href="#incluso">O que está incluso</a>
-      <a href="#exemplos">Exemplos</a>
+      <a href="#trabalhos">Trabalhos</a>
       <a href="#como">Como funciona</a>
       <a href="#preco">Preço</a>
       <a href="#faq">Perguntas</a>
@@ -675,7 +758,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <div class="sticky" id="stickyCta">
   <div class="s-price"><b>R$200</b><span>por mês</span></div>
-  <a href="#" class="btn btn-wa js-wa" data-cta="sticky-mobile">Quero meu site</a>
+  <a href="#" class="btn btn-wa js-wa" data-cta="sticky-mobile"><span>Quero meu site</span></a>
 </div>
 
 <!-- Banner de cookies (LGPD) -->
@@ -691,6 +774,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   var WHATSAPP = "5541987095245";
   var WA_MSG = "Olá! Vi a oferta do site profissional por R$200/mês e gostaria de saber como funciona.";
   var WA_LINK = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(WA_MSG);
+  var semAnimacao = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ===== Rastreamento (dataLayer -> GTM) =====
   window.dataLayer = window.dataLayer || [];
@@ -703,55 +787,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     a.setAttribute('rel','noopener');
   });
 
-  // Cliques: CTA genérico + WhatsApp (evento principal de conversão)
-  document.querySelectorAll('a.btn, a.js-wa').forEach(function(b){
-    b.addEventListener('click', function(){
-      var origem = b.getAttribute('data-cta') || 'link';
-      var texto = (b.textContent || '').trim().replace(/\s+/g,' ');
-      track('cta_click', {cta_origem:origem, cta_text:texto});
-      if (b.classList.contains('js-wa')){
-        track('click_whatsapp', {cta_origem:origem});
-        track('generate_lead', {valor_oferta:200, moeda:'BRL'}); // evento p/ GA4 / Google Ads
-      }
-    });
+  // Cliques: CTA, WhatsApp (conversão) e trabalhos abertos
+  document.addEventListener('click', function(e){
+    var el = e.target.closest ? e.target.closest('a.btn, a.js-wa, a.work') : null;
+    if(!el) return;
+    var origem = el.getAttribute('data-cta') || 'link';
+    if(el.classList.contains('work')){ track('click_trabalho', {trabalho:origem}); return; }
+    track('cta_click', {cta_origem:origem, cta_text:(el.textContent||'').trim().replace(/\s+/g,' ')});
+    if(el.classList.contains('js-wa')){
+      track('click_whatsapp', {cta_origem:origem});
+      track('generate_lead', {valor_oferta:200, moeda:'BRL'});
+    }
   });
 
-  // Abertura de perguntas do FAQ
+  // Abertura das perguntas
   document.querySelectorAll('#faq details').forEach(function(d){
     d.addEventListener('toggle', function(){
       if(d.open){ track('faq_open', {faq_pergunta:(d.querySelector('summary').textContent||'').trim()}); }
     });
   });
 
-  // Visualização da seção de preço
-  (function(){
-    var sec = document.getElementById('preco');
-    if(sec && 'IntersectionObserver' in window){
-      var o = new IntersectionObserver(function(es){
-        es.forEach(function(e){ if(e.isIntersecting){ track('view_pricing'); o.disconnect(); } });
-      },{threshold:.35});
-      o.observe(sec);
-    }
-  })();
+  // Visualização de seções-chave
+  function aoEntrar(sel, fn, limiar){
+    var el = document.querySelector(sel);
+    if(!el || !('IntersectionObserver' in window)) return;
+    var o = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ fn(); o.disconnect(); } });
+    },{threshold:limiar||.35});
+    o.observe(el);
+  }
+  aoEntrar('#preco', function(){ track('view_pricing'); });
+  aoEntrar('#trabalhos', function(){ track('view_trabalhos'); }, .2);
 
-  // Profundidade de rolagem (50% e 90%)
-  (function(){
-    var marcos = [50, 90], vistos = {};
-    window.addEventListener('scroll', function(){
-      var h = document.documentElement.scrollHeight - window.innerHeight;
-      if(h <= 0) return;
-      var pct = (window.scrollY / h) * 100;
-      marcos.forEach(function(m){ if(pct >= m && !vistos[m]){ vistos[m] = 1; track('scroll_depth', {percentual:m}); } });
-    }, {passive:true});
-  })();
+  // Profundidade de rolagem
+  var marcos = {50:0, 90:0};
 
-  // Nav + CTA fixo no mobile
-  var nav = document.getElementById('nav'), sticky = document.getElementById('stickyCta');
-  window.addEventListener('scroll', function(){
+  // Nav, barra de progresso, CTA fixo e scroll_depth (tudo em um rAF só)
+  var nav = document.getElementById('nav'),
+      sticky = document.getElementById('stickyCta'),
+      prog = document.getElementById('progress'),
+      esperando = false;
+  function aoRolar(){
     var y = window.scrollY;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
     nav.classList.toggle('scrolled', y > 40);
     sticky.classList.toggle('show', y > 620);
+    prog.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
+    if(h > 0){
+      var pct = (y / h) * 100;
+      Object.keys(marcos).forEach(function(m){
+        if(pct >= m && !marcos[m]){ marcos[m] = 1; track('scroll_depth', {percentual:Number(m)}); }
+      });
+    }
+    esperando = false;
+  }
+  window.addEventListener('scroll', function(){
+    if(!esperando){ esperando = true; requestAnimationFrame(aoRolar); }
   }, {passive:true});
+  aoRolar();
 
   // Menu mobile
   var burger = document.getElementById('burger'), mm = document.getElementById('mobileMenu');
@@ -768,21 +861,91 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
   });
 
-  // Reveal à prova de falha — nada fica invisível
+  // Entrada dos blocos, escalonada entre irmãos — à prova de falha
   (function(){
     var els = document.querySelectorAll('.reveal');
+    var contagem = new Map();
+    els.forEach(function(el){
+      var pai = el.parentNode;
+      var n = contagem.get(pai) || 0;
+      el.style.setProperty('--d', Math.min(n * 0.07, 0.42) + 's');
+      contagem.set(pai, n + 1);
+    });
     if('IntersectionObserver' in window){
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-      },{rootMargin:'0px 0px -6% 0px'});
+      var io = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      },{rootMargin:'0px 0px -8% 0px'});
       els.forEach(function(el){ io.observe(el); });
-      setTimeout(function(){ els.forEach(function(el){ el.classList.add('in'); }); }, 2000);
+      setTimeout(function(){ els.forEach(function(el){ el.classList.add('in'); }); }, 2500);
     } else {
       els.forEach(function(el){ el.classList.add('in'); });
     }
   })();
 
-  // ===== Banner de cookies (LGPD) + atualização do Consent Mode =====
+  // Contagem do preço (número real, só animado na entrada)
+  (function(){
+    var alvos = document.querySelectorAll('[data-count]');
+    if(semAnimacao || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var el = e.target, fim = parseInt(el.dataset.count,10), pre = el.dataset.prefix || '', t0 = null;
+        function passo(t){
+          if(!t0) t0 = t;
+          var q = Math.min((t - t0) / 850, 1);
+          el.textContent = pre + Math.round(fim * (1 - Math.pow(1 - q, 3)));
+          if(q < 1) requestAnimationFrame(passo);
+        }
+        requestAnimationFrame(passo);
+        io.unobserve(el);
+      });
+    },{threshold:.6});
+    alvos.forEach(function(el){ io.observe(el); });
+  })();
+
+  // Vitrine: duplica os cartões para o carrossel girar sem emenda
+  (function(){
+    if(semAnimacao) return;
+    document.querySelectorAll('.marq-track').forEach(function(trilho){
+      var copia = trilho.cloneNode(true);
+      while(copia.firstChild){ trilho.appendChild(copia.firstChild); }
+    });
+  })();
+
+  // Celular do hero: alterna entre sites reais
+  (function(){
+    var shots = document.querySelectorAll('#phoneInner img');
+    var nome = document.getElementById('shotNome');
+    if(shots.length < 2 || semAnimacao) return;
+    var i = 0;
+    setInterval(function(){
+      shots[i].classList.remove('on');
+      i = (i + 1) % shots.length;
+      shots[i].classList.add('on');
+      if(nome) nome.textContent = shots[i].dataset.nome || '';
+    }, 3400);
+  })();
+
+  // Leve inclinação do celular conforme o mouse (só no desktop)
+  (function(){
+    var phone = document.getElementById('phone');
+    if(!phone || semAnimacao || !window.matchMedia('(min-width:1000px)').matches) return;
+    var alvoX = 0, alvoY = 0, atualX = 0, atualY = 0, rodando = false;
+    window.addEventListener('mousemove', function(e){
+      alvoX = (e.clientX / window.innerWidth - .5) * 9;
+      alvoY = (e.clientY / window.innerHeight - .5) * -7;
+      if(!rodando){ rodando = true; requestAnimationFrame(anima); }
+    }, {passive:true});
+    function anima(){
+      atualX += (alvoX - atualX) * .08;
+      atualY += (alvoY - atualY) * .08;
+      phone.style.transform = 'perspective(900px) rotateY(' + atualX.toFixed(2) + 'deg) rotateX(' + atualY.toFixed(2) + 'deg)';
+      if(Math.abs(alvoX - atualX) > .05 || Math.abs(alvoY - atualY) > .05){ requestAnimationFrame(anima); }
+      else { rodando = false; }
+    }
+  })();
+
+  // ===== Banner de cookies (LGPD) + Consent Mode =====
   (function(){
     var bar = document.getElementById('cookieBar'); if(!bar) return;
     if(document.cookie.indexOf('gd_consent=') === -1){ bar.style.display = 'flex'; }
