@@ -78,7 +78,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   --body:'Satoshi',system-ui,-apple-system,sans-serif;
   --e:cubic-bezier(.22,1,.36,1);
   --pad:clamp(20px,5vw,72px);
-  --sp:clamp(72px,11vh,150px);
+  --sp:clamp(56px,9vh,140px);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{overflow-x:clip;-webkit-text-size-adjust:100%}
@@ -103,6 +103,9 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .mid{font-size:clamp(1.5rem,3.4vw,2.9rem);line-height:1.02}
 .kicker{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .claro .kicker{color:#9A6A16}
+@media(min-width:1000px){
+  .prob-l h2,.rec-fix h2,.faq-t h2,#como .wrap>div h2{font-size:clamp(1.8rem,3.1vw,2.8rem)}
+}
 .lead{font-size:clamp(1rem,1.35vw,1.22rem);color:var(--muted);max-width:52ch;line-height:1.6}
 .muted{color:var(--muted)}
 .acc{color:var(--accent)}
@@ -114,9 +117,11 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
   font-weight:700;font-size:.95rem;letter-spacing:.01em;overflow:hidden;isolation:isolate;
   border:1px solid transparent;transition:color .4s var(--e),border-color .4s var(--e);will-change:transform}
 .btn__t{position:relative;z-index:2;white-space:nowrap}
-.btn__i{position:relative;z-index:2;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;
-  background:currentColor;flex:none;overflow:hidden}
-.btn__i svg{width:12px;height:12px;color:var(--ink);transition:transform .45s var(--e)}
+.btn__i{position:relative;z-index:2;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;
+  background:rgba(0,0,0,.22);flex:none;overflow:hidden;transition:background .4s var(--e)}
+.btn__i svg{width:12px;height:12px;color:currentColor;transition:transform .45s var(--e)}
+.btn--gh .btn__i{background:rgba(255,255,255,.14)}
+.claro .btn--gh .btn__i{background:rgba(0,0,0,.12)}
 .btn:hover .btn__i svg{transform:translate(13px,-13px)}
 .btn::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;background:var(--accent);
   transform:translateY(0);transition:transform .5s var(--e)}
@@ -153,9 +158,9 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 #cur{position:fixed;top:0;left:0;z-index:9000;pointer-events:none;mix-blend-mode:difference;
   display:none;will-change:transform}
 #cur .cd{position:absolute;width:9px;height:9px;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
-#cur .cr{position:absolute;display:grid;place-items:center;width:98px;height:98px;border-radius:50%;
-  background:#fff;color:#000;transform:translate(-50%,-50%) scale(0);font-size:.62rem;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;mix-blend-mode:normal;text-align:center;line-height:1.15}
+#cur .cr{position:absolute;display:flex;align-items:center;gap:6px;padding:7px 13px;border-radius:100px;
+  background:#fff;color:#000;transform:translate(16px,16px) scale(0);transform-origin:0 0;font-size:.58rem;
+  font-weight:700;letter-spacing:.12em;text-transform:uppercase;mix-blend-mode:normal;white-space:nowrap}
 @media(hover:hover) and (pointer:fine){#cur{display:block}}
 
 /* ============ PROGRESSO ============ */
@@ -181,39 +186,55 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 #nav .btn .btn__i{width:22px;height:22px}
 
 /* ============ HERO ============ */
-.hero{position:relative;min-height:100svh;overflow:clip}
-.hero-stage{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
-  padding-block:110px 40px}
-.hero-copy{position:relative;z-index:3}
-.hero-copy .giant{margin:14px 0 0;font-size:clamp(2.05rem,9.3vw,7.4rem)}
-@media(min-width:1000px){.hero-stage{padding-block:96px 46px}}
+.hero{position:relative;min-height:100svh;overflow:clip;display:flex;align-items:center;
+  padding-block:96px clamp(28px,5vh,60px)}
+@media(min-width:1000px){.hero{padding-block:104px 40px}}
+.aurora{position:absolute;inset:-25% -15% auto;height:88vh;pointer-events:none;z-index:0;
+  background:radial-gradient(46% 46% at 26% 26%,rgba(242,163,60,.14),transparent 68%),
+             radial-gradient(40% 40% at 78% 14%,rgba(242,163,60,.08),transparent 70%);
+  filter:blur(22px);animation:drift 20s ease-in-out infinite alternate}
+.hero-grid{position:relative;z-index:3;display:grid;gap:clamp(22px,4vh,40px);width:100%}
+@media(min-width:1000px){.hero-grid{grid-template-columns:1.02fr .98fr;gap:clamp(30px,4vw,64px);align-items:center}}
+.hero-copy .giant{margin:12px 0 0;font-size:clamp(2rem,7.4vw,5.4rem)}
+@media(min-width:1000px){.hero-copy .giant{font-size:clamp(2.6rem,5.2vw,4.6rem)}}
 .hero-copy .giant .l{display:block;overflow:hidden}
 .hero-copy .giant .l span{display:block;will-change:transform}
-.hero-sub{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:26px;margin-top:clamp(22px,3.4vw,44px)}
-.hero-sub .lead{max-width:34ch}
-.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
-.hero-price{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,2.6vw,2.2rem);letter-spacing:-.03em;
+.hero-copy .lead{margin-top:clamp(14px,2.2vh,22px);max-width:44ch;font-size:clamp(.98rem,1.15vw,1.1rem)}
+.hero-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:clamp(18px,2.6vh,28px)}
+.hero-price{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,2.4vw,2.1rem);letter-spacing:-.03em;
   display:flex;align-items:baseline;gap:8px}
 .hero-price span{font-family:var(--body);font-size:.5em;font-weight:500;color:var(--muted)}
-.hero-tags{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:24px;font-size:.86rem;color:var(--muted)}
-.hero-tags i{font-style:normal;color:var(--accent);margin-right:7px}
-.scroll-hint{position:absolute;left:var(--pad);bottom:26px;z-index:3;display:flex;align-items:center;gap:11px;
-  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
-.scroll-hint .sl{width:44px;height:1px;background:var(--faint);position:relative;overflow:hidden}
-.scroll-hint .sl::after{content:"";position:absolute;inset:0;background:var(--accent);animation:sl 2.4s var(--e) infinite}
-@keyframes sl{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.hero-tags{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-size:.84rem;color:var(--muted)}
+.hero-tags i{font-style:normal;color:var(--accent);margin-right:6px}
 
-/* palco da imagem que cresce */
-.hero-media{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none}
-.hero-frame{position:relative;width:min(30vw,340px);aspect-ratio:16/10;border-radius:14px;overflow:hidden;
-  border:1px solid var(--line-2);box-shadow:0 40px 90px rgba(0,0,0,.6);will-change:transform;opacity:0}
-.hero-frame img{width:100%;height:100%;object-fit:cover;object-position:top}
-.hero-frame .veu{position:absolute;inset:0;background:rgba(8,8,10,.72);opacity:0}
+/* moldura com o video dos sites reais */
+.hero-visual{position:relative;z-index:2}
+@media(max-width:999px){.hero-visual{margin-bottom:clamp(30px,5vh,52px)}}
+.hero-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line-2);box-shadow:0 40px 90px rgba(0,0,0,.6);background:#0E0E11;will-change:transform}
+.hero-frame video,.hero-frame img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.hero-frame .veu{position:absolute;inset:0;background:rgba(8,8,10,.7);opacity:0;pointer-events:none}
+.hero-chip{position:absolute;left:12px;top:12px;z-index:3;display:inline-flex;align-items:center;gap:7px;
+  padding:7px 13px;border-radius:100px;background:rgba(8,8,10,.7);backdrop-filter:blur(8px);
+  border:1px solid var(--line-2);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.hero-chip i{width:6px;height:6px;border-radius:50%;background:var(--good);flex:none;animation:bat 2.4s infinite}
+@media(min-width:1000px){
+  .hero-visual{display:flex;justify-content:flex-end}
+  .hero-frame{width:min(42vw,620px)}
+}
+
 .hero-fase{position:absolute;inset:0;z-index:4;display:grid;place-items:center;pointer-events:none;padding-inline:var(--pad)}
 .hero-fase p{position:absolute;text-align:center;font-family:var(--display);font-weight:600;
-  font-size:clamp(1.8rem,5.4vw,4.4rem);line-height:1;letter-spacing:-.03em;opacity:0;max-width:16ch}
+  font-size:clamp(1.7rem,5vw,4rem);line-height:1;letter-spacing:-.03em;opacity:0;max-width:17ch;
+  text-shadow:0 6px 40px rgba(8,8,10,.9)}
 .hero-fase p b{color:var(--accent);font-weight:600}
-.hero-fase p{text-shadow:0 6px 40px rgba(8,8,10,.85)}
+
+.scroll-cue{position:absolute;left:var(--pad);bottom:clamp(14px,2.4vh,26px);z-index:5;display:inline-flex;
+  align-items:center;gap:12px;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.scroll-cue .bola{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);display:grid;
+  place-items:center;color:var(--accent)}
+.scroll-cue svg{width:14px;height:14px;animation:desce 1.8s var(--e) infinite}
+@keyframes desce{0%,100%{transform:translateY(-3px);opacity:.5}50%{transform:translateY(3px);opacity:1}}
 
 /* ============ MARQUEE ============ */
 .marq{border-block:1px solid var(--line);padding-block:clamp(16px,2.2vw,26px);overflow:hidden;background:var(--ink-2)}
@@ -225,13 +246,14 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 /* ============ PROBLEMA ============ */
 .prob{display:grid;gap:clamp(28px,5vw,70px)}
-.prob-l{display:grid;gap:clamp(14px,2vw,22px);max-width:22ch}
+.prob-l{display:grid;gap:clamp(14px,2vw,22px);max-width:30ch}
 .prob-lista{display:grid;gap:0;border-top:1px solid var(--line)}
 .prob-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(14px,2.4vw,34px);align-items:start;
   padding-block:clamp(18px,2.4vw,30px);border-bottom:1px solid var(--line)}
 .prob-item .n{font-family:var(--display);font-size:.8rem;color:var(--faint);padding-top:.45em;font-variant-numeric:tabular-nums}
 .prob-item p{font-size:clamp(1.02rem,1.7vw,1.42rem);line-height:1.34;max-width:34ch;font-weight:500}
-@media(min-width:1000px){.prob{grid-template-columns:.85fr 1.15fr;align-items:start}}
+@media(min-width:1000px){.prob{grid-template-columns:1fr 1.1fr;align-items:start}}
+  .prob-l h2{font-size:clamp(1.9rem,4.6vw,3.4rem)}
 
 /* ============ SHOWREEL ============ */
 .reel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;
@@ -271,7 +293,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 /* ============ O QUE VOCÊ RECEBE (sticky) ============ */
 .rec{display:grid;gap:clamp(30px,4vw,60px)}
 @media(min-width:1000px){.rec{grid-template-columns:.9fr 1.1fr;align-items:start}}
-.rec-fix{position:relative}
+.rec-fix{position:relative;max-width:26ch}
 @media(min-width:1000px){.rec-fix{position:sticky;top:22vh}}
 .rec-lista{display:grid}
 .rec-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,2.6vw,36px);align-items:baseline;
@@ -287,17 +309,16 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 /* ============ COMO FUNCIONA ============ */
 .pass{position:relative;display:grid;gap:0;margin-top:clamp(28px,4vw,54px)}
-.pass-svg{position:absolute;left:13px;top:0;bottom:0;width:2px;z-index:0}
-@media(min-width:800px){.pass-svg{left:50%;transform:translateX(-1px)}}
+.pass-svg{position:absolute;left:16px;top:0;bottom:0;width:2px;z-index:0}
 .pass-svg line{stroke:rgba(0,0,0,.16);stroke-width:2}
 .pass-svg .ativa{stroke:var(--accent);stroke-dasharray:1;stroke-dashoffset:1}
 .passo{position:relative;z-index:1;display:grid;grid-template-columns:28px 1fr;gap:clamp(16px,2.4vw,32px);
   align-items:start;padding-block:clamp(20px,3vw,40px)}
 @media(min-width:800px){
-  .passo{grid-template-columns:1fr 56px 1fr;gap:0;align-items:center}
-  .passo .cnt{grid-column:1;text-align:right;padding-right:clamp(20px,3vw,46px)}
-  .passo:nth-child(even) .cnt{grid-column:3;text-align:left;padding-right:0;padding-left:clamp(20px,3vw,46px)}
-  .passo .bola{grid-column:2}
+  .passo{grid-template-columns:34px minmax(0,26ch) minmax(0,1fr);gap:clamp(22px,3.4vw,54px);align-items:start}
+  .passo .cnt{display:contents}
+  .passo h3{grid-column:2;margin-bottom:0}
+  .passo p{grid-column:3;max-width:46ch;padding-top:.35em}
 }
 .passo .bola{width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid rgba(0,0,0,.18);
   display:grid;place-items:center;font-size:.62rem;font-weight:700;font-family:var(--display);
@@ -305,8 +326,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .passo.on .bola{background:var(--accent);border-color:var(--accent);color:var(--ink)}
 .passo h3{font-size:clamp(1.15rem,2.3vw,1.9rem);margin-bottom:.3em}
 .passo p{color:#5A5A5E;max-width:38ch;font-size:clamp(.94rem,1.15vw,1.04rem)}
-@media(min-width:800px){.passo:nth-child(even) p,.passo:nth-child(even) h3{margin-left:0}
-  .passo:nth-child(odd) .cnt p{margin-left:auto}}
+
 
 /* ============ PREÇO ============ */
 .preco{position:relative;text-align:center;overflow:clip}
@@ -314,14 +334,17 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
   letter-spacing:-.05em;display:inline-flex;align-items:baseline;gap:.1em;will-change:transform;max-width:100%}
 .preco-num sup{font-size:.2em;font-family:var(--body);font-weight:600;color:var(--muted);top:0;position:static;letter-spacing:0}
 .preco-linhas{display:grid;gap:clamp(10px,1.4vw,16px);margin-top:clamp(26px,3.4vw,46px);justify-items:center}
-.preco-linhas span{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,2.2vw,1.8rem);
+.preco-linhas span{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2vw,1.6rem);
   letter-spacing:-.02em;text-transform:uppercase}
 .preco-linhas span i{font-style:normal;color:var(--accent)}
 .preco-cta{margin-top:clamp(32px,4vw,52px);display:flex;flex-direction:column;align-items:center;gap:14px}
 .preco-obs{font-size:.88rem;color:var(--faint);max-width:40ch}
 
 /* ============ FAQ ============ */
-.faq{border-top:1px solid var(--line);margin-top:clamp(26px,3.4vw,48px)}
+.faq-wrap{display:grid;gap:clamp(24px,3.4vw,56px)}
+@media(min-width:1000px){.faq-wrap{grid-template-columns:.78fr 1.22fr;align-items:start}
+  .faq-t{position:sticky;top:22vh}}
+.faq{border-top:1px solid var(--line);margin-top:0}
 .q{border-bottom:1px solid var(--line)}
 .q-b{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;text-align:left;
   padding-block:clamp(19px,2.4vw,28px);font-family:var(--display);font-weight:600;
@@ -338,9 +361,9 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .q-c p{color:var(--muted);max-width:62ch;padding-bottom:clamp(20px,2.4vw,30px);font-size:clamp(.96rem,1.2vw,1.06rem)}
 
 /* ============ FINAL + RODAPÉ ============ */
-.fim{text-align:center}
+.fim{text-align:center;padding-bottom:clamp(40px,6vh,80px)}
 .fim .giant{margin-bottom:clamp(22px,3vw,40px)}
-.rod{border-top:1px solid var(--line);padding-block:clamp(40px,5vw,70px) 120px}
+.rod{border-top:1px solid var(--line);padding-block:clamp(34px,4vw,56px) 120px}
 @media(min-width:900px){.rod{padding-bottom:60px}}
 .rod-marca{font-family:var(--display);font-weight:700;font-size:clamp(3rem,13vw,11rem);line-height:.82;
   letter-spacing:-.05em;text-transform:uppercase;margin-bottom:clamp(28px,4vw,54px)}
@@ -401,8 +424,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
     <a href="#topo" class="logo" data-cur="início">Gustavo<i>.</i>Digital</a>
     <div class="nav-r">
       <div class="nav-p"><b>R$200</b>/mês</div>
-      <a href="#" class="btn btn--acc js-wa" data-cta="nav" data-cur="quero">
-        <span class="btn__t">Quero meu site</span>
+      <a href="#" class="btn btn--acc js-wa" data-cta="nav" data-cur="chamar">
+        <span class="btn__t">Falar no WhatsApp</span>
         <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </a>
     </div>
@@ -411,21 +434,9 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 <!-- ============================ HERO ============================ -->
 <section class="hero" id="topo">
-  <div class="hero-media" aria-hidden="true">
-    <div class="hero-frame" id="heroFrame">
-      <img src="assets/trabalhos/barbearia-clube-desk.webp" width="1280" height="800" alt="" fetchpriority="high">
-      <div class="veu"></div>
-    </div>
-  </div>
+  <div class="aurora" aria-hidden="true"></div>
 
-  <div class="hero-fase" aria-hidden="true">
-    <p data-fase>Precisa ser <b>encontrado</b>.</p>
-    <p data-fase>Precisa passar <b>confiança</b>.</p>
-    <p data-fase>Precisa <b>facilitar o contato</b>.</p>
-    <p data-fase>Precisa de um <b>site</b>.</p>
-  </div>
-
-  <div class="wrap hero-stage">
+  <div class="wrap hero-grid">
     <div class="hero-copy">
       <p class="kicker" data-intro>Gustavo.Digital — Curitiba, PR</p>
       <h1 class="giant">
@@ -433,16 +444,14 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
         <span class="l"><span>Bem apresentado</span></span>
         <span class="l"><span>na internet.</span></span>
       </h1>
+      <p class="lead" data-intro>Um site profissional de verdade — com domínio, hospedagem, manutenção e alterações inclusas. Feito pra quem atende cliente e quer ser levado a sério.</p>
 
-      <div class="hero-sub" data-intro>
-        <p class="lead">Um site profissional de verdade — com domínio, hospedagem, manutenção e alterações inclusas. Feito pra quem atende cliente e quer ser levado a sério.</p>
-        <div class="hero-cta">
-          <div class="hero-price">R$200<span>/mês</span></div>
-          <a href="#" class="btn btn--wa btn--lg js-wa" data-cta="hero" data-cur="quero">
-            <span class="btn__t">Quero meu site</span>
-            <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
-          </a>
-        </div>
+      <div class="hero-cta" data-intro>
+        <div class="hero-price">R$200<span>/mês</span></div>
+        <a href="#" class="btn btn--wa btn--lg js-wa" data-cta="hero" data-cur="chamar">
+          <span class="btn__t">Quero meu site</span>
+          <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+        </a>
       </div>
 
       <div class="hero-tags" data-intro>
@@ -451,9 +460,31 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
         <span><i>—</i>Domínio e hospedagem inclusos</span>
       </div>
     </div>
+
+    <div class="hero-visual" data-intro>
+      <div class="hero-frame" id="heroFrame">
+        <video id="heroVid" muted loop playsinline autoplay preload="metadata" poster="assets/showreel-poster.jpg" aria-label="Sites feitos pela Gustavo Digital">
+          <source src="assets/showreel.webm" type="video/webm">
+          <source src="assets/showreel.mp4" type="video/mp4">
+        </video>
+        <span class="veu"></span>
+        <span class="hero-chip"><i></i> 19 sites no ar</span>
+      </div>
+    </div>
   </div>
 
-  <div class="scroll-hint" data-intro><span class="sl"></span> role para ver</div>
+  <div class="hero-fase" aria-hidden="true">
+    <p data-fase>Precisa ser <b>encontrado</b>.</p>
+    <p data-fase>Precisa passar <b>confiança</b>.</p>
+    <p data-fase>Precisa <b>facilitar o contato</b>.</p>
+    <p data-fase>Precisa de um <b>site</b>.</p>
+    <p data-fase>Um site profissional por <b>R$200/mês</b>.</p>
+  </div>
+
+  <a class="scroll-cue" href="#problema" data-intro data-cur="descer">
+    <span class="bola"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M4 9l4 4 4-4"/></svg></span>
+    role para ver os 19 sites
+  </a>
 </section>
 
 <!-- ============================ MARQUEE ============================ -->
@@ -489,7 +520,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <p class="kicker" data-rev>Trabalhos no ar</p>
       <h2 class="big" data-split>Feito para negócios de verdade.</h2>
     </div>
-    <p class="lead" data-rev>Barbearia, academia, oficina, advocacia, encanador, borracharia, obra. Abra qualquer um: estão todos funcionando agora.</p>
+    <p class="lead" data-rev>Barbearia, academia, oficina, advocacia, encanador, borracharia, obra, estética, despachante. <b style="color:var(--text)">19 sites no ar</b> — abra qualquer um.</p>
   </div>
 
   <div class="reel-vp" id="reelVp">
@@ -499,19 +530,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/barbearia-clube-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/barbearia-clube.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Barbearia Clube, feito pela Gustavo Digital">
-        </picture>
-        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
-      </div>
-    </a>
-    <a class="proj" href="https://guaaparecido980-alt.github.io/Desentupidora/" target="_blank" rel="noopener" data-proj="maxima" data-cur="ver site">
-      <div class="proj-top"><span class="proj-nome">Máxima</span><span class="proj-seg">Desentupidora 24h · Curitiba</span></div>
-      <div class="proj-shot">
-        <span class="no-ar"><i></i> no ar</span>
-        <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/maxima-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/maxima.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Máxima, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/barbearia-clube-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/barbearia-clube.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Barbearia Clube, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -521,19 +541,19 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/quadros-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/quadros.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Quadros Gym, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/quadros-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/quadros.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Quadros Gym, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
     </a>
-    <a class="proj" href="https://guaaparecido980-alt.github.io/ajl/" target="_blank" rel="noopener" data-proj="ajl" data-cur="ver site">
-      <div class="proj-top"><span class="proj-nome">AJL Encanamentos</span><span class="proj-seg">Encanador · Curitiba</span></div>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/Desentupidora/" target="_blank" rel="noopener" data-proj="maxima" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Máxima</span><span class="proj-seg">Desentupidora 24h · Curitiba</span></div>
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/ajl-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/ajl.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de AJL Encanamentos, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/maxima-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/maxima.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Máxima, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -543,8 +563,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/wander-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/wander.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Wander Aguiar, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/wander-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/wander.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Wander Aguiar, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -554,41 +574,19 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/dieff-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/dieff.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Dieff Detailing, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/dieff-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/dieff.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Dieff Detailing, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
     </a>
-    <a class="proj" href="https://guaaparecido980-alt.github.io/despachante/" target="_blank" rel="noopener" data-proj="kaviski" data-cur="ver site">
-      <div class="proj-top"><span class="proj-nome">Kaviski</span><span class="proj-seg">Despachante · Curitiba</span></div>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/ajl/" target="_blank" rel="noopener" data-proj="ajl" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">AJL Encanamentos</span><span class="proj-seg">Encanador · Curitiba</span></div>
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/kaviski-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/kaviski.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Kaviski, feito pela Gustavo Digital">
-        </picture>
-        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
-      </div>
-    </a>
-    <a class="proj" href="https://guaaparecido980-alt.github.io/dubigode-barbearia/" target="_blank" rel="noopener" data-proj="dubigode" data-cur="ver site">
-      <div class="proj-top"><span class="proj-nome">Du Bigode</span><span class="proj-seg">Barbearia · Cidade Industrial</span></div>
-      <div class="proj-shot">
-        <span class="no-ar"><i></i> no ar</span>
-        <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/dubigode-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/dubigode.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Du Bigode, feito pela Gustavo Digital">
-        </picture>
-        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
-      </div>
-    </a>
-    <a class="proj" href="https://guaaparecido980-alt.github.io/obras/" target="_blank" rel="noopener" data-proj="lhm" data-cur="ver site">
-      <div class="proj-top"><span class="proj-nome">LHM Engenharia</span><span class="proj-seg">Steel frame · Curitiba e litoral</span></div>
-      <div class="proj-shot">
-        <span class="no-ar"><i></i> no ar</span>
-        <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/lhm-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/lhm.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de LHM Engenharia, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/ajl-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/ajl.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de AJL Encanamentos, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -598,8 +596,52 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/cls-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/cls.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de CLS Advocacia, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/cls-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/cls.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de CLS Advocacia, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/obras/" target="_blank" rel="noopener" data-proj="lhm" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">LHM Engenharia</span><span class="proj-seg">Steel frame · Curitiba e litoral</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/lhm-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/lhm.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de LHM Engenharia, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/despachante/" target="_blank" rel="noopener" data-proj="kaviski" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Kaviski</span><span class="proj-seg">Despachante · Curitiba</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/kaviski-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/kaviski.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Kaviski, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/dubigode-barbearia/" target="_blank" rel="noopener" data-proj="dubigode" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Du Bigode</span><span class="proj-seg">Barbearia · Cidade Industrial</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/dubigode-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/dubigode.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Du Bigode, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/consutoria-visagismo/" target="_blank" rel="noopener" data-proj="wagner" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Wagner Alves</span><span class="proj-seg">Visagista masculino · Curitiba</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/wagner-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/wagner.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Wagner Alves, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -609,8 +651,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/chimarrao-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/chimarrao.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Chimarrão, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/chimarrao-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/chimarrao.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Chimarrão, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -620,8 +662,19 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/envelopar-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/envelopar.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Envelopar Art e Decor, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/envelopar-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/envelopar.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Envelopar Art e Decor, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/emerson-chemimm-visagista/" target="_blank" rel="noopener" data-proj="emerson" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Emerson Chemimm</span><span class="proj-seg">Barbeiro visagista · Curitiba</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/emerson-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/emerson.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Emerson Chemimm, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -631,8 +684,30 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/studio7-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/studio7.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Studio 7, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/studio7-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/studio7.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Studio 7, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/just-surprise-barbershop/" target="_blank" rel="noopener" data-proj="justsurprise" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Just Surprise</span><span class="proj-seg">Barbearia · Cidade Industrial</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/justsurprise-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/justsurprise.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Just Surprise, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/condominio/" target="_blank" rel="noopener" data-proj="condominio" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Condomínio Serviços</span><span class="proj-seg">Manutenção predial 24h · Curitiba</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/condominio-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/condominio.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Condomínio Serviços, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
@@ -642,23 +717,24 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="proj-shot">
         <span class="no-ar"><i></i> no ar</span>
         <picture>
-          <source media="(min-width:760px)" srcset="assets/trabalhos/visionary-desk.webp" width="1280" height="800">
-          <img src="assets/trabalhos/visionary.webp" width="420" height="862" loading="lazy" decoding="async" alt="Site de Visionary, feito pela Gustavo Digital">
+          <source media="(min-width:760px)" srcset="assets/trabalhos/visionary-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/visionary.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Visionary, feito pela Gustavo Digital">
+        </picture>
+        <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
+      </div>
+    </a>
+    <a class="proj" href="https://guaaparecido980-alt.github.io/saude/" target="_blank" rel="noopener" data-proj="velmora" data-cur="ver site">
+      <div class="proj-top"><span class="proj-nome">Velmora</span><span class="proj-seg">Marca de bebida · Curitiba</span></div>
+      <div class="proj-shot">
+        <span class="no-ar"><i></i> no ar</span>
+        <picture>
+          <source media="(min-width:760px)" srcset="assets/trabalhos/velmora-desk.webp" width="1600" height="1000">
+          <img src="assets/trabalhos/velmora.webp" width="560" height="1148" loading="lazy" decoding="async" alt="Site de Velmora, feito pela Gustavo Digital">
         </picture>
         <span class="proj-abrir">abrir site <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </div>
     </a>
     </div>
-  </div>
-
-</section>
-
-<section class="sec" style="padding-block:clamp(46px,7vh,90px)">
-  <div class="wrap reel-fim" data-rev style="padding-top:0">
-    <a href="#preco" class="btn btn--acc btn--lg" data-cta="pos-trabalhos" data-cur="quero">
-      <span class="btn__t">Quero um assim pra minha empresa</span>
-      <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
-    </a>
   </div>
 </section>
 
@@ -666,7 +742,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 <section class="sec claro" id="prova">
   <div class="wrap conta">
     <div class="num" id="cont14">0</div>
-    <div class="txt" data-rev><b>sites no ar.</b> Todos feitos por nós, todos de negócios reais — e todos você acabou de ver funcionando.</div>
+    <div class="txt" data-rev><b>sites no ar.</b> Barbearia, academia, oficina, obra, advocacia, estética, encanador, borracharia. Todos feitos por nós, todos de negócios reais — e todos você acabou de abrir.</div>
   </div>
 </section>
 
@@ -711,7 +787,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 <!-- ============================ COMO FUNCIONA ============================ -->
 <section class="sec claro" id="como">
   <div class="wrap">
-    <div style="max-width:24ch">
+    <div style="max-width:30ch">
       <p class="kicker" data-rev>Como funciona</p>
       <h2 class="big" data-split>Do primeiro oi ao site no ar.</h2>
     </div>
@@ -746,8 +822,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <span data-linha><i>—</i> Domínio e hospedagem inclusos</span>
     </div>
     <div class="preco-cta">
-      <a href="#" class="btn btn--wa btn--lg js-wa" data-cta="preco" data-cur="quero">
-        <span class="btn__t">Quero meu site</span>
+      <a href="#" class="btn btn--wa btn--lg js-wa" data-cta="preco" data-cur="começar">
+        <span class="btn__t">Começar agora</span>
         <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </a>
       <p class="preco-obs">Chama no WhatsApp, conta o que você faz, e a gente vê se faz sentido pro seu negócio.</p>
@@ -758,9 +834,11 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 <!-- ============================ FAQ ============================ -->
 <section class="sec" id="faq">
   <div class="wrap">
-    <div style="max-width:22ch">
+    <div class="faq-wrap">
+    <div class="faq-t">
       <p class="kicker" data-rev>Perguntas</p>
       <h2 class="big" data-split>O que todo mundo pergunta antes.</h2>
+      <p class="lead" data-rev style="margin-top:20px">Não achou a sua? Chama no WhatsApp que a gente responde na hora.</p>
     </div>
 
     <div class="faq">
@@ -781,6 +859,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
       <div class="q"><button class="q-b" type="button"><span>Vocês também fazem anúncio no Google e no Instagram?</span><span class="q-i"></span></button>
         <div class="q-c"><div><p>A mensalidade de R$200 é do site. Anúncio é outro assunto, com verba e acompanhamento próprios — se mais para frente você quiser, a gente conversa separadamente. Nada disso é obrigatório para ter o seu site.</p></div></div></div>
     </div>
+    </div>
   </div>
 </section>
 
@@ -791,7 +870,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
     <p class="lead" style="margin-inline:auto;text-align:center" data-rev>Manda uma mensagem, conta o que você faz, e a gente te mostra como o seu site pode ficar.</p>
     <div style="display:flex;justify-content:center;margin-top:34px" data-rev>
       <a href="#" class="btn btn--wa btn--lg js-wa" data-cta="final" data-cur="quero">
-        <span class="btn__t">Quero meu site por R$200/mês</span>
+        <span class="btn__t">Chamar no WhatsApp</span>
         <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg></span>
       </a>
     </div>
@@ -996,8 +1075,7 @@ document.addEventListener('DOMContentLoaded', function(){
   /* ---------- Sem GSAP ou com movimento reduzido: página estática ---------- */
   function modoSimples(){
     $$('[data-fase]').forEach(function(el){ el.style.display = 'none'; });
-    var f = $('#heroFrame'); if(f) f.style.display = 'none';
-    var c = $('#cont14'); if(c) c.textContent = '14';
+    var c = $('#cont14'); if(c) c.textContent = '19';
     $$('[data-item]').forEach(function(el){ el.classList.add('on'); });
     $$('[data-passo]').forEach(function(el){ el.classList.add('on'); });
     var l = $('#passLinha'); if(l) l.style.strokeDashoffset = '0';
@@ -1072,37 +1150,63 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     });
 
-    /* ----- HERO: história com o site crescendo ----- */
-    var quadro = $('#heroFrame'), veu = $('.hero-frame .veu'), fases = $$('[data-fase]');
+    /* ----- HERO: historia com o site crescendo ----- */
+    var quadro = $('#heroFrame'), veu = $('.hero-frame .veu'), fases = $$('[data-fase]'), video = $('#heroVid');
     if(quadro){
       var mm = gsap.matchMedia();
       mm.add({desk:'(min-width:1000px)', mob:'(max-width:999px)'}, function(ctx){
         var desk = ctx.conditions.desk;
-        gsap.set(quadro, {opacity:0, scale:.82});
+        var pad = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pad')) || 40;
+        function medidas(){
+          var l = quadro.offsetWidth, a = quadro.offsetHeight;
+          return {l:l, a:a, esc: Math.max(window.innerWidth / l, window.innerHeight / a) * 1.04};
+        }
+        gsap.set(quadro, {x:0, y:0, scale:1, transformOrigin:'50% 50%'});
+        function paraCentro(eixo){
+          return function(){
+            var r = quadro.getBoundingClientRect();
+            return eixo === 'x'
+              ? (window.innerWidth / 2) - (r.left + r.width / 2)
+              : (window.innerHeight / 2) - (r.top + r.height / 2);
+          };
+        }
         gsap.set(fases, {opacity:0, y:26});
+
         var tl = gsap.timeline({
           scrollTrigger:{
-            trigger:'.hero', start:'top top', end: desk ? '+=250%' : '+=170%',
+            trigger:'.hero', start:'top top', end: desk ? '+=270%' : '+=200%',
             pin:true, scrub:.85, anticipatePin:1, invalidateOnRefresh:true
           }
         });
-        var escala = function(){
-          var l = quadro.offsetWidth, a = quadro.offsetHeight;
-          return Math.max(window.innerWidth / l, window.innerHeight / a) * 1.04;
-        };
-        tl.to('.hero-copy .giant .l>span', {yPercent:-112, duration:.5, stagger:.04, ease:'power2.in', immediateRender:false}, 0)
-          .to(intros, {opacity:0, y:-20, duration:.4, ease:'power2.in', immediateRender:false}, 0)
-          .to('.scroll-hint', {opacity:0, duration:.25, immediateRender:false}, 0)
-          .to(quadro, {opacity:1, scale:1, duration:.5, ease:'power2.out'}, .12)
-          .to(quadro, {scale:escala, borderRadius:0, duration:1.7, ease:'power2.inOut'}, .5)
-          .to(veu, {opacity:.62, duration:.8}, .9);
-        fases.forEach(function(f, i){
-          var t = 1.05 + i * .58;
-          tl.to(f, {opacity:1, y:0, duration:.34, ease:'power2.out'}, t)
-            .to(f, {opacity:0, y:-22, duration:.3, ease:'power2.in'}, t + .42);
+
+        tl.fromTo('.hero-copy .giant .l>span', {yPercent:0},
+             {yPercent:-112, duration:.55, stagger:.04, ease:'power2.in', immediateRender:false}, 0)
+          .fromTo('.hero [data-intro]', {opacity:1, y:0},
+             {opacity:0, y:-18, duration:.45, ease:'power2.in', immediateRender:false}, 0)
+          .fromTo('.scroll-cue', {opacity:1},
+             {opacity:0, duration:.3, ease:'none', immediateRender:false}, 0);
+
+        tl.fromTo(quadro, {x:0, y:0, scale:1, borderRadius:14},
+          {x:paraCentro('x'), y:paraCentro('y'), scale:function(){ return medidas().esc; },
+           borderRadius:0, duration:1.9, ease:'power2.inOut', immediateRender:false}, .28);
+        tl.fromTo(veu, {opacity:0}, {opacity:.82, duration:.7, immediateRender:false}, .95);
+
+        fases.forEach(function(f, k){
+          var t = 1.25 + k * .52;
+          tl.to(f, {opacity:1, y:0, duration:.32, ease:'power2.out'}, t);
+          if(k < fases.length - 1) tl.to(f, {opacity:0, y:-22, duration:.28, ease:'power2.in'}, t + .38);
         });
-        tl.to(quadro, {opacity:0, duration:.4}, '>-.1');
       });
+
+      /* o video so roda quando esta na tela */
+      if(video){
+        var tocar = function(){ var pr = video.play(); if(pr && pr.catch) pr.catch(function(){}); };
+        tocar();
+        ScrollTrigger.create({
+          trigger:'.hero', start:'top bottom', end:'bottom top',
+          onToggle:function(self){ self.isActive ? tocar() : video.pause(); }
+        });
+      }
     }
 
     /* ----- MARQUEE que responde à velocidade do scroll ----- */
@@ -1152,7 +1256,7 @@ document.addEventListener('DOMContentLoaded', function(){
         trigger:el, start:'top 82%', once:true,
         onEnter:function(){
           var o = {v:0};
-          gsap.to(o, {v:14, duration:1.4, ease:'power3.out', onUpdate:function(){ el.textContent = Math.round(o.v); }});
+          gsap.to(o, {v:19, duration:1.4, ease:'power3.out', onUpdate:function(){ el.textContent = Math.round(o.v); }});
         }
       });
     })();
@@ -1206,9 +1310,8 @@ document.addEventListener('DOMContentLoaded', function(){
       $$('[data-cur], a, button').forEach(function(el){
         var rotulo = el.dataset.cur || '';
         el.addEventListener('mouseenter', function(){
-          anel.textContent = rotulo;
-          gsap.to(anel, {scale: rotulo ? 1 : .34, duration:.4, ease:'power3.out'});
-          gsap.to(dot, {scale: rotulo ? 0 : .6, duration:.3});
+          if(rotulo){ anel.textContent = rotulo; gsap.to(anel, {scale:1, duration:.35, ease:'power3.out'}); }
+          gsap.to(dot, {scale: rotulo ? 1.6 : 2.1, duration:.3});
         });
         el.addEventListener('mouseleave', function(){
           gsap.to(anel, {scale:0, duration:.35, ease:'power3.in'});
