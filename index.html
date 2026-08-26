@@ -129,15 +129,14 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .btn--wa::after{background:#2FE577}
 .btn--wa{color:#04310F}
 .btn--gh{border-color:var(--line-2);color:var(--text)}
-.btn--gh::before,.btn--gh::after{background:var(--text)}
+.btn--gh::before{background:var(--text);transform:translateY(101%)}
+.btn--gh:hover::before{transform:translateY(0)}
 .btn--gh:hover{color:var(--ink)}
-.btn--gh:hover::before{transform:translateY(-101%)}
-.btn--gh::after{transform:translateY(101%)}
-.btn--gh:hover::after{transform:translateY(0)}
+.btn--gh::after{display:none}
 .btn--gh .btn__i{background:currentColor}
 .claro .btn--gh{border-color:rgba(0,0,0,.2);color:var(--ink)}
 .claro .btn--gh:hover{color:var(--paper)}
-.claro .btn--gh::before,.claro .btn--gh::after{background:var(--ink)}
+.claro .btn--gh::before{background:var(--ink)}
 .btn--lg{padding:21px 32px;font-size:1.02rem}
 
 /* ============ PRELOADER ============ */
@@ -214,6 +213,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .hero-fase p{position:absolute;text-align:center;font-family:var(--display);font-weight:600;
   font-size:clamp(1.8rem,5.4vw,4.4rem);line-height:1;letter-spacing:-.03em;opacity:0;max-width:16ch}
 .hero-fase p b{color:var(--accent);font-weight:600}
+.hero-fase p{text-shadow:0 6px 40px rgba(8,8,10,.85)}
 
 /* ============ MARQUEE ============ */
 .marq{border-block:1px solid var(--line);padding-block:clamp(16px,2.2vw,26px);overflow:hidden;background:var(--ink-2)}
