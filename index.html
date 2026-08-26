@@ -108,6 +108,8 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
   .prob-l h2,.faq-t h2,#como .wrap>div h2{font-size:clamp(1.8rem,3.1vw,2.8rem)}
 }
 #recebe h2,#prova h2{font-size:clamp(1.85rem,4.2vw,3.5rem);max-width:24ch}
+#como h2{font-size:clamp(1.8rem,3.4vw,2.9rem);max-width:26ch}
+@media(min-width:1000px){#como{padding-top:calc(var(--sp) + 52px);padding-bottom:calc(var(--sp) + 20px)}}
 .lead{font-size:clamp(1rem,1.35vw,1.22rem);color:var(--muted);max-width:52ch;line-height:1.6}
 .muted{color:var(--muted)}
 .acc{color:var(--accent)}
@@ -315,26 +317,75 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .rec-item h3{font-size:clamp(1.2rem,2.5vw,2rem);margin-bottom:.35em}
 .rec-item p{color:var(--muted);font-size:clamp(.94rem,1.15vw,1.04rem);max-width:44ch}
 
-/* ============ COMO FUNCIONA ============ */
-.pass{position:relative;display:grid;gap:0;margin-top:clamp(28px,4vw,54px)}
-.pass-svg{position:absolute;left:16px;top:0;bottom:0;width:2px;z-index:0}
-.pass-svg line{stroke:rgba(0,0,0,.16);stroke-width:2}
-.pass-svg .ativa{stroke:var(--accent);stroke-dasharray:1;stroke-dashoffset:1}
-.passo{position:relative;z-index:1;display:grid;grid-template-columns:28px 1fr;gap:clamp(16px,2.4vw,32px);
-  align-items:start;padding-block:clamp(20px,3vw,40px)}
-@media(min-width:800px){
-  .passo{grid-template-columns:34px minmax(0,26ch) minmax(0,1fr);gap:clamp(22px,3.4vw,54px);align-items:start}
-  .passo .cnt{display:contents}
-  .passo h3{grid-column:2;margin-bottom:0}
-  .passo p{grid-column:3;max-width:46ch;padding-top:.35em}
-}
-.passo .bola{width:28px;height:28px;border-radius:50%;background:var(--paper);border:2px solid rgba(0,0,0,.18);
-  display:grid;place-items:center;font-size:.62rem;font-weight:700;font-family:var(--display);
-  transition:background .5s var(--e),border-color .5s var(--e),color .5s var(--e);justify-self:center}
-.passo.on .bola{background:var(--accent);border-color:var(--accent);color:var(--ink)}
-.passo h3{font-size:clamp(1.15rem,2.3vw,1.9rem);margin-bottom:.3em}
-.passo p{color:#5A5A5E;max-width:38ch;font-size:clamp(.94rem,1.15vw,1.04rem)}
+/* ============ COMO FUNCIONA — SEQUENCIADOR ============ */
+.seq{position:relative;display:grid;gap:clamp(28px,4vw,60px);margin-top:clamp(26px,3.4vw,50px)}
+@media(min-width:1000px){.seq{grid-template-columns:1.02fr .98fr;align-items:center;gap:clamp(40px,5vw,90px)}}
 
+/* painel visual */
+.seq-vis{position:relative;width:100%;max-width:560px;margin-inline:auto}
+@media(max-width:999px){
+  .seq-vis{position:sticky;top:62px;z-index:3;background:var(--paper);
+    padding:16px 0 14px;margin-bottom:6px;max-width:none}
+  .seq-num{top:-14px;left:0;font-size:clamp(2.4rem,12vw,4rem)}
+}
+.seq-tela{position:relative;border-radius:16px;overflow:hidden;background:#0E0E11;
+  border:1px solid rgba(0,0,0,.14);box-shadow:0 30px 70px rgba(0,0,0,.22);aspect-ratio:16/10}
+.claro .seq-tela{border-color:rgba(0,0,0,.12)}
+.seq-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;background:#16161A;border-bottom:1px solid rgba(255,255,255,.07)}
+.seq-bar i{width:7px;height:7px;border-radius:50%;background:#33333C;flex:none}
+.seq-url{flex:1;margin-left:6px;height:16px;border-radius:99px;background:rgba(255,255,255,.06);
+  display:flex;align-items:center;padding:0 9px;font-size:.54rem;letter-spacing:.06em;color:#6A6A72;overflow:hidden}
+.seq-url b{color:var(--accent);font-weight:600;white-space:nowrap}
+.seq-corpo{position:absolute;inset:34px 0 0;overflow:hidden}
+.seq-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;
+  clip-path:inset(100% 0 0 0)}
+.seq-blocos{position:absolute;inset:0;padding:clamp(14px,3.4%,26px);display:grid;
+  grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(9px,auto);gap:7px;align-content:start}
+.seq-blocos span{background:rgba(255,255,255,.07);border-radius:5px;opacity:0}
+.seq-blocos span:nth-child(1){grid-column:span 4;height:16px}
+.seq-blocos span:nth-child(2){grid-column:span 2;height:16px;background:rgba(242,163,60,.2)}
+.seq-blocos span:nth-child(3){grid-column:span 6;height:34px}
+.seq-blocos span:nth-child(4){grid-column:span 3;height:44px}
+.seq-blocos span:nth-child(5){grid-column:span 3;height:44px}
+.seq-blocos span:nth-child(6){grid-column:span 2;height:22px;background:rgba(37,211,102,.24)}
+.seq-zap{position:absolute;left:8%;bottom:12%;z-index:3;display:flex;align-items:center;gap:9px;
+  background:#101014;border:1px solid rgba(255,255,255,.12);border-radius:14px 14px 14px 4px;
+  padding:10px 14px;font-size:.72rem;color:#D6D6DC;opacity:0;transform:translateY(14px);max-width:76%}
+.seq-zap i{width:8px;height:8px;border-radius:50%;background:var(--wa);flex:none}
+.seq-ok{position:absolute;right:10%;top:14%;z-index:3;display:flex;align-items:center;gap:8px;
+  background:rgba(10,10,12,.78);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);
+  border-radius:100px;padding:8px 14px;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#E8E8EC;opacity:0;transform:scale(.9)}
+.seq-ok i{width:7px;height:7px;border-radius:50%;background:var(--good)}
+.seq-num{position:absolute;left:-4px;top:-22px;z-index:4;font-family:var(--display);font-weight:700;
+  font-size:clamp(3rem,7vw,5.4rem);line-height:1;letter-spacing:-.04em;color:rgba(0,0,0,.10);
+  font-variant-numeric:tabular-nums;pointer-events:none}
+@media(min-width:1000px){.seq-num{left:-38px;top:-46px;font-size:clamp(4rem,7vw,7rem)}}
+
+/* trilha dos passos */
+.seq-lista{position:relative;padding-left:clamp(26px,3vw,40px)}
+.seq-regua{position:absolute;left:0;top:6px;bottom:6px;width:2px;background:rgba(0,0,0,.12);overflow:hidden}
+.seq-regua span{position:absolute;inset:0;background:var(--accent);transform:scaleY(0);transform-origin:0 0}
+.seq-passo{position:relative;padding-block:clamp(14px,2vh,26px);opacity:.32;transition:opacity .55s var(--e)}
+.seq-passo.on{opacity:1}
+.seq-passo::before{content:"";position:absolute;left:calc(-1 * clamp(26px,3vw,40px));top:calc(clamp(14px,2vh,26px) + .35em);
+  width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid rgba(0,0,0,.2);
+  transform:translateX(-4px);transition:background .5s var(--e),border-color .5s var(--e)}
+.seq-passo.on::before{background:var(--accent);border-color:var(--accent)}
+.seq-passo .et{font-family:var(--body);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#9A6A16}
+.seq-passo h3{font-size:clamp(1.15rem,2.2vw,1.85rem);margin:8px 0 6px}
+.seq-passo p{color:#5A5A5E;max-width:44ch;font-size:clamp(.94rem,1.15vw,1.04rem)}
+
+/* marcadores tecnicos (cruzes + rotulo mono) */
+.cruz{position:absolute;width:11px;height:11px;opacity:.34;pointer-events:none}
+.cruz::before,.cruz::after{content:"";position:absolute;background:currentColor}
+.cruz::before{left:50%;top:0;width:1px;height:100%;transform:translateX(-50%)}
+.cruz::after{top:50%;left:0;height:1px;width:100%;transform:translateY(-50%)}
+.cruz--a{left:var(--pad);top:26px}.cruz--b{right:var(--pad);top:26px}
+.cruz--c{left:var(--pad);bottom:26px}.cruz--d{right:var(--pad);bottom:26px}
+.tag-mono{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--faint)}
+.claro .tag-mono{color:#8a8a8a}
 
 /* ============ PREÇO ============ */
 .preco{position:relative;text-align:center;overflow:clip}
@@ -510,6 +561,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 <!-- ============================ SHOWREEL ============================ -->
 <section class="reel sec" id="trabalhos">
+  <span class="cruz cruz--a" aria-hidden="true"></span><span class="cruz cruz--b" aria-hidden="true"></span>
   <div class="wrap reel-head">
     <div>
       <p class="kicker" data-rev>Trabalhos no ar</p>
@@ -700,33 +752,69 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 <!-- ============================ COMO FUNCIONA ============================ -->
 <section class="sec claro" id="como">
+  <span class="cruz cruz--a" aria-hidden="true"></span><span class="cruz cruz--b" aria-hidden="true"></span>
   <div class="wrap">
     <div style="max-width:30ch">
       <p class="kicker" data-rev>Como funciona</p>
       <h2 class="big" data-split>Do primeiro oi ao site no ar.</h2>
     </div>
 
-    <div class="pass" id="pass">
-      <svg class="pass-svg" preserveAspectRatio="none" viewBox="0 0 2 100" aria-hidden="true">
-        <line x1="1" y1="0" x2="1" y2="100"/>
-        <line class="ativa" id="passLinha" x1="1" y1="0" x2="1" y2="100" pathLength="1"/>
-      </svg>
-      <div class="passo" data-passo><span class="bola">01</span><div class="cnt">
-        <h3>Você chama no WhatsApp</h3><p>Conversa rápida sobre o seu negócio pra ver se faz sentido. Sem enrolação e sem compromisso.</p></div></div>
-      <div class="passo" data-passo><span class="bola">02</span><div class="cnt">
-        <h3>Manda as informações</h3><p>Serviços, fotos, endereço, horários e contato. Normalmente o que você já tem no celular basta.</p></div></div>
-      <div class="passo" data-passo><span class="bola">03</span><div class="cnt">
-        <h3>A gente monta</h3><p>Montamos o site inteiro com o seu material — você não precisa escrever nem configurar nada.</p></div></div>
-      <div class="passo" data-passo><span class="bola">04</span><div class="cnt">
-        <h3>Você aprova</h3><p>Vê o site pronto antes de publicar e pede os ajustes que quiser.</p></div></div>
-      <div class="passo" data-passo><span class="bola">05</span><div class="cnt">
-        <h3>Site no ar, e a gente cuida</h3><p>Publicamos no seu endereço próprio e seguimos cuidando: hospedagem, manutenção e alterações.</p></div></div>
+    <div class="seq" id="seq">
+      <div class="seq-vis">
+        <span class="seq-num" id="seqNum">01</span>
+        <div class="seq-tela">
+          <div class="seq-bar"><i></i><i></i><i></i>
+            <span class="seq-url"><b id="seqUrl">&nbsp;</b></span>
+          </div>
+          <div class="seq-corpo">
+            <div class="seq-blocos" id="seqBlocos">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <img class="seq-foto" id="seqFoto" src="assets/trabalhos/barbearia-clube-desk.webp"
+                 width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="Site pronto, publicado no endereço do cliente">
+            <div class="seq-zap" id="seqZap"><i></i> “Oi! Queria um site pra minha barbearia.”</div>
+            <div class="seq-ok" id="seqOk"><i></i> No ar</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="seq-lista">
+        <div class="seq-regua"><span id="seqRegua"></span></div>
+        <div class="seq-passo" data-passo>
+          <span class="et">Etapa 01</span>
+          <h3>Você chama no WhatsApp</h3>
+          <p>Conversa rápida sobre o seu negócio pra ver se faz sentido. Sem enrolação e sem compromisso.</p>
+        </div>
+        <div class="seq-passo" data-passo>
+          <span class="et">Etapa 02</span>
+          <h3>Manda as informações</h3>
+          <p>Serviços, fotos, endereço, horários e contato. Normalmente o que você já tem no celular basta.</p>
+        </div>
+        <div class="seq-passo" data-passo>
+          <span class="et">Etapa 03</span>
+          <h3>A gente monta</h3>
+          <p>Montamos o site inteiro com o seu material — você não precisa escrever nem configurar nada.</p>
+        </div>
+        <div class="seq-passo" data-passo>
+          <span class="et">Etapa 04</span>
+          <h3>Você aprova</h3>
+          <p>Vê o site pronto antes de publicar e pede os ajustes que quiser.</p>
+        </div>
+        <div class="seq-passo" data-passo>
+          <span class="et">Etapa 05</span>
+          <h3>Site no ar, e a gente cuida</h3>
+          <p>Publicamos no seu endereço próprio e seguimos cuidando: hospedagem, manutenção e alterações.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============================ PREÇO ============================ -->
 <section class="sec preco" id="preco">
+  <span class="cruz cruz--a" aria-hidden="true"></span><span class="cruz cruz--b" aria-hidden="true"></span>
+  <span class="cruz cruz--c" aria-hidden="true"></span><span class="cruz cruz--d" aria-hidden="true"></span>
   <div class="wrap">
     <p class="kicker" data-rev>O preço</p>
     <div class="preco-num" id="precoNum">R$200<sup>/mês</sup></div>
@@ -1066,7 +1154,8 @@ document.addEventListener('DOMContentLoaded', function(){
   function modoSimples(){
     $$('[data-item]').forEach(function(el){ el.classList.add('on'); });
     $$('[data-passo]').forEach(function(el){ el.classList.add('on'); });
-    var l = $('#passLinha'); if(l) l.style.strokeDashoffset = '0';
+    var f = $('#seqFoto'); if(f) f.style.clipPath = 'none';
+    var o = $('#seqOk'); if(o) o.style.opacity = '1';
   }
 
   function iniciarCena(){
@@ -1181,7 +1270,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var mover = gsap.to(trilho, {
         x: function(){ return -dist(); }, ease:'none',
         scrollTrigger:{
-          trigger:'.reel', start:'top top', end:function(){ return '+=' + dist() * .45; },
+          trigger:'.reel', start:'top top', end:function(){ return '+=' + dist() * .38; },
           pin:true, scrub:.9, invalidateOnRefresh:true, anticipatePin:1
         }
       });
@@ -1204,18 +1293,67 @@ document.addEventListener('DOMContentLoaded', function(){
       });
     });
 
-    /* ----- linha do "como funciona" ----- */
+    /* ----- COMO FUNCIONA: sequenciador preso ao scroll ----- */
     (function(){
-      var linha = $('#passLinha'), bloco = $('#pass');
-      if(!linha || !bloco) return;
-      gsap.set(linha, {strokeDashoffset:1});
-      gsap.to(linha, {strokeDashoffset:0, ease:'none',
-        scrollTrigger:{trigger:bloco, start:'top 72%', end:'bottom 72%', scrub:.6}});
-      $$('[data-passo]').forEach(function(p){
-        ScrollTrigger.create({trigger:p, start:'top 72%', end:'bottom 40%',
-          onToggle:function(self){ p.classList.toggle('on', self.isActive); }});
-        gsap.fromTo(p, {opacity:0, y:26}, {opacity:1, y:0, duration:.7, ease:'power3.out',
-          scrollTrigger:{trigger:p, start:'top 88%', once:true}});
+      var bloco = $('#seq'); if(!bloco) return;
+      var passos = $$('[data-passo]', bloco);
+      var regua = $('#seqRegua'), num = $('#seqNum'), url = $('#seqUrl');
+      var foto = $('#seqFoto'), zap = $('#seqZap'), ok = $('#seqOk');
+      var blocos = $$('#seqBlocos span');
+      var enderecos = ['', '', 'seunegocio', 'seunegocio.com', 'seunegocio.com.br'];
+
+      function ativo(k){
+        passos.forEach(function(el, n){ el.classList.toggle('on', n === k); });
+        if(num) num.textContent = ('0' + (k + 1)).slice(-2);
+        if(url) url.textContent = enderecos[k] || '\u00a0';
+      }
+      ativo(0);
+
+      var mm = gsap.matchMedia();
+      mm.add('(min-width:1000px)', function(){
+        var tl = gsap.timeline({
+          scrollTrigger:{
+            trigger:'#como', start:'top top', end:'+=250%',
+            pin:true, scrub:.7, anticipatePin:1, invalidateOnRefresh:true,
+            onUpdate:function(self){
+              var k = Math.min(passos.length - 1, Math.floor(self.progress * passos.length * .999));
+              ativo(k);
+              if(regua) regua.style.transform = 'scaleY(' + self.progress + ')';
+            }
+          }
+        });
+        /* 01 -> chega a mensagem */
+        tl.fromTo(zap, {opacity:0, y:14}, {opacity:1, y:0, duration:.4}, .05)
+        /* 02 -> as informacoes viram blocos */
+          .to(zap, {opacity:0, y:-10, duration:.3}, .95)
+          .fromTo(blocos, {opacity:0, y:10}, {opacity:1, y:0, duration:.5, stagger:.08}, 1.0)
+        /* 03 -> o site e montado por cima */
+          .fromTo(foto, {clipPath:'inset(100% 0 0 0)'}, {clipPath:'inset(0% 0 0 0)', duration:1.1, ease:'power2.inOut'}, 2.0)
+          .to(blocos, {opacity:0, duration:.4}, 2.5)
+        /* 04 -> aprovado */
+          .fromTo(ok, {opacity:0, scale:.9}, {opacity:1, scale:1, duration:.4}, 3.1)
+        /* 05 -> no ar */
+          .to('.seq-tela', {boxShadow:'0 40px 90px rgba(0,0,0,.3)', duration:.5}, 4.0);
+        return function(){ ativo(0); if(regua) regua.style.transform = 'scaleY(0)'; };
+      });
+
+      mm.add('(max-width:999px)', function(){
+        gsap.set([zap, ok], {opacity:0});
+        gsap.set(blocos, {opacity:1});
+        ScrollTrigger.create({
+          trigger:'#seq', start:'top 78%', end:'bottom 40%', scrub:.5,
+          onUpdate:function(self){
+            var k = Math.min(passos.length - 1, Math.floor(self.progress * passos.length * .999));
+            ativo(k);
+            if(regua) regua.style.transform = 'scaleY(' + self.progress + ')';
+          }
+        });
+        gsap.fromTo(foto, {clipPath:'inset(100% 0 0 0)'}, {
+          clipPath:'inset(0% 0 0 0)', ease:'none',
+          scrollTrigger:{trigger:'#seq', start:'top 60%', end:'center 45%', scrub:.6}
+        });
+        gsap.to(ok, {opacity:1, duration:.4,
+          scrollTrigger:{trigger:'#seq', start:'bottom 70%', once:true}});
       });
     })();
 
