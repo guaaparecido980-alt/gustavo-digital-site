@@ -228,28 +228,6 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .scroll-cue svg{width:13px;height:13px;animation:desce 1.8s var(--e) infinite}
 @keyframes desce{0%,100%{transform:translateY(-3px);opacity:.5}50%{transform:translateY(3px);opacity:1}}
 
-/* ============ BENTO ============ */
-.bento{display:grid;gap:14px;grid-template-columns:1fr;margin-top:clamp(26px,3.4vw,48px)}
-@media(min-width:720px){.bento{grid-template-columns:repeat(6,1fr);gap:16px}}
-.bx{position:relative;overflow:hidden;border-radius:22px;padding:clamp(22px,2.4vw,32px);
-  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
-  border:1px solid var(--line);backdrop-filter:blur(10px);
-  transition:transform .5s var(--e),border-color .4s,background .4s}
-.bx:hover{transform:translateY(-5px);border-color:rgba(242,163,60,.36)}
-.bx::after{content:"";position:absolute;width:260px;height:260px;right:-120px;top:-140px;border-radius:50%;
-  background:radial-gradient(circle,rgba(242,163,60,.16),transparent 68%);opacity:0;transition:opacity .5s}
-.bx:hover::after{opacity:1}
-.bx .n{font-family:var(--display);font-size:.72rem;color:var(--faint);letter-spacing:.12em}
-.bx h3{font-size:clamp(1.12rem,1.9vw,1.5rem);margin:12px 0 8px;position:relative}
-.bx p{color:var(--muted);font-size:clamp(.94rem,1.1vw,1.02rem);max-width:42ch;position:relative}
-.bx svg.ic{width:24px;height:24px;color:var(--accent);position:relative}
-@media(min-width:720px){
-  .bx--4{grid-column:span 4}.bx--3{grid-column:span 3}.bx--2{grid-column:span 2}.bx--6{grid-column:span 6}
-}
-.bx--dest{background:linear-gradient(140deg,rgba(242,163,60,.14),rgba(255,255,255,.02));
-  border-color:rgba(242,163,60,.3)}
-.bx--dest h3{font-size:clamp(1.3rem,2.4vw,1.9rem)}
-
 /* ============ MARQUEE ============ */
 .marq{border-block:1px solid var(--line);padding-block:clamp(16px,2.2vw,26px);overflow:hidden;background:var(--ink-2)}
 .marq-t{display:flex;gap:0;width:max-content;will-change:transform}
@@ -278,14 +256,14 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .proj{position:relative;flex:none;width:min(78vw,1000px);display:block}
 .proj-shot{position:relative;overflow:hidden;border-radius:12px;background:var(--ink-2);border:1px solid var(--line)}
 .proj-shot img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;
-  transform:scale(1.06);will-change:transform;transition:transform .9s var(--e)}
+  transform:scale(1.06);will-change:transform;transition:transform .9s var(--e);display:block}
 .proj:hover .proj-shot img{transform:scale(1.01)}
 .proj-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:0 2px 14px}
 .proj-nome{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,2.7vw,2.4rem);letter-spacing:-.03em}
 .proj-seg{font-size:.84rem;color:var(--muted);text-align:right}
 .proj-abrir{position:absolute;right:14px;bottom:14px;z-index:3;display:inline-flex;align-items:center;gap:8px;
   padding:11px 18px;border-radius:100px;background:rgba(8,8,10,.72);backdrop-filter:blur(8px);
-  border:1px solid var(--line-2);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  border:1px solid var(--line-strong);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
   opacity:0;transform:translateY(8px);transition:.45s var(--e)}
 .proj:hover .proj-abrir{opacity:1;transform:none}
 .no-ar{position:absolute;left:14px;top:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;
@@ -297,25 +275,37 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 .reel-fim{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;text-align:center;
   padding-top:clamp(30px,4vw,56px)}
 
-/* ============ CONTADOR ============ */
-#prova h2{max-width:20ch}
+/* ============ ÍNDICE DO QUE ESTÁ INCLUSO ============ */
+.idx{position:relative;margin-top:clamp(28px,4vw,56px);border-top:1px solid var(--line)}
+.idx-linha{position:relative;display:grid;grid-template-columns:44px 1fr;gap:6px 16px;
+  padding-block:clamp(20px,2.6vw,30px);border-bottom:1px solid var(--line);
+  transition:background .45s var(--e)}
+@media(min-width:900px){
+  .idx-linha{grid-template-columns:64px minmax(0,1fr) minmax(0,38ch);gap:0 clamp(20px,3vw,52px);align-items:baseline}
+}
+.idx-linha:hover{background:rgba(255,255,255,.02)}
+.idx-n{font-family:ui-monospace,"SFMono-Regular",Menlo,monospace;font-size:.68rem;letter-spacing:.12em;
+  color:var(--faint);padding-top:.5em;transition:color .4s}
+.idx-linha:hover .idx-n{color:var(--accent)}
+.idx-t{font-family:var(--display);font-weight:600;font-size:clamp(1.28rem,2.9vw,2.35rem);line-height:1.02;
+  letter-spacing:-.025em;transition:transform .55s var(--e),color .4s;transform-origin:0 50%}
+@media(min-width:900px){.idx-linha:hover .idx-t{transform:translateX(14px)}}
+.idx-d{color:var(--muted);font-size:clamp(.94rem,1.1vw,1.02rem);grid-column:2;max-width:44ch}
+@media(min-width:900px){.idx-d{grid-column:3;max-width:none;padding-top:.5em}}
+.idx-linha:hover .idx-d{color:var(--text)}
 
-/* ============ O QUE VOCÊ RECEBE (sticky) ============ */
-.rec{display:grid;gap:clamp(30px,4vw,60px)}
-@media(min-width:1000px){.rec{grid-template-columns:.9fr 1.1fr;align-items:start}}
-.rec-fix{position:relative;max-width:26ch}
-@media(min-width:1000px){.rec-fix{position:sticky;top:22vh}}
-.rec-lista{display:grid}
-.rec-item{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,2.6vw,36px);align-items:baseline;
-  padding-block:clamp(22px,3vw,38px);border-top:1px solid var(--line);opacity:.34;
-  transition:opacity .5s var(--e)}
-.rec-item.on{opacity:1}
-.rec-item:last-child{border-bottom:1px solid var(--line)}
-.rec-item .n{font-family:var(--display);font-size:.78rem;color:var(--faint);font-variant-numeric:tabular-nums;
-  transition:color .5s var(--e)}
-.rec-item.on .n{color:var(--accent)}
-.rec-item h3{font-size:clamp(1.2rem,2.5vw,2rem);margin-bottom:.35em}
-.rec-item p{color:var(--muted);font-size:clamp(.94rem,1.15vw,1.04rem);max-width:44ch}
+/* prévia que segue o cursor (só mouse) */
+.idx-prev{position:absolute;top:0;left:0;width:clamp(240px,22vw,340px);aspect-ratio:16/10;
+  border-radius:10px;overflow:hidden;pointer-events:none;z-index:5;opacity:0;
+  border:1px solid var(--line-strong);box-shadow:0 24px 60px rgba(0,0,0,.6);display:none}
+.idx-prev img{width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0;opacity:0}
+.idx-prev img.on{opacity:1}
+@media(hover:hover) and (pointer:fine) and (min-width:900px){.idx-prev{display:block}}
+
+/* fecho da seção */
+.idx-fecho{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;
+  margin-top:clamp(24px,3vw,40px)}
+.idx-fecho p{color:var(--muted);max-width:46ch;font-size:.98rem}
 
 /* ============ COMO FUNCIONA — SEQUENCIADOR ============ */
 .seq{position:relative;display:grid;gap:clamp(28px,4vw,60px);margin-top:clamp(26px,3.4vw,50px)}
@@ -712,55 +702,72 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 
 <!-- ============================ O QUE VOCÊ RECEBE ============================ -->
 <section class="sec" id="recebe">
+  <span class="cruz cruz--a" aria-hidden="true"></span><span class="cruz cruz--b" aria-hidden="true"></span>
   <div class="wrap">
     <div style="max-width:34ch">
       <p class="kicker" data-rev>O que está incluso</p>
       <h2 class="big" data-split>Tudo que seu negócio precisa, num valor só.</h2>
     </div>
 
-    <div class="bento">
-      <article class="bx bx--4 bx--dest" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/></svg>
-        <span class="n">01</span>
-        <h3>Um site com a cara do seu negócio</h3>
-        <p>Página única, direta e bonita, com as suas fotos, os seus serviços e as suas cores. Nada de modelo pronto com o nome trocado — cada site que a gente entrega é desenhado do zero.</p>
-      </article>
-      <article class="bx bx--2" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Z"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/></svg>
-        <span class="n">02</span>
-        <h3>Domínio próprio</h3>
-        <p>seunegocio.com.br no seu nome. A gente registra e mantém.</p>
-      </article>
-      <article class="bx bx--2" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-        <span class="n">03</span>
-        <h3>Hospedagem e cadeado</h3>
-        <p>Servidor, certificado e site no ar. Se cair, o problema é nosso.</p>
-      </article>
-      <article class="bx bx--4" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span class="n">04</span>
-        <h3>Botão de WhatsApp em tudo</h3>
-        <p>O cliente toca e cai direto na sua conversa, com a mensagem já começada. Menos passo entre ver o site e te chamar.</p>
-      </article>
-      <article class="bx bx--3" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v5h5"/></svg>
-        <span class="n">05</span>
-        <h3>Alterações quando precisar</h3>
-        <p>Mudou preço, entrou serviço novo, tirou foto nova? Você manda no WhatsApp e a gente altera, sem custo extra.</p>
-      </article>
-      <article class="bx bx--3" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <span class="n">06</span>
-        <h3>Preparado pro Google</h3>
-        <p>Títulos, textos e estrutura organizados pro Google entender do que se trata e mostrar seu negócio pra sua região.</p>
-      </article>
-      <article class="bx bx--6" data-item>
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg>
-        <span class="n">07</span>
-        <h3>Feito primeiro pro celular — e cuidado todo mês</h3>
-        <p>É de lá que vem quase todo mundo: texto legível, botão grande e carregamento rápido mesmo no 4G. E o site não fica largado depois de pronto — a manutenção está dentro da mensalidade.</p>
-      </article>
+    <div class="idx" id="idx">
+      <div class="idx-prev" id="idxPrev" aria-hidden="true">
+        <img src="assets/trabalhos/barbearia-clube-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/kaviski-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/lhm-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/maxima-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/dieff-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/ajl-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/quadros-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+        <img src="assets/trabalhos/wander-desk.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="">
+      </div>
+      <div class="idx-linha" data-item data-prev="0">
+        <span class="idx-n">[01]</span>
+        <h3 class="idx-t">Site profissional</h3>
+        <p class="idx-d">Página única, direta e bonita, com as suas fotos, os seus serviços e as suas cores. Nada de modelo pronto com o nome trocado — cada site é desenhado do zero.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="1">
+        <span class="idx-n">[02]</span>
+        <h3 class="idx-t">Domínio próprio</h3>
+        <p class="idx-d">seunegocio.com.br no seu nome. A gente registra, configura e mantém. Se você já tem um domínio, usamos o seu.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="2">
+        <span class="idx-n">[03]</span>
+        <h3 class="idx-t">Hospedagem e cadeado</h3>
+        <p class="idx-d">Servidor, certificado de segurança e site no ar. Se cair, o problema é nosso — você nem fica sabendo.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="3">
+        <span class="idx-n">[04]</span>
+        <h3 class="idx-t">Botão de WhatsApp</h3>
+        <p class="idx-d">O cliente toca e cai direto na sua conversa, com a mensagem já começada. Menos passo entre ver o site e te chamar.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="4">
+        <span class="idx-n">[05]</span>
+        <h3 class="idx-t">Alterações quando precisar</h3>
+        <p class="idx-d">Mudou preço, entrou serviço novo, tirou foto nova? Você manda no WhatsApp e a gente altera, sem custo extra.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="5">
+        <span class="idx-n">[06]</span>
+        <h3 class="idx-t">Preparado pro Google</h3>
+        <p class="idx-d">Títulos, textos e estrutura organizados pro Google entender do que se trata e mostrar seu negócio pra sua região.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="6">
+        <span class="idx-n">[07]</span>
+        <h3 class="idx-t">Feito primeiro pro celular</h3>
+        <p class="idx-d">É de lá que vem quase todo mundo: texto legível, botão grande e carregamento rápido mesmo no 4G.</p>
+      </div>
+      <div class="idx-linha" data-item data-prev="7">
+        <span class="idx-n">[08]</span>
+        <h3 class="idx-t">Manutenção todo mês</h3>
+        <p class="idx-d">O site não fica largado depois de pronto. A gente cuida pra ele continuar rápido, no ar e funcionando em qualquer aparelho.</p>
+      </div>
+    </div>
+
+    <div class="idx-fecho" data-rev>
+      <p>Sem contratar nada separado, sem mexer em nada técnico e sem cobrança extra por alteração.</p>
+      <a href="#preco" class="btn btn--gh" data-cta="pos-incluso" data-cur="ver">
+        <span class="btn__t">Ver o preço</span>
+        <span class="btn__i"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v10M4 9l4 4 4-4"/></svg></span>
+      </a>
     </div>
   </div>
 </section>
@@ -1305,13 +1312,46 @@ document.addEventListener('DOMContentLoaded', function(){
       return function(){ gsap.set(trilho, {x:0}); };
     });
 
-    /* ----- bento: entra em cascata ----- */
-    gsap.utils.toArray('[data-item]').forEach(function(it, k){
-      gsap.fromTo(it, {opacity:0, y:34}, {
-        opacity:1, y:0, duration:.85, ease:'power3.out', delay:(k % 3) * .06,
-        scrollTrigger:{trigger:it, start:'top 90%', once:true}
+    /* ----- índice: linhas entram e a prévia segue o cursor ----- */
+    gsap.utils.toArray('[data-item]').forEach(function(it){
+      gsap.fromTo(it, {opacity:0, y:22}, {
+        opacity:1, y:0, duration:.7, ease:'power3.out',
+        scrollTrigger:{trigger:it, start:'top 92%', once:true}
       });
     });
+
+    (function(){
+      var caixa = $('#idx'), prev = $('#idxPrev');
+      if(!caixa || !prev || !fino) return;
+      var fotos = $$('img', prev);
+      var px = gsap.quickTo(prev, 'x', {duration:.55, ease:'power3'});
+      var py = gsap.quickTo(prev, 'y', {duration:.55, ease:'power3'});
+      var dentro = false;
+
+      caixa.addEventListener('mousemove', function(e){
+        var r = caixa.getBoundingClientRect();
+        var lim = r.width * .62 - prev.offsetWidth;
+        px(Math.min(e.clientX - r.left + 26, Math.max(lim, 0)));
+        py(e.clientY - r.top - prev.offsetHeight / 2);
+      });
+
+      $$('[data-item]', caixa).forEach(function(linha){
+        linha.addEventListener('mouseenter', function(){
+          var k = parseInt(linha.dataset.prev, 10) || 0;
+          fotos.forEach(function(f, n){ f.classList.toggle('on', n === k); });
+          if(!dentro){
+            dentro = true;
+            gsap.fromTo(prev, {opacity:0, scale:.94, clipPath:'inset(0 0 100% 0)'},
+              {opacity:1, scale:1, clipPath:'inset(0 0 0% 0)', duration:.5, ease:'power3.out'});
+          }
+        });
+      });
+
+      caixa.addEventListener('mouseleave', function(){
+        dentro = false;
+        gsap.to(prev, {opacity:0, scale:.96, duration:.35, ease:'power2.in'});
+      });
+    })();
 
     /* ----- COMO FUNCIONA: sequenciador preso ao scroll ----- */
     (function(){
