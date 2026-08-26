@@ -18,6 +18,13 @@
   }}catch(e){}
 </script>
 
+<!-- ===== Meta Pixel (1663375918339077) — só carrega após o aceite dos cookies ===== -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!1;n.version='2.0';n.queue=[]}(window,document,'script');
+</script>
+
 <!-- ===== Google Tag Manager (GTM-WCPZTHHB) ===== -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -949,7 +956,7 @@ h1,h2,h3,.disp{font-family:var(--display);font-weight:600;letter-spacing:-.028em
 </div>
 
 <div class="ck" id="ck">
-  <p>Usamos cookies para medir resultados e melhorar sua experiência. Você pode aceitar ou recusar — veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+  <p>Usamos cookies para medir resultados (Google e Meta) e melhorar sua experiência. Você pode aceitar ou recusar — veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
   <div class="ck-a">
     <button class="btn btn--gh" id="ckN"><span class="btn__t">Recusar</span></button>
     <button class="btn btn--acc" id="ckS"><span class="btn__t">Aceitar</span></button>
@@ -990,6 +997,26 @@ document.addEventListener('DOMContentLoaded', function(){
   var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fino  = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 
+  /* ---------- Meta Pixel (com consentimento) ---------- */
+  var PIXEL = '1663375918339077';
+  var pixelLigado = false;
+  function ligarPixel(){
+    if(pixelLigado || !window.fbq) return;
+    pixelLigado = true;
+    if(!window.fbq.loaded){
+      window.fbq.loaded = true;
+      var t = document.createElement('script');
+      t.async = true; t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(t);
+    }
+    fbq('init', PIXEL);
+    fbq('track', 'PageView');
+  }
+  function meta(evento, dados){
+    try{ if(pixelLigado && window.fbq) fbq('track', evento, dados || {}); }catch(e){}
+  }
+  try{ if(document.cookie.indexOf('gd_consent=1') > -1) ligarPixel(); }catch(e){}
+
   /* ---------- WhatsApp + rastreamento ---------- */
   var WHATS = '5541987095245';
   var MSG = 'Olá! Vi o site do Gustavo Digital e quero saber como funciona o site de R$200/mês.';
@@ -1012,6 +1039,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(el.classList.contains('js-wa')){
       track('click_whatsapp', {cta_origem: origem});
       track('generate_lead', {valor_oferta:200, moeda:'BRL'});
+      meta('Lead', {content_name:'Site R$200/mes', value:200, currency:'BRL'});
     }
   });
 
@@ -1034,9 +1062,12 @@ document.addEventListener('DOMContentLoaded', function(){
     if(document.cookie.indexOf('gd_consent=') === -1) bar.style.display = 'flex';
     function decide(v){
       document.cookie = 'gd_consent='+v+';path=/;max-age='+(60*60*24*180)+';SameSite=Lax';
-      if(v === '1' && typeof gtag === 'function'){
-        gtag('consent','update',{ad_storage:'granted',analytics_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
+      if(v === '1'){
+        if(typeof gtag === 'function'){
+          gtag('consent','update',{ad_storage:'granted',analytics_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
+        }
         track('cookie_consent',{consent:'granted'});
+        ligarPixel();
       }
       bar.style.display = 'none';
     }
@@ -1482,7 +1513,10 @@ document.addEventListener('DOMContentLoaded', function(){
       });
 
       ScrollTrigger.create({trigger:'#preco', start:'top 70%', once:true,
-        onEnter:function(){ track('pricing_view', {}); }});
+        onEnter:function(){
+          track('pricing_view', {});
+          meta('ViewContent', {content_name:'Preco R$200/mes', value:200, currency:'BRL'});
+        }});
     })();
 
     /* ----- cursor + botões magnéticos (só mouse fino) ----- */
