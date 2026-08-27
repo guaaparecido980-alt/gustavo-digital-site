@@ -1,0 +1,36 @@
+{
+  "name": "gustavo-digital-site",
+  "version": "1.0.0",
+  "description": "Site do Gustavo Digital: Next.js com export estatico para o GitHub Pages",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guaaparecido980-alt/gustavo-digital-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/guaaparecido980-alt/gustavo-digital-site/issues"
+  },
+  "homepage": "https://github.com/guaaparecido980-alt/gustavo-digital-site#readme",
+  "dependencies": {
+    "next": "^16.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
+  }
+}

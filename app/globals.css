@@ -1,0 +1,136 @@
+@import 'tailwindcss';
+
+/* ===========================================================
+   Identidade extraida do site atual. Nada aqui foi inventado:
+   sao os mesmos valores que ja estavam em uso no index.html.
+   =========================================================== */
+@theme {
+  --color-ink: #08080a;
+  --color-ink-2: #101014;
+  --color-ink-3: #17171c;
+  --color-paper: #f1efea;
+  --color-paper-2: #e4e1d9;
+
+  --color-texto: #f4f2ee;
+  --color-mudo: #9a9aa4;
+  --color-fraco: #5e5e68;
+
+  --color-acento: #f2a33c;
+  --color-acento-2: #ffb855;
+  --color-zap: #25d366;
+  --color-bom: #46c28e;
+
+  --color-fio: rgb(255 255 255 / 0.1);
+  --color-fio-2: rgb(255 255 255 / 0.18);
+
+  --font-display: 'Clash Display', system-ui, sans-serif;
+  --font-corpo: 'Satoshi', system-ui, -apple-system, sans-serif;
+
+  /* Motion system global: dois easings para todo o site (brief secao 22).
+     O "suave" e o easing que a marca ja usava. */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Escalas de espaco e ritmo, fora do @theme porque usam clamp() */
+:root {
+  --pad: clamp(20px, 5vw, 72px);
+  --sp: clamp(56px, 9vh, 140px);
+  --g-tight: 10px;
+  --g-in: 18px;
+  --g-out: clamp(40px, 5.5vw, 72px);
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-texto);
+    font-family: var(--font-corpo);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 0.92;
+  }
+
+  ::selection {
+    background: var(--color-acento);
+    color: #150e03;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-acento);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  [id] {
+    scroll-margin-top: 84px;
+  }
+}
+
+@layer utilities {
+  .wrap {
+    width: 100%;
+    max-width: 1560px;
+    margin-inline: auto;
+    padding-inline: var(--pad);
+  }
+
+  .kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-acento);
+    font-weight: 700;
+  }
+}
+
+/* Acessibilidade: quem pediu menos movimento recebe menos movimento.
+   O conteudo continua inteiro, so o motion sai. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
