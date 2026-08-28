@@ -11,7 +11,7 @@ export const GTM_ID = 'GTM-WCPZTHHB'
 
 export const WHATS = '5541987095245'
 export const MSG_PADRAO =
-  'Olá! Vi o site do Gustavo Digital e quero ver como ficaria o site do meu negócio.'
+  'Olá! Quero criar o site do meu negócio por R$200 por mês.'
 
 const COOKIE = 'gd_consent'
 const SEIS_MESES = 60 * 60 * 24 * 180

@@ -7,9 +7,9 @@ import { pegarMotor } from '@/lib/suave'
 import { querMenosMovimento } from '@/lib/qualidade'
 
 /** Tempo minimo de um salto, para vaos curtos. */
-const DURACAO_MIN = 1.15
+const DURACAO_MIN = 0.38
 /** Tempo maximo, para o salto longo da travessia ate o mundo aceso. */
-const DURACAO_MAX = 3.9
+const DURACAO_MAX = 2.0
 /**
  * Trava depois de pousar.
  *
@@ -17,7 +17,7 @@ const DURACAO_MAX = 3.9
  * uma girada mais forte de atravessar dois textos seguidos sem ninguem ler
  * nenhum. O gesto nao se perde — fica guardado e dispara quando a trava sai.
  */
-const DESCANSO = 340
+const DESCANSO = 130
 /** Quanto a roda precisa girar para valer um capitulo. */
 const LIMIAR = 26
 /** Sem evento por esse tempo, o gesto da roda acabou. */
@@ -97,6 +97,11 @@ export default function Capitulos() {
     /**
      * Quanto tempo o salto leva, pela distancia percorrida no filme.
      *
+     * Curto de proposito nos saltos entre textos: rolou, chegou. Antes eram
+     * 1,15s de piso, e um segundo inteiro entre o gesto e o texto novo se le
+     * como lentidao, nao como cinema. O unico que continua longo e o da
+     * chegada ao mundo, onde ha uma explosao para ver.
+     *
      * O termo quadratico e para o salto do mapa: uma escala linear tratava os
      * 66 quadros da chegada como quatro vezes um salto de 16, e a rede acendia
      * rapido demais para o tamanho do momento.
@@ -104,7 +109,7 @@ export default function Capitulos() {
     const duracaoDoSalto = (vao: number) =>
       Math.min(
         DURACAO_MAX,
-        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 3.6 + vao * vao * 6)
+        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 2.2 + vao * vao * 4)
       )
 
     const irPara = (i: number) => {
@@ -158,20 +163,22 @@ export default function Capitulos() {
       if (animando || agora < liberaEm) {
         e.preventDefault()
         e.stopPropagation()
-        // Duas coisas chegam aqui: a inercia da girada que acabou de disparar
-        // o salto, e a pessoa girando DE NOVO porque ja quer a proxima cena.
-        // Distinguir uma da outra e o que separa "avanca sozinho" de "nao vai
-        // de primeira". A inercia decai; a insistencia soma.
+
+        // Descendo, nada e guardado: um gesto avanca uma cena e ponto.
+        //
+        // Cada cena tem um texto para ler, e passar direto por causa da forca
+        // da rolagem e o pior defeito possivel aqui — a pessoa perde o
+        // conteudo sem perceber que perdeu. Subir e outra historia: la nao ha
+        // nada para ler pela primeira vez, entao a volta continua solta.
+        if (e.deltaY > 0) return
+
         if (gestoNovo) {
           insistencia = 0
           jaGuardou = false
         }
         insistencia += e.deltaY
-        // Teto de um salto por girada: sem isso, uma rolada forte acumulava
-        // insistencia sem parar e engatava uma cena atras da outra ate o fim
-        // do site. Para avancar mais de uma, tem que girar de novo.
         if (!jaGuardou && (gestoNovo || Math.abs(insistencia) > LIMIAR * 3)) {
-          naFila = (gestoNovo ? e.deltaY : insistencia) > 0 ? 1 : -1
+          naFila = -1
           jaGuardou = true
         }
         return
@@ -266,7 +273,7 @@ export default function Capitulos() {
       const arrasto = dedoY - (e.changedTouches[0]?.clientY ?? dedoY)
       // Espera a inercia do proprio celular parar antes de encaixar.
       window.clearTimeout(repouso)
-      repouso = window.setTimeout(() => encaixar(arrasto), 220)
+      repouso = window.setTimeout(() => encaixar(arrasto), 60)
     }
 
     // ---------- teclado ----------
@@ -285,7 +292,8 @@ export default function Capitulos() {
       if (!dir || !naTrilha()) return
       if (animando || performance.now() < liberaEm) {
         e.preventDefault()
-        naFila = dir
+        // Mesma regra da roda: descendo nao acumula.
+        if (dir < 0) naFila = dir
         return
       }
       if (navegar(dir)) e.preventDefault()

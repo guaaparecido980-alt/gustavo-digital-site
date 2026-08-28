@@ -164,27 +164,39 @@ export const projetos: Projeto[] = [
 export const perguntas = [
   {
     p: 'O que está incluso nos R$200?',
-    r: 'Site profissional, domínio, hospedagem, certificado de segurança, botão de WhatsApp, estrutura para o Google e alterações quando precisar.',
+    r: 'O site, o domínio, a hospedagem, o certificado de segurança, o botão de WhatsApp, a estrutura para o Google e as alterações que você pedir. Tudo no mesmo valor.',
   },
   {
     p: 'Existe taxa de criação?',
-    r: 'Não. São R$200 por mês, e a criação do site já está incluída.',
+    r: 'Não. A criação já está dentro da mensalidade — você não paga nada para começar.',
   },
   {
-    p: 'Domínio e hospedagem estão inclusos?',
-    r: 'Sim. O domínio e a hospedagem estão dentro dos R$200 por mês. Se você já tiver um domínio, usamos o seu.',
+    p: 'O domínio fica no meu nome?',
+    r: 'Sim. O endereço é do seu negócio. Se você já tem um domínio, usamos o seu.',
   },
   {
-    p: 'Posso cancelar quando quiser?',
-    r: 'Sim. Não tem contrato de fidelidade. Se quiser parar, é só avisar.',
+    p: 'Preciso contratar hospedagem à parte?',
+    r: 'Não. A hospedagem está inclusa e é nossa responsabilidade manter o site no ar.',
+  },
+  {
+    p: 'Meu site vai aparecer no Google?',
+    r: 'O site é entregue preparado para ser indexado, com a estrutura que o Google lê para entender o que você faz e onde atende. Posição em busca ninguém garante — e quem garante, está vendendo o que não pode cumprir.',
+  },
+  {
+    p: 'Funciona bem no celular?',
+    r: 'É onde ele mais funciona. A maioria das visitas chega por ali, então o site é feito pensando primeiro nessa tela.',
+  },
+  {
+    p: 'Posso pedir alterações depois?',
+    r: 'Sim, e está incluso. Mudou preço, horário, serviço ou foto: você manda no WhatsApp e a alteração é feita.',
   },
   {
     p: 'Quanto tempo leva para ficar pronto?',
-    r: 'Depois que você envia as informações, montamos o site e te mostramos antes de publicar.',
+    r: 'Depois que você envia as informações do negócio, montamos o site e combinamos a data de publicação com você. Nada vai ao ar sem a sua aprovação.',
   },
   {
-    p: 'Vocês fazem alterações depois?',
-    r: 'Sim. Mudou preço, serviço, horário ou foto, você chama no WhatsApp e a alteração é feita. Está incluso.',
+    p: 'Posso cancelar quando quiser?',
+    r: 'Pode. Não existe fidelidade nem multa: se quiser parar, é só avisar.',
   },
 ]
 
@@ -192,18 +204,18 @@ export const perguntas = [
 export const pilares = [
   {
     titulo: 'DESIGN',
-    texto: 'Um lugar próprio: as suas fotos, os seus serviços, as suas cores. Nada de template com o nome trocado.',
+    texto: 'As suas fotos, os seus serviços, as suas cores. Nada de modelo pronto com o nome trocado.',
   },
   {
     titulo: 'VISIBILIDADE',
-    texto: 'Estrutura para a sua região te encontrar no Google, com domínio no seu nome e certificado de segurança.',
+    texto: 'Estrutura preparada para o Google entender o que você faz e onde atende. Domínio no seu nome, certificado ativo.',
   },
   {
     titulo: 'PERFORMANCE',
-    texto: 'Abre rápido no celular e leva o cliente direto pro WhatsApp, com a conversa já começada.',
+    texto: 'Abre rápido no celular, que é onde ele vai abrir. Um toque leva ao WhatsApp com a mensagem pronta.',
   },
   {
     titulo: 'MANUTENÇÃO',
-    texto: 'Mudou preço, serviço, horário ou foto? Você chama e a alteração é feita. O site não fica largado.',
+    texto: 'Mudou preço, horário, serviço ou foto: você manda e a alteração é feita. O site não envelhece sozinho.',
   },
 ]

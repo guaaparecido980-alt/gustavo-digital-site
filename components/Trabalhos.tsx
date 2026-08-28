@@ -30,9 +30,10 @@ export default function Trabalhos() {
 
     let raf = 0
     let paradoAte = 0
+    /** Largura de uma copia. Medida quando a esteira entra, nao a cada quadro. */
+    let metade = 0
 
     const passo = () => {
-      const metade = el.scrollWidth / 2
       if (performance.now() > paradoAte && metade > 0) {
         el.scrollLeft += VELOCIDADE
         // Volta ao comeco no ponto em que as duas copias coincidem.
@@ -40,6 +41,34 @@ export default function Trabalhos() {
       }
       raf = requestAnimationFrame(passo)
     }
+
+    /**
+     * A esteira so anda quando esta na tela.
+     *
+     * Ela ficava rolando sozinha desde o primeiro milissegundo — inclusive
+     * durante o filme inteiro, com a secao de trabalhos ainda a cinco telas de
+     * distancia. Cada quadro escrevia `scrollLeft` num container de trinta e
+     * seis cartoes, o que obriga o navegador a recalcular a rolagem desse
+     * elemento, exatamente enquanto o video precisa de folga para buscar
+     * quadro. Fora da tela nao ha nada para animar: o laco fica parado.
+     */
+    const olho = new IntersectionObserver(
+      ([entrada]) => {
+        if (entrada.isIntersecting) {
+          if (!raf) {
+            // Medir aqui e nao no laco: `scrollWidth` forca calculo de layout,
+            // e uma vez por entrada basta — a largura so muda no resize.
+            metade = el.scrollWidth / 2
+            raf = requestAnimationFrame(passo)
+          }
+        } else if (raf) {
+          cancelAnimationFrame(raf)
+          raf = 0
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    olho.observe(el)
 
     const segurar = () => {
       paradoAte = Number.MAX_SAFE_INTEGER
@@ -57,10 +86,9 @@ export default function Trabalhos() {
     el.addEventListener('touchend', soltar, { passive: true })
     el.addEventListener('wheel', soltar, { passive: true })
 
-    raf = requestAnimationFrame(passo)
-
     return () => {
-      cancelAnimationFrame(raf)
+      olho.disconnect()
+      if (raf) cancelAnimationFrame(raf)
       el.removeEventListener('pointerdown', segurar)
       el.removeEventListener('pointerup', soltar)
       el.removeEventListener('pointercancel', soltar)
@@ -89,7 +117,7 @@ export default function Trabalhos() {
           aria-hidden={i >= projetos.length}
           tabIndex={i >= projetos.length ? -1 : undefined}
           onClick={() => projeto.url && cliqueProjeto(projeto.id, projeto.url)}
-          className={`card-vidro w-[76vw] shrink-0 sm:w-[42vw] lg:w-[26rem] ${
+          className={`card-vidro w-[62vw] shrink-0 sm:w-[34vw] lg:w-[19rem] ${
             projeto.url ? '' : 'pointer-events-none'
           }`}
         >
@@ -98,25 +126,21 @@ export default function Trabalhos() {
           <img
             src={projeto.imagem}
             srcSet={`${projeto.imagem.replace('.webp', '-800.webp')} 800w, ${projeto.imagem} 1600w`}
-            sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 26rem"
+            sizes="(max-width: 640px) 62vw, (max-width: 1024px) 34vw, 19rem"
             alt={`Site da ${projeto.nome}`}
             loading="lazy"
             decoding="async"
             className="aspect-[16/10] w-full object-cover object-top"
           />
-          <div className="p-4">
-            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.06em]">
+          {/* Menos texto por card: numa esteira que passa sozinha, a pessoa
+              le o nome e o ramo, nao um paragrafo. */}
+          <div className="p-3.5">
+            <h3 className="font-display text-[0.82rem] font-semibold uppercase tracking-[0.06em]">
               {projeto.nome}
             </h3>
-            <p className="mt-1 text-[0.68rem] uppercase tracking-[0.16em] text-fraco">
+            <p className="mt-1 text-[0.62rem] uppercase tracking-[0.16em] text-fraco">
               {projeto.segmento}
             </p>
-            <p className="mt-3 text-[0.86rem] text-mudo">{projeto.linha}</p>
-            {projeto.url && (
-              <p className="mt-4 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-acento">
-                Ver site ↗
-              </p>
-            )}
           </div>
         </a>
       ))}

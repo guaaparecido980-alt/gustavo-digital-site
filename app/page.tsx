@@ -2,7 +2,7 @@ import Cabecalho from '@/components/Cabecalho'
 import BotaoZap from '@/components/BotaoZap'
 import CtaFixo from '@/components/CtaFixo'
 import Faq from '@/components/Faq'
-import FilmeScroll from '@/components/FilmeScroll'
+import FilmeVideo from '@/components/FilmeVideo'
 import Atmosfera from '@/components/Atmosfera'
 import Trilha from '@/components/Trilha'
 import Suave from '@/components/Suave'
@@ -23,7 +23,7 @@ export default function Home() {
       <Suave />
       <Capitulos />
       <Abertura />
-      <FilmeScroll />
+      <FilmeVideo />
       <Atmosfera />
       <Cabecalho />
       <CtaFixo />
@@ -50,10 +50,10 @@ export default function Home() {
           className="relative z-10 pb-[var(--sp)] pt-[clamp(24px,4vh,56px)]"
         >
           <div className="wrap">
-            <p className={kicker}>Tudo incluso</p>
+            <p className={kicker}>No mesmo valor</p>
             <h2 className="max-w-[18ch] text-[clamp(1.9rem,4vw,3rem)] font-semibold tracking-[-0.03em]">
-              O que vem junto, sem cobrança{' '}
-              <span className="text-acento">à parte</span>.
+              Tudo o que o site precisa para{' '}
+              <span className="text-acento">funcionar</span>.
             </h2>
             <Inclusos />
           </div>
@@ -64,14 +64,15 @@ export default function Home() {
           <div className="wrap">
             <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
-                <p className={kicker}>Trabalhos</p>
+                <p className={kicker}>Projetos</p>
                 <h2 className="max-w-[16ch] text-[clamp(1.9rem,4vw,3rem)]">
-                  Negócios reais, já no ar e sendo{' '}
-                  <span className="text-acento">encontrados</span>.
+                  Negócios reais, no ar{' '}
+                  <span className="text-acento">agora</span>.
                 </h2>
                 <p className="mt-7 max-w-[38ch] text-mudo">
-                  Cada site aqui pertence a um cliente que atende de verdade.
-                  Pode abrir e conferir.
+                  Barbearia, academia, engenharia, advocacia, oficina. Cada
+                  endereço abaixo é de um cliente que atende todo dia — pode
+                  abrir e conferir.
                 </p>
               </div>
 
@@ -81,7 +82,7 @@ export default function Home() {
                 {projetos.length}
                 <span className="align-super text-[0.4em]">+</span>
                 <span className="mt-3 block font-corpo text-[0.16em] font-normal uppercase tracking-[0.24em] text-mudo">
-                  Sites no ar
+                  Negócios no ar
                 </span>
               </p>
             </div>
@@ -95,15 +96,19 @@ export default function Home() {
           <div className="wrap grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-center">
             <div>
               <p className={kicker}>Investimento</p>
-              <h2 className="max-w-[18ch] text-[clamp(1.9rem,4.4vw,3.2rem)]">
-                Site profissional com <span className="text-acento">tudo</span>{' '}
-                que sua empresa precisa.
+              <h2 className="max-w-[19ch] text-[clamp(1.9rem,4.4vw,3.2rem)]">
+                Um site de agência sem a{' '}
+                <span className="text-acento">conta</span> de agência.
               </h2>
+              <p className="mt-7 max-w-[36ch] text-mudo">
+                Você não compra um arquivo e fica sozinho com ele. Contrata o
+                site funcionando: no ar, atualizado e com quem cuidar dele.
+              </p>
             </div>
 
             <div>
               <p className="text-[0.66rem] font-bold uppercase tracking-[0.24em] text-fraco">
-                Plano mensal
+                Mensalidade única
               </p>
 
               <p className="mt-4 flex items-baseline gap-2 font-display font-bold">
@@ -117,20 +122,21 @@ export default function Home() {
               </p>
 
               <ul className="mt-10 grid gap-3 border-t border-fio pt-8 text-sm text-mudo sm:grid-cols-2">
-                <li>Domínio incluso</li>
-                <li>Hospedagem premium</li>
-                <li>Manutenção e suporte</li>
-                <li>Site rápido no celular</li>
+                <li>Criação do site</li>
+                <li>Domínio no seu nome</li>
+                <li>Hospedagem e site no ar</li>
                 <li>Certificado de segurança</li>
-                <li>Estrutura para o Google</li>
+                <li>Estrutura preparada para o Google</li>
+                <li>Alterações sempre que precisar</li>
               </ul>
 
               <p className="mt-8 text-sm text-fraco">
-                Sem taxa de criação. Sem fidelidade — cancele quando quiser.
+                Sem taxa de criação e sem fidelidade: você não fica preso a
+                contrato longo para ter um site profissional.
               </p>
 
               <div className="mt-10">
-                <BotaoZap origem="preco">Começar agora</BotaoZap>
+                <BotaoZap origem="preco">Quero meu site</BotaoZap>
               </div>
             </div>
           </div>
@@ -140,9 +146,10 @@ export default function Home() {
         <section id="faq" data-cena="faq" className={sec}>
           <div className="wrap grid gap-14 lg:grid-cols-[24rem_1fr] lg:gap-24">
             <div>
-              <p className={kicker}>Dúvidas frequentes</p>
+              <p className={kicker}>Antes de chamar</p>
               <h2 className="text-[clamp(1.9rem,4.4vw,3rem)]">
-                Perguntas <span className="text-acento">frequentes</span>.
+                O que costumam{' '}
+                <span className="text-acento">perguntar</span>.
               </h2>
             </div>
             <Faq />
@@ -159,13 +166,15 @@ export default function Home() {
           className="relative z-10 flex min-h-[76svh] items-center py-[var(--sp)] text-center"
         >
           <div className="wrap">
-            <p className={kicker}>Pronto para começar?</p>
-            <h2 className="mx-auto max-w-[26ch] text-[clamp(1.8rem,4vw,3rem)]">
-              Seu negócio já existe. Agora faça ele ser{' '}
-              <span className="text-acento">visto</span>.
+            <h2 className="mx-auto max-w-[24ch] text-[clamp(1.8rem,4vw,3rem)]">
+              Seu negócio já existe. Falta o{' '}
+              <span className="text-acento">endereço</span> dele.
             </h2>
-            <div className="mt-12 flex justify-center">
-              <BotaoZap origem="final">Falar com especialista</BotaoZap>
+            <p className="mx-auto mt-7 max-w-[30ch] text-mudo">
+              R$200 por mês, com tudo incluso. Sem taxa para começar.
+            </p>
+            <div className="mt-11 flex justify-center">
+              <BotaoZap origem="final">Quero meu site</BotaoZap>
             </div>
           </div>
         </section>

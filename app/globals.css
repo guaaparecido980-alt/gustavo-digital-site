@@ -1,6 +1,86 @@
 @import 'tailwindcss';
 
 /* ===========================================================
+   Fontes, servidas do proprio dominio.
+
+   Antes vinham de dois CDNs (api.fontshare.com e fonts.googleapis.com), cada
+   um com um <link rel="stylesheet"> que bloqueia a pintura da pagina: quatro
+   conexoes novas — DNS, TLS, o CSS, e so entao os arquivos — no caminho
+   critico de um celular no 4G.
+
+   E tinha um defeito escondido. A URL do Fontshare pedia duas familias numa
+   requisicao so (`f[]=clash-display&f[]=satoshi`) e a API devolvia Clash
+   Display e **General Sans** — nunca Satoshi. Como o CSS declara
+   `--font-corpo: 'Satoshi', system-ui`, todo o texto corrido do site rodava
+   em system-ui: San Francisco no iPhone, Segoe UI no Windows. Passava
+   despercebido porque as duas sao boas, mas nao era a tipografia escolhida.
+   Pedidas uma de cada vez a API responde certo — foi assim que estes
+   arquivos foram baixados.
+   =========================================================== */
+
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fontes/clash-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fontes/clash-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fontes/clash-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fontes/satoshi-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fontes/satoshi-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fontes/satoshi-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Playfair e variavel: um arquivo cobre 500 e 600. O italico e um corte de
+   verdade, nao a inclinacao falsa que o navegador improvisava antes — a
+   folha do Google so pedia os pesos retos. */
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fontes/playfair-var.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  src: url('/fontes/playfair-var-italic.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ===========================================================
    Identidade extraida do site atual. Nada aqui foi inventado:
    sao os mesmos valores que ja estavam em uso no index.html.
    =========================================================== */
@@ -303,14 +383,19 @@
    diretos de .revela sobem em cascata. E CSS puro: o loop de rolagem so
    liga e desliga um atributo, quem anima e o compositor.
    =========================================================== */
+/* Sem blur e sem fracao de pixel.
+ *
+ * O desfoque na entrada parecia sofisticado num mockup parado, mas em texto
+ * de verdade ele le como imagem de baixa qualidade — e o olho julga a
+ * nitidez do site inteiro por ele. O deslocamento tambem e inteiro: mover
+ * tipografia por 12,3px faz o navegador rasterizar entre pixels, e o
+ * resultado e o mesmo borrao, so que permanente durante a animacao. */
 .revela > * {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  filter: blur(5px);
+  transform: translate3d(0, 18px, 0);
   transition:
-    opacity 0.72s var(--ease-premium),
-    transform 0.72s var(--ease-premium),
-    filter 0.72s var(--ease-premium);
+    opacity 0.5s var(--ease-premium),
+    transform 0.5s var(--ease-premium);
 }
 
 [data-ativo='1'] .revela > * {
@@ -319,11 +404,11 @@
   filter: none;
 }
 
-.revela > *:nth-child(1) { transition-delay: 0.04s; }
-.revela > *:nth-child(2) { transition-delay: 0.14s; }
-.revela > *:nth-child(3) { transition-delay: 0.24s; }
-.revela > *:nth-child(4) { transition-delay: 0.34s; }
-.revela > *:nth-child(5) { transition-delay: 0.44s; }
+.revela > *:nth-child(1) { transition-delay: 0.02s; }
+.revela > *:nth-child(2) { transition-delay: 0.08s; }
+.revela > *:nth-child(3) { transition-delay: 0.14s; }
+.revela > *:nth-child(4) { transition-delay: 0.2s; }
+.revela > *:nth-child(5) { transition-delay: 0.26s; }
 
 /* O filete do kicker cresce da esquerda quando o ato entra. */
 .fio-ato {
@@ -363,7 +448,12 @@
   justify-content: center;
   gap: 2rem;
   background: var(--color-ink);
-  animation: abertura-sai 0.7s var(--ease-premium) 3.2s forwards;
+  /* Teto de 1,4s, nao 3,2s.
+     Medido num celular no 4G: o hero e o primeiro quadro do filme ja estavam
+     prontos por volta de 1,5s e a cortina ficava na frente ate quase 5s — o
+     site pronto atras de uma tela de espera. Este numero e so a rede de
+     seguranca; o normal e o JavaScript avisar antes que o filme chegou. */
+  animation: abertura-sai 0.7s var(--ease-premium) 1.4s forwards;
 }
 
 .abertura[data-pronto='1'] {
@@ -386,7 +476,7 @@
   transform: scaleX(0);
   background: var(--color-acento);
   transition: transform 0.25s linear;
-  animation: abertura-barra 3.2s linear forwards;
+  animation: abertura-barra 1.4s linear forwards;
 }
 
 /* A barra tambem anda sozinha: e o retrato do tempo maximo de espera. */
@@ -498,18 +588,45 @@
 .pilar {
   position: relative;
   border: 1px solid rgb(255 255 255 / 0.09);
-  background: rgb(20 20 25 / 0.38);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  padding: 1.1rem 1.2rem;
-  transition:
-    border-color 0.5s var(--ease-premium),
-    background-color 0.5s var(--ease-premium);
+  /* Fundo chapado, sem backdrop-filter.
+     Havia aqui um blur(3px) atras de cada card. Tres pixels de desfoque quase
+     nao se veem, mas custam caro: sao quatro regioes que a GPU tem que
+     reamostrar e borrar a cada quadro, e o que esta atras delas e o video
+     mudando — o momento mais pesado da pagina inteira, bem na cena em que o
+     filme chega no auge. O fundo um pouco mais fechado da o mesmo contraste
+     para o texto sem pedir nada da GPU. */
+  background: rgb(14 14 18 / 0.48);
+  padding: 0.85rem 0.95rem;
+  isolation: isolate;
 }
 
-.pilar[data-aceso='1'] {
-  border-color: rgb(242 163 60 / 0.42);
-  background: rgb(24 20 14 / 0.5);
+/* A versao acesa vive numa camada propria, trocada por opacidade.
+   Antes era `transition: background-color, border-color` no proprio card.
+   Cor nao e uma propriedade que a GPU saiba compor sozinha: cada quadro dos
+   500ms de transicao obrigava o navegador a repintar os quatro cards, e o que
+   esta atras deles e o filme mudando. Opacidade a GPU compoe sem repintar
+   nada — mesmo resultado na tela, sem o custo. */
+.pilar::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid rgb(242 163 60 / 0.42);
+  background: rgb(26 21 14 / 0.34);
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-premium);
+}
+
+.pilar[data-aceso='1']::before {
+  opacity: 1;
+}
+
+/* O numero acende junto, pelo CSS: antes era um querySelector por card
+   dentro do laco de animacao, procurando o mesmo elemento de novo a cada
+   troca de estado. */
+.pilar[data-aceso='1'] [data-num] {
+  color: var(--color-acento);
 }
 
 .pilar::after {

@@ -3,19 +3,18 @@
 import { useEffect, useRef } from 'react'
 import {
   brilhoCena,
-  costura,
   filmeApaga,
   fundoDoTexto,
   veuPortal,
 } from '@/lib/cena'
 import { rolagem } from '@/lib/scroll'
+import { aCadaQuadro, ORDEM } from '@/lib/relogio'
 
 /**
  * As camadas entre o filme e o texto.
  *
- * Halo quente para o texto ler sobre o ouro, veu que fecha na travessia
- * (e de quebra esconde a emenda entre os clipes) e o grao que costura o
- * CGI com o HTML. Tudo em z-1: acima dos quadros, abaixo da tipografia.
+ * Halo quente para o texto ler sobre o ouro, veu que fecha na travessia e o
+ * grao que costura o CGI com o HTML. Tudo em z-1: acima dos quadros, abaixo da tipografia.
  */
 export default function Atmosfera() {
   const halo = useRef<HTMLDivElement>(null)
@@ -28,12 +27,11 @@ export default function Atmosfera() {
     const elCorte = corte.current
     if (!elHalo || !elVeu || !elCorte) return
 
-    let id = 0
     let vistoHalo = -1
     let vistoVeu = -1
     let vistoCorte = -1
 
-    const passo = () => {
+    return aCadaQuadro(ORDEM.CENA, () => {
       const p = rolagem.filme || rolagem.pin
 
       const b = Math.round(brilhoCena(p) * 40) / 40
@@ -48,22 +46,15 @@ export default function Atmosfera() {
         elVeu.style.opacity = String(v)
       }
 
-      // Piscada de preto na emenda entre clipes, e o apagar definitivo do
-      // filme quando os trabalhos entram: la o fundo vira ink puro.
-      const c =
-        Math.round(
-          Math.max(costura(p), filmeApaga(), fundoDoTexto(p)) * 50
-        ) / 50
+      // O apagar definitivo do filme quando os trabalhos entram (la o fundo
+      // vira ink puro) e a escurecida sob o texto. A piscada das emendas
+      // saiu: nao havia emenda para esconder, ver lib/cena.ts.
+      const c = Math.round(Math.max(filmeApaga(), fundoDoTexto(p)) * 50) / 50
       if (c !== vistoCorte) {
         vistoCorte = c
         elCorte.style.opacity = String(c)
       }
-
-      id = requestAnimationFrame(passo)
-    }
-
-    id = requestAnimationFrame(passo)
-    return () => cancelAnimationFrame(id)
+    })
   }, [])
 
   return (

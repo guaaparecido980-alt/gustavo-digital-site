@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import BotaoZap from './BotaoZap'
 import Marca from './Marca'
 import { rolagem } from '@/lib/scroll'
+import { aCadaQuadro, ORDEM } from '@/lib/relogio'
 
 const links = [
   { href: '#problema', texto: 'Por quê' },
@@ -22,18 +23,14 @@ export default function Cabecalho() {
   useEffect(() => {
     const el = barra.current
     if (!el) return
-    let id = 0
     let visto = ''
-    const passo = () => {
+    return aCadaQuadro(ORDEM.BORDA, () => {
       const solto = rolagem.saida > 0.02 || rolagem.pin > 0.98 ? '1' : '0'
       if (solto !== visto) {
         visto = solto
         el.dataset.solto = solto
       }
-      id = requestAnimationFrame(passo)
-    }
-    id = requestAnimationFrame(passo)
-    return () => cancelAnimationFrame(id)
+    })
   }, [])
 
   function ir() {

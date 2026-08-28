@@ -8,7 +8,7 @@
  */
 export default function Marca({ className = '' }: { className?: string }) {
   return (
-    <span className={`flex items-center gap-2.5 ${className}`}>
+    <span className={`inline-flex shrink-0 items-center gap-2.5 whitespace-nowrap ${className}`}>
       <svg
         viewBox="0 0 34 40"
         aria-hidden
@@ -29,7 +29,7 @@ export default function Marca({ className = '' }: { className?: string }) {
         />
       </svg>
 
-      <span className="font-display text-[0.86rem] font-bold uppercase leading-none tracking-[0.14em]">
+      <span className="font-display text-[0.78rem] font-bold uppercase leading-none tracking-[0.12em] sm:text-[0.86rem] sm:tracking-[0.14em]">
         Gustavo <span className="text-acento">Digital</span>
       </span>
     </span>

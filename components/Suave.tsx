@@ -5,6 +5,7 @@ import { atualizar, medir } from '@/lib/scroll'
 import { querMenosMovimento } from '@/lib/qualidade'
 import { cliqueCta } from '@/lib/tracking'
 import { registrarMotor } from '@/lib/suave'
+import { aCadaQuadro, ORDEM } from '@/lib/relogio'
 
 /**
  * O relogio da rolagem.
@@ -50,15 +51,15 @@ export default function Suave() {
 
         // No celular o evento de scroll chega em rajadas e com atraso; ler a
         // posicao a cada quadro mantem o filme colado no dedo.
-        let raf = 0
-        const passo = () => {
-          atualizar(window.scrollY)
-          raf = requestAnimationFrame(passo)
+        let pararRelogio = () => {}
+        if (!semMovimento) {
+          pararRelogio = aCadaQuadro(ORDEM.ROLAGEM, () => {
+            atualizar(window.scrollY)
+          })
         }
-        if (!semMovimento) raf = requestAnimationFrame(passo)
 
         limpar = () => {
-          cancelAnimationFrame(raf)
+          pararRelogio()
           window.removeEventListener('scroll', aoRolar)
           window.removeEventListener('resize', aoRedimensionar)
           window.removeEventListener('orientationchange', aoRedimensionar)
@@ -84,15 +85,14 @@ export default function Suave() {
         atualizar(scroll)
       })
 
-      let raf = 0
-      const passo = (tempo: number) => {
-        lenis.raf(tempo)
+      // Primeiro passo do quadro: o Lenis avanca e a posicao e publicada
+      // antes de qualquer coisa ler `rolagem`. Ver lib/relogio.ts.
+      const pararRelogio = aCadaQuadro(ORDEM.ROLAGEM, () => {
+        lenis.raf(performance.now())
         // Enquanto o Lenis esta suspenso (durante um salto de capitulo), quem
         // manda na posicao e o animador dos capitulos, via scroll nativo.
         atualizar(lenis.isStopped ? window.scrollY : lenis.scroll)
-        raf = requestAnimationFrame(passo)
-      }
-      raf = requestAnimationFrame(passo)
+      })
 
       const aoClicar = (e: MouseEvent) => {
         const alvo = (e.target as HTMLElement)?.closest?.(
@@ -115,7 +115,7 @@ export default function Suave() {
 
       limpar = () => {
         registrarMotor(null)
-        cancelAnimationFrame(raf)
+        pararRelogio()
         document.removeEventListener('click', aoClicar)
         window.removeEventListener('resize', aoRedimensionar)
         window.removeEventListener('orientationchange', aoRedimensionar)

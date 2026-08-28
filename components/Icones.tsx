@@ -24,8 +24,8 @@ const traco = {
 export const simbolos: Simbolo[] = [
   {
     id: 'busca',
-    titulo: 'Achado no Google',
-    linha: 'Estrutura para a sua região te encontrar.',
+    titulo: 'Preparado para o Google',
+    linha: 'A estrutura que o buscador lê para saber o que você faz e onde atende.',
     caminho: (
       <g {...traco}>
         <circle cx="10.5" cy="10.5" r="6" />
@@ -35,8 +35,8 @@ export const simbolos: Simbolo[] = [
   },
   {
     id: 'local',
-    titulo: 'Curitiba e região',
-    linha: 'Presença onde o cliente procura.',
+    titulo: 'Endereço no seu nome',
+    linha: 'O domínio é do seu negócio, não emprestado de rede social.',
     caminho: (
       <g {...traco}>
         <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" />
@@ -46,8 +46,8 @@ export const simbolos: Simbolo[] = [
   },
   {
     id: 'zap',
-    titulo: 'Conversa começada',
-    linha: 'Botão que leva direto pro WhatsApp.',
+    titulo: 'Um toque até você',
+    linha: 'O botão abre o WhatsApp com a mensagem já escrita.',
     caminho: (
       <g {...traco}>
         <path d="M4 19l1.3-3.6A7.6 7.6 0 1 1 8.6 18.7L4 19z" />
@@ -56,8 +56,8 @@ export const simbolos: Simbolo[] = [
   },
   {
     id: 'rapido',
-    titulo: 'Abre rápido',
-    linha: 'Leve no celular, mesmo com sinal ruim.',
+    titulo: 'Rápido no celular',
+    linha: 'É de onde vem a maior parte das visitas, e é a tela que vem primeiro.',
     caminho: (
       <g {...traco}>
         <path d="M13 3L5.5 13.5H11l-1 7.5L18.5 10H13l0-7z" />
@@ -66,8 +66,8 @@ export const simbolos: Simbolo[] = [
   },
   {
     id: 'seguro',
-    titulo: 'Certificado de segurança',
-    linha: 'Cadeado no navegador, domínio no seu nome.',
+    titulo: 'Cadeado no navegador',
+    linha: 'Certificado ativo: nada de aviso de site não seguro.',
     caminho: (
       <g {...traco}>
         <path d="M12 3l7 3v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6l7-3z" />
@@ -77,8 +77,8 @@ export const simbolos: Simbolo[] = [
   },
   {
     id: 'manutencao',
-    titulo: 'Alteração quando precisar',
-    linha: 'Mudou preço ou horário? Você chama.',
+    titulo: 'Alteração inclusa',
+    linha: 'Mudou preço ou horário? Você manda e a gente troca.',
     caminho: (
       <g {...traco}>
         <path d="M4 20l4.5-4.5" />

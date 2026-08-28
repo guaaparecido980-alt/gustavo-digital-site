@@ -55,3 +55,17 @@ export function posicaoDoPin(pin: number, faixa: Faixa = FILME.cheia): number {
   const t = pin < 0 ? 0 : pin > 1 ? 1 : pin
   return 1 + t * (faixa.total - 1)
 }
+
+/**
+ * Sinal de que o filme pode comecar.
+ *
+ * A tela de abertura precisa saber quando soltar a pagina, e quem sabe disso e
+ * quem desenha o filme — video ou sequencia de quadros, conforme o aparelho.
+ * Objeto mutavel, como `rolagem`: nao e estado do React porque muda fora do
+ * ciclo de render e ninguem precisa re-renderizar por causa dele.
+ */
+export const estadoDoFilme = {
+  pronto: false,
+  /** 0 a 1, para a barra da abertura mostrar algo honesto. */
+  progresso: 0,
+}

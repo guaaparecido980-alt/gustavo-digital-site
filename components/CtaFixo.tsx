@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import BotaoZap from './BotaoZap'
 import { rolagem } from '@/lib/scroll'
+import { aCadaQuadro, ORDEM } from '@/lib/relogio'
 
 /**
  * A barra so existe depois que o filme acaba.
@@ -21,20 +22,15 @@ export default function CtaFixo() {
   useEffect(() => {
     const el = caixa.current
     if (!el) return
-    let id = 0
     let visivel = false
 
-    const passo = () => {
+    return aCadaQuadro(ORDEM.BORDA, () => {
       const mostrar = rolagem.pin > APARECE || rolagem.saida > 0.01
       if (mostrar !== visivel) {
         visivel = mostrar
         el.dataset.dentro = mostrar ? '1' : '0'
       }
-      id = requestAnimationFrame(passo)
-    }
-
-    id = requestAnimationFrame(passo)
-    return () => cancelAnimationFrame(id)
+    })
   }, [])
 
   return (
@@ -44,7 +40,7 @@ export default function CtaFixo() {
       className="cta-fixo fixed inset-x-0 bottom-0 z-40 border-t border-fio bg-ink/95 p-3 lg:hidden"
     >
       <BotaoZap origem="fixo-mobile" className="w-full justify-center !py-3">
-        Quero ver como ficaria
+        Quero meu site
       </BotaoZap>
     </div>
   )

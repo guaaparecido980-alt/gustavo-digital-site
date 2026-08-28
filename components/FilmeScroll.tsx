@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import {
+  estadoDoFilme,
   FILME,
   faixaDoAparelho,
   posicaoDoPin,
@@ -613,6 +614,12 @@ export default function FilmeScroll() {
     canvas.addEventListener('contextrestored', aoVoltarContexto)
 
     dimensionar()
+    // Arranque: o caminho do primeiro salto fura a fila. Sem isso a primeira
+    // rolagem saia com meia duzia de quadros prontos e esperava o resto.
+    for (let n = 1; n <= 18; n++) {
+      baixar(n)
+      decodificar(n, true)
+    }
     cuidarDaJanela(1)
     raf = requestAnimationFrame(passo)
 

@@ -5,6 +5,7 @@ import BotaoZap from '@/components/BotaoZap'
 import { pilares } from '@/lib/projetos'
 import { CAPITULOS, cena, heroVisivel, pilarAceso } from '@/lib/cena'
 import { rolagem } from '@/lib/scroll'
+import { aCadaQuadro, ORDEM } from '@/lib/relogio'
 
 /**
  * As cenas da trilha pinada.
@@ -19,16 +20,24 @@ import { rolagem } from '@/lib/scroll'
  * - Na saida o texto acompanha o movimento: sobe junto com a camera. Sem
  *   desfoque, que atrapalhava a leitura bem na hora errada.
  *
- * Um requestAnimationFrame so, escrevendo direto no style: a 24 quadros por
- * segundo, um setState por quadro derruba o site.
+ * Um passo por quadro no relogio central, escrevendo direto no style: a 24
+ * quadros por segundo, um setState por quadro derruba o site. E o passo entra
+ * depois do filme, na ordem declarada em lib/relogio.ts, para o texto reagir
+ * ao quadro que esta na tela agora e nao ao anterior.
  */
 
 function aplicar(el: HTMLElement | null, t: number, saindo: boolean) {
   if (!el) return
   const resto = 1 - t
-  const desloca = saindo ? resto * -60 : resto * 20
-  el.style.opacity = t.toFixed(3)
-  el.style.transform = `translate3d(0, ${desloca.toFixed(1)}px, 0)`
+  // Pixel inteiro: em fracao de pixel o navegador rasteriza a tipografia
+  // entre pontos da tela e o texto sai borrado o tempo todo do movimento.
+  //
+  // A viagem de saida e curta de proposito. Subindo sessenta pixels, o texto
+  // continuava se mexendo depois de ja estar quase invisivel, e essa cauda se
+  // lia como atraso — a pessoa rolava e ainda via o texto anterior andando.
+  const desloca = Math.round(saindo ? resto * -22 : resto * 16)
+  el.style.opacity = t.toFixed(2)
+  el.style.transform = desloca === 0 ? 'none' : `translate3d(0, ${desloca}px, 0)`
   el.style.pointerEvents = t > 0.4 ? 'auto' : 'none'
   const ativo = t > 0.5 ? '1' : '0'
   if (el.dataset.ativo !== ativo) el.dataset.ativo = ativo
@@ -70,26 +79,31 @@ export default function Trilha() {
   const itens = useRef<HTMLLIElement[]>([])
 
   useEffect(() => {
-    let id = 0
     let visto = -1
 
-    const passo = () => {
+    return aCadaQuadro(ORDEM.CENA, () => {
       // Relogio do filme, nao do scroll: ver lib/cena.ts
       const p = Math.round((rolagem.filme || rolagem.pin) * 2000) / 2000
       if (p !== visto) {
         visto = p
 
-        aplicar(cenas.current[0], heroVisivel(p), true)
+        aplicar(cenas.current[0], heroVisivel(), true)
         for (let i = 1; i <= 6; i++) {
           aplicar(cenas.current[i], cena(i, p), p > CAPITULOS[i])
         }
 
-        if (dica.current) dica.current.style.opacity = heroVisivel(p).toFixed(3)
+        if (dica.current) dica.current.style.opacity = heroVisivel().toFixed(3)
 
         itens.current.forEach((li, i) => {
           if (!li) return
           const t = pilarAceso(i, p)
-          li.style.opacity = (0.34 + t * 0.66).toFixed(3)
+          // Comeca em 0,55 e nao em 0,34.
+          //
+          // Os quatro entram escalonados, um depois do outro; a 34% os que
+          // ainda nao chegaram a vez pareciam apagados, como se a tela
+          // tivesse escurecido. Mais alto eles leem como "esperando", que e o
+          // que sao — e o escalonamento continua visivel.
+          li.style.opacity = (0.55 + t * 0.45).toFixed(3)
           li.style.transform = `translate3d(0, ${((1 - t) * 12).toFixed(1)}px, 0)`
 
           // Histerese: acende em 0.6 e so apaga abaixo de 0.3.
@@ -102,18 +116,11 @@ export default function Trilha() {
           const estava = li.dataset.aceso === '1'
           const aceso = estava ? t > 0.3 : t > 0.6
           const marca = aceso ? '1' : '0'
-          if (li.dataset.aceso !== marca) {
-            li.dataset.aceso = marca
-            const num = li.querySelector('[data-num]') as HTMLElement | null
-            if (num) num.style.color = aceso ? '#f2a33c' : ''
-          }
+          // So a marca. A cor do numero e do CSS, ver .pilar[data-aceso].
+          if (li.dataset.aceso !== marca) li.dataset.aceso = marca
         })
       }
-      id = requestAnimationFrame(passo)
-    }
-
-    id = requestAnimationFrame(passo)
-    return () => cancelAnimationFrame(id)
+    })
   }, [])
 
   const guardar = (i: number) => (n: HTMLDivElement | null) => {
@@ -130,7 +137,7 @@ export default function Trilha() {
       >
         <div className="wrap flex flex-1 items-center">
           <div className="painel hero-intro tipo-3d">
-            <p className="kicker mb-6 block">Curitiba e região</p>
+            <p className="kicker mb-6 block">Criação de sites · Curitiba</p>
             <h1
               className="max-w-[11ch] text-[clamp(3rem,7.4vw,6rem)] font-medium leading-[0.96] tracking-[-0.035em] text-texto"
               style={{ fontFamily: 'var(--font-serif)' }}
@@ -140,11 +147,11 @@ export default function Trilha() {
               Mais <span className="text-acento">presente.</span>
             </h1>
             <p className={`${corpo} mt-9`}>
-              Sites profissionais para quem atende de verdade — no ar, no Google
-              e no bolso do cliente.
+              Site profissional para pequenos negócios, com domínio, hospedagem
+              e manutenção inclusos. R$200 por mês, sem taxa de criação.
             </p>
             <div className="mt-12">
-              <BotaoZap origem="hero">Falar no WhatsApp</BotaoZap>
+              <BotaoZap origem="hero">Quero meu site</BotaoZap>
             </div>
           </div>
         </div>
@@ -176,12 +183,12 @@ export default function Trilha() {
           <div className={bloco}>
             <p className="kicker mb-5 block">O problema</p>
             <h2 className={`max-w-[15ch] ${titulo}`}>
-              Antes de escolher, o cliente{' '}
+              Antes de chamar, o cliente{' '}
               <span className="text-acento">procura</span>.
             </h2>
             <p className={corpo}>
-              No celular, no Google, na hora exata em que decidiu resolver o
-              problema dele.
+              Mesmo quando chega por indicação, ele pesquisa o nome do seu
+              negócio antes de mandar a primeira mensagem.
             </p>
           </div>
         </div>
@@ -192,14 +199,14 @@ export default function Trilha() {
         <FundoDaCena i={2} />
         <div className="wrap">
           <div className={bloco}>
-            <p className="kicker mb-5 block">O custo</p>
-            <h2 className={`max-w-[14ch] ${titulo}`}>
-              Quem não aparece não é{' '}
-              <span className="text-acento">comparado</span>.
+            <p className="kicker mb-5 block">O que está em jogo</p>
+            <h2 className={`max-w-[15ch] ${titulo}`}>
+              O que ele encontra responde{' '}
+              <span className="text-acento">antes de você</span>.
             </h2>
             <p className={corpo}>
-              Não é que você perde para o concorrente. É que você não chega a
-              entrar na disputa.
+              Um perfil parado, um endereço errado, nada no Google. A conversa
+              começa com essa impressão — ou não começa.
             </p>
           </div>
         </div>
@@ -216,8 +223,8 @@ export default function Trilha() {
               <span className="text-acento">termina</span>.
             </h2>
             <p className={corpo}>
-              Endereço no seu nome, sua marca, seus serviços. Não um perfil
-              emprestado de rede social.
+              Endereço no seu nome, com seus serviços, suas fotos e seu horário.
+              O que ele precisava saber para chamar você.
             </p>
           </div>
         </div>
@@ -227,9 +234,9 @@ export default function Trilha() {
       <div ref={guardar(4)} className={palco} style={{ opacity: 0 }}>
         <FundoDaCena i={4} />
         <div className="wrap">
-          <div className="revela tipo-3d w-full max-w-[46rem]">
-            <p className="kicker mb-5 block">O que sustenta</p>
-            <ol className="grid gap-3 sm:grid-cols-2">
+          <div className="revela tipo-3d w-full max-w-[40rem]">
+            <p className="kicker mb-5 block">O que está incluso</p>
+            <ol className="grid gap-2.5 sm:grid-cols-2">
               {pilares.map((pilar, i) => (
                 <li
                   key={pilar.titulo}
@@ -238,7 +245,7 @@ export default function Trilha() {
                   }}
                   className="pilar"
                   data-aceso="0"
-                  style={{ opacity: 0.34 }}
+                  style={{ opacity: 0.55 }}
                 >
                   <span
                     data-num
@@ -246,10 +253,10 @@ export default function Trilha() {
                   >
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <h3 className="mt-1 font-display text-[clamp(1.05rem,1.9vw,1.35rem)] font-semibold uppercase tracking-[-0.01em]">
+                  <h3 className="mt-0.5 font-display text-[clamp(0.92rem,1.6vw,1.15rem)] font-semibold uppercase tracking-[-0.01em]">
                     {pilar.titulo}
                   </h3>
-                  <p className="mt-1.5 text-[0.9rem] leading-[1.45] text-texto/95">
+                  <p className="mt-1 text-[0.8rem] leading-[1.4] text-texto/90">
                     {pilar.texto}
                   </p>
                 </li>
@@ -282,14 +289,14 @@ export default function Trilha() {
         <FundoDaCena i={6} />
         <div className="wrap">
           <div className={bloco}>
-            <p className="kicker mb-5 block">Presença</p>
+            <p className="kicker mb-5 block">O resultado</p>
             <h2 className={`max-w-[15ch] ${titulo}`}>
-              Seu negócio para de depender de{' '}
-              <span className="text-acento">indicação</span>.
+              A indicação chega. O site{' '}
+              <span className="text-acento">confirma</span>.
             </h2>
             <p className={corpo}>
-              O site trabalha de madrugada, no domingo e no feriado — sempre que
-              alguém procura o que você faz.
+              Domingo à noite, feriado, três da manhã: quem procurar encontra o
+              seu negócio inteiro e o botão para falar com você.
             </p>
           </div>
         </div>

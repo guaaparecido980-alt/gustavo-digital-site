@@ -27,6 +27,20 @@ function agora(): number {
   return rolagem.filme || rolagem.pin
 }
 
+/**
+ * O relogio da SAIDA e outro: e o scroll.
+ *
+ * A entrada segue o filme, para o texto nunca comentar uma imagem que ainda
+ * nao aconteceu. Mas prender a saida ao filme tambem foi erro: quando o video
+ * atrasa um pouco, o texto atrasa junto e continua na tela depois do gesto —
+ * a pessoa rola, ve o texto anterior parado sobre um fundo que ja esta
+ * correndo, e le isso como travamento. Sair e resposta ao gesto, e gesto se
+ * responde na hora.
+ */
+function agoraSaida(): number {
+  return rolagem.pin
+}
+
 /** Onde cada rolada para. Indice = numero da cena. */
 export const CAPITULOS = [
   0, //         0  hero               quadro 001
@@ -136,13 +150,16 @@ export function cena(i: number, p: number = agora()): number {
   // p 0.86 e o texto nao pode encostar nela.
   const janela = i === 7 ? 0.018 : noToque() ? 0.05 : 0.03
   const entradaDe = Math.max(aqui - vaoAntes * 0.5, aqui - janela)
-  // A saida e generosa de proposito. Antes ela era proporcional a mesma
-  // janela curta da entrada, e nas cenas que esperam a imagem terminar
-  // sobrava pouco mais de um quadro entre aparecer e comecar a sumir — o
-  // texto piscava. Entrar tarde nao pode implicar sair cedo.
+  // A saida e curta e imediata.
+  //
+  // Ela era generosa, cobrindo mais de meio caminho ate a proxima parada — e
+  // isso se lia como atraso: a pessoa rolava, via o texto subir devagar e so
+  // depois o filme andar. Saindo nos primeiros instantes do movimento, o
+  // gesto e a resposta acontecem juntos e o filme fica sozinho em cena, que e
+  // o que ele merece durante a passagem.
   const saidaAte = Math.min(
-    aqui + vaoDepois * (noToque() ? 0.85 : 0.62),
-    aqui + 0.11
+    aqui + vaoDepois * (noToque() ? 0.3 : 0.22),
+    aqui + 0.05
   )
 
   const piso = PISO[i]
@@ -155,11 +172,16 @@ export function cena(i: number, p: number = agora()): number {
 }
 
 /** O hero ja nasce na tela; some no primeiro gesto. */
-export function heroVisivel(p: number = agora()): number {
-  return 1 - suave(faixa(p, 0.02, noToque() ? 0.08 : 0.055))
+export function heroVisivel(): number {
+  // Pelo scroll, nao pelo filme: e saida pura, e sai no primeiro instante do
+  // gesto. E a unica cena que a pessoa ja leu antes de rolar.
+  return 1 - suave(faixa(agoraSaida(), 0.004, noToque() ? 0.05 : 0.035))
 }
 
 /** Cada pilar acende ao chegar na sua cena, um pouco depois do outro. */
+/** A cena que mostra os quatro cards, e nao um texto corrido. */
+const CENA_DOS_CARDS = 4
+
 export function pilarAceso(i: number, p: number = agora()): number {
   // Os quatro terminam de acender antes da parada. Na versao anterior o
   // ultimo acendia junto com a saida da cena e nunca chegava a ser lido.
@@ -205,27 +227,41 @@ export function veuPortal(p: number = agora()): number {
 export function fundoDoTexto(p: number = agora()): number {
   let maior = 0
   for (let i = 1; i < CAPITULOS.length - 1; i++) {
-    maior = Math.max(maior, cena(i, p))
+    // A cena dos quatro cards nao entra por inteiro.
+    //
+    // La cada card ja tem o proprio fundo escuro atras do texto — o contraste
+    // esta resolvido dentro dele. O veu geral por cima disso escurecia a tela
+    // toda em vinte por cento no unico momento em que o filme esta no auge:
+    // medido na gravacao, a imagem caia treze por cento bem quando os cards
+    // entravam, e o filme, sozinho, so subia de brilho ali. Era a nossa
+    // camada apagando o melhor quadro do filme.
+    const peso = i === CENA_DOS_CARDS ? 0.3 : 1
+    maior = Math.max(maior, cena(i, p) * peso)
   }
   return maior * 0.2
 }
 
-/** Escurecida curta bem em cima de cada emenda. */
-export function costura(p: number = agora()): number {
-  const largura = 0.007
-  let maior = 0
-  COSTURAS.forEach((c, i) => {
-    const d = Math.abs(p - c)
-    if (d >= largura) return
-    // A primeira emenda quase nao precisa de ajuda: os quadros de recuo
-    // foram cortados e a cor esta casada. A segunda e dentro do portal, onde
-    // o padrao de filamentos reinicia em outra posicao — ali o escuro faz o
-    // trabalho que o dissolve nao consegue, porque nao ha o que dissolver
-    // entre dois caos diferentes.
-    const forca = i === 0 ? 0.22 : 0.72
-    maior = Math.max(maior, suave(1 - d / largura) * forca)
-  })
-  return maior
+/**
+ * Piscada de preto nas emendas — desligada.
+ *
+ * Existiam duas, uma em cada ponto onde os clipes originais se encontravam.
+ * Faziam sentido quando o filme era a concatenacao de tres arquivos e o corte
+ * aparecia. Depois que tudo virou um mp4 unico reencodado, medi a diferenca
+ * entre os quadros vizinhos de cada emenda: na primeira deu 11,3 contra 11,8 e
+ * 11,1 dos vizinhos, e na segunda 5,4 contra 5,2 e 3,6. Ou seja, nao ha
+ * emenda nenhuma para esconder — as duas piscadas escureciam a tela por
+ * conta propria.
+ *
+ * A primeira caia em p 0,36, bem no meio do salto de "A virada" para os
+ * quatro cards, e era a escurecida que aparecia ali. A segunda tirava 72% da
+ * luz dentro do salto do portal, onde o `veuPortal` ja faz o fechamento de
+ * proposito.
+ *
+ * COSTURAS continua exportado: FilmeScroll usa as posicoes para nao tentar
+ * interpolar por cima do encontro dos clipes.
+ */
+export function costura(): number {
+  return 0
 }
 
 /** Halo quente atras do texto. */

@@ -10,9 +10,11 @@ const CAPA = `${SITE}/assets/trabalhos/barbearia-clube-desk.webp`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
-  title: 'Gustavo Digital — Sites profissionais para negócios reais | Curitiba',
+  // A palavra-chave vem primeiro porque e o que a pessoa digita; a marca
+  // fecha. A descricao responde preco e o que inclui antes do clique.
+  title: 'Criação de Sites em Curitiba | Gustavo Digital',
   description:
-    'Seu negócio já é profissional. Sua presença na internet também deveria parecer. Site + domínio + hospedagem + manutenção por R$200/mês. Sem taxa de criação.',
+    'Site profissional para pequenos negócios em Curitiba e região. Domínio, hospedagem, certificado e alterações inclusos por R$200 por mês, sem taxa de criação e sem fidelidade.',
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
   icons: {
@@ -22,17 +24,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: SITE,
-    title: 'Gustavo Digital — presença profissional na internet',
+    title: 'Criação de sites em Curitiba — Gustavo Digital',
     description:
-      'Sites feitos para negócios reais. Domínio, hospedagem e manutenção inclusos. R$200/mês, sem taxa de criação.',
+      'Site profissional para pequenos negócios, com domínio, hospedagem e alterações inclusos. R$200 por mês, sem taxa de criação.',
     images: [{ url: CAPA }],
     locale: 'pt_BR',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gustavo Digital — presença profissional na internet',
+    title: 'Criação de sites em Curitiba — Gustavo Digital',
     description:
-      'Sites feitos para negócios reais. Domínio, hospedagem e manutenção inclusos.',
+      'Site profissional com domínio, hospedagem e alterações inclusos. R$200 por mês.',
     images: [CAPA],
   },
 }
@@ -84,6 +86,7 @@ const ldFaq = {
   })),
 }
 
+
 export default function RootLayout({
   children,
 }: {
@@ -92,51 +95,31 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        {/* Os primeiros quadros comecam a baixar junto com o HTML, antes de
-            qualquer JavaScript rodar: quando o script pede o quadro 1, ele ja
-            esta no cache.
+        {/* O primeiro quadro do filme, em prioridade maxima.
 
-            O `media` nao e detalhe — sem ele o celular baixava os quadros da
-            faixa desktop, oito arquivos de 80KB que nunca seriam usados,
-            disputando banda com os quadros que ele realmente precisa. */}
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-          <link
-            key={`d${n}`}
-            rel="preload"
-            as="image"
-            type="image/webp"
-            media="(min-width: 900px)"
-            href={`/filme/q00${n}.webp`}
-          />
-        ))}
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-          <link
-            key={`m${n}`}
-            rel="preload"
-            as="image"
-            type="image/webp"
-            media="(max-width: 899px)"
-            href={`/filme/m/q00${n}.webp`}
-          />
-        ))}
+            Aqui existiam dezoito `preload` de WebP — os primeiros quadros da
+            sequencia, de quando o filme era desenhado imagem por imagem.
+            Depois da troca para video eles viraram meio megabyte baixado em
+            prioridade alta que ninguem usa, disputando banda justamente com o
+            buffer do video de que a primeira rolagem depende. So o caminho de
+            emergencia (FilmeScroll) ainda le esses arquivos, e ele busca os
+            proprios quadros quando entra.
+
+            O poster fica: e a imagem que a pessoa ve enquanto o decodificador
+            acorda, e sao 61KB contra 531KB. */}
+        <link rel="preload" as="image" href="/filme/poster.jpg" />
       </head>
       <body suppressHydrationWarning>
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
-        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap"
-          rel="stylesheet"
-        />
+        {/* As fontes moram em /public/fontes e sao declaradas em globals.css.
+            Aqui so as tres que a primeira tela usa — o titulo em Playfair, a
+            marca em Clash e o texto corrido em Satoshi — para que cheguem
+            junto com o CSS e a pagina ja pinte com a tipografia certa. Sem
+            isso o navegador pintava com a fonte do sistema e trocava depois,
+            e essa troca mexia a altura do bloco do hero: era 0,15 de CLS,
+            acima do limite do Google, e a unica metrica do site no vermelho. */}
+        <link rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" href="/fontes/playfair-var.woff2" />
+        <link rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" href="/fontes/satoshi-400.woff2" />
+        <link rel="preload" as="font" type="font/woff2" crossOrigin="anonymous" href="/fontes/clash-700.woff2" />
 
         <Rastreio
           ldServico={JSON.stringify(ldServico)}
