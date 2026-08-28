@@ -51,7 +51,9 @@ const VIVOS = 36
 /** Teto de quadros vivos enquanto a camera esta parada. */
 const VIVOS_PARADO = 62
 /** No celular o quadro e menor: cabe mais decodificado na mesma memoria. */
-const VIVOS_PARADO_MOVEL = 96
+const VIVOS_PARADO_MOVEL = 40
+/** Piso: abaixo disso o filme fica sem material para desenhar. */
+const VIVOS_MINIMO = 14
 /** Teto de resolucao do canvas. */
 const DPR_MAX = 1.5
 
@@ -80,6 +82,17 @@ export default function FilmeScroll() {
     const reduzido = querMenosMovimento()
 
     let vivo = true
+    /**
+     * Teto de quadros decodificados, ajustado ao aparelho em uso.
+     *
+     * Nao da para saber de antemao quanta memoria o navegador vai conceder: o
+     * mesmo codigo roda liso num iPhone 14 Pro Max e falha num 13, que tem
+     * menos RAM e um Safari mais agressivo em derrubar alocacoes. Entao o
+     * numero comeca alto e cai sozinho quando a decodificacao falha — que e
+     * exatamente o sintoma de memoria no limite.
+     */
+    let tetoVivos = 0
+    let falhasSeguidas = 0
     let desenhado = -1
     let ultimaMistura = -1
     let raf = 0
@@ -104,8 +117,46 @@ export default function FilmeScroll() {
 
     /** Arquivo comprimido, leve. Fica muito tempo. */
     const arquivos = new Map<number, Blob>()
-    /** Quadro decodificado, pesado. Fica pouco. */
-    const prontos = new Map<number, ImageBitmap>()
+    /**
+     * Quadro decodificado, pesado. Fica pouco.
+     *
+     * Pode ser um ImageBitmap ou uma <img> ja decodificada: o Safari do iOS
+     * tem versoes em que `createImageBitmap` falha com WebP, e sem caminho
+     * alternativo o filme simplesmente parava — nenhum quadro ficava pronto e
+     * nada percebia. `drawImage` aceita os dois tipos igual.
+     */
+    type Quadro = ImageBitmap | HTMLImageElement
+    const prontos = new Map<number, Quadro>()
+    /** URLs criadas para o caminho alternativo, revogadas junto com o quadro. */
+    const urls = new Map<number, string>()
+    /** Vira false no primeiro erro de createImageBitmap. */
+    let usarBitmap = typeof createImageBitmap === 'function'
+
+    const soltarQuadro = (n: number) => {
+      const q = prontos.get(n)
+      if (q && 'close' in q) q.close()
+      const u = urls.get(n)
+      if (u) {
+        URL.revokeObjectURL(u)
+        urls.delete(n)
+      }
+      prontos.delete(n)
+    }
+
+    /** Decodifica por <img>, que funciona em qualquer navegador com WebP. */
+    const decodificarPorImagem = async (n: number, blob: Blob) => {
+      const url = URL.createObjectURL(blob)
+      const img = new Image()
+      img.decoding = 'async'
+      img.src = url
+      await img.decode()
+      if (!vivo) {
+        URL.revokeObjectURL(url)
+        return
+      }
+      urls.set(n, url)
+      prontos.set(n, img)
+    }
     const baixando = new Set<number>()
     const decodificando = new Set<number>()
 
@@ -121,7 +172,7 @@ export default function FilmeScroll() {
       desenhado = -1
     }
 
-    const pintar = (bmp: ImageBitmap | HTMLImageElement) => {
+    const pintar = (bmp: Quadro) => {
       const cw = canvas.width
       const ch = canvas.height
       const escala = Math.max(cw / bmp.width, ch / bmp.height)
@@ -129,6 +180,11 @@ export default function FilmeScroll() {
       const h = bmp.height * escala
       ctx.drawImage(bmp, (cw - w) / 2, (ch - h) / 2, w, h)
     }
+
+    /** true quando a fila de download esta cheia — sinal para parar o loop. */
+    const filaDeDownloadCheia = () => baixando.size >= CANAIS
+    /** idem para a decodificacao. */
+    const filaDeDecodeCheia = () => decodificando.size >= FORNOS
 
     const baixar = async (n: number) => {
       if (n < 1 || n > faixa.total) return
@@ -163,14 +219,40 @@ export default function FilmeScroll() {
       if (!urgente && decodificando.size >= FORNOS) return
       decodificando.add(n)
       try {
-        const bmp = await createImageBitmap(blob)
-        if (!vivo) {
-          bmp.close()
-          return
+        if (usarBitmap) {
+          try {
+            const bmp = await createImageBitmap(blob)
+            if (!vivo) {
+              bmp.close()
+              return
+            }
+            prontos.set(n, bmp)
+          } catch {
+            // Uma falha basta para desistir dessa API na sessao inteira: se
+            // este navegador nao decodifica WebP por aqui, nao vai decodificar
+            // no proximo quadro tambem.
+            usarBitmap = false
+            await decodificarPorImagem(n, blob)
+          }
+        } else {
+          await decodificarPorImagem(n, blob)
         }
-        prontos.set(n, bmp)
+        falhasSeguidas = 0
       } catch {
-        // quadro corrompido: segue sem ele
+        // Falhar aqui quase sempre significa memoria no limite, nao arquivo
+        // corrompido. Engolir em silencio era o que fazia o filme parar de
+        // andar em aparelho mais modesto: nenhum quadro ficava pronto e nada
+        // no codigo percebia. Cada falha derruba o teto e libera o que da.
+        falhasSeguidas++
+        if (falhasSeguidas >= 2) {
+          falhasSeguidas = 0
+          tetoVivos = Math.max(VIVOS_MINIMO, Math.round(tetoVivos * 0.6))
+          const manter = new Set<number>()
+          for (let k = desenhado - 2; k <= desenhado + 8; k++) manter.add(k)
+          for (const k of [...prontos.keys()]) {
+            if (!manter.has(k)) soltarQuadro(k)
+          }
+        }
       } finally {
         decodificando.delete(n)
       }
@@ -205,6 +287,17 @@ export default function FilmeScroll() {
       return Math.max(1, Math.min(centro - ADIANTE, ate))
     }
 
+    /**
+     * Prepara o caminho: baixa e decodifica o que vem pela frente.
+     *
+     * Os laços param assim que as filas enchem — sem isso cada passada
+     * percorria ate 66 posicoes so para descobrir que nao cabia mais nada.
+     *
+     * O que NAO da para fazer aqui e sair antes de entrar: ja tentei um atalho
+     * que devolvia na hora quando as duas filas estavam cheias, e o resultado
+     * foi o filme parar de avancar. Em movimento as filas vivem cheias, e a
+     * chamada seguinte e justamente a que repoe trabalho quando uma vaga abre.
+     */
     const cuidarDaJanela = (centro: number) => {
       const ate = alcance(centro)
       // Parado numa cena, a pessoa esta lendo — e o navegador esta ocioso.
@@ -238,12 +331,23 @@ export default function FilmeScroll() {
 
       // Parado, os dois lados descem: o proximo salto pode ser para qualquer
       // direcao e a pessoa esta lendo, entao ha tempo de sobra.
-      if (parado || !subindo) for (let n = centro; n <= ate; n++) baixar(n)
-      if (parado || subindo) for (let n = centro; n >= atras; n--) baixar(n)
+      if (parado || !subindo) {
+        for (let n = centro; n <= ate; n++) {
+          if (filaDeDownloadCheia()) break
+          baixar(n)
+        }
+      }
+      if (parado || subindo) {
+        for (let n = centro; n >= atras; n--) {
+          if (filaDeDownloadCheia()) break
+          baixar(n)
+        }
+      }
 
-      const tetoParado =
-        faixa === FILME.movel ? VIVOS_PARADO_MOVEL : VIVOS_PARADO
-      const teto = parado ? tetoParado : VIVOS
+      if (tetoVivos === 0) {
+        tetoVivos = faixa === FILME.movel ? VIVOS_PARADO_MOVEL : VIVOS_PARADO
+      }
+      const teto = parado ? tetoVivos : Math.min(VIVOS, tetoVivos)
       if (parado) {
         // Parado, garante os dois trajetos vizinhos inteiros: a pessoa esta
         // lendo, a maquina esta ociosa, e o proximo gesto pode ir para
@@ -251,14 +355,15 @@ export default function FilmeScroll() {
         for (let n = centro; n <= ate; n++) decodificar(n)
         for (let n = centro; n >= atras; n--) decodificar(n)
       } else if (subindo) {
-        // Trajeto inteiro, quadro a quadro. O passo de dois em dois deixava
-        // metade do caminho de fora, e o filme pulava um quadro sim outro nao
-        // — o resto de travamento que sobrava. Com 33ms por quadro e seis
-        // decodificacoes ao mesmo tempo, cabe: um salto de 66 quadros precisa
-        // de 33 por segundo e a maquina entrega bem mais.
-        for (let n = centro; n >= atras; n--) decodificar(n)
+        for (let n = centro; n >= atras; n--) {
+          if (filaDeDecodeCheia()) break
+          decodificar(n)
+        }
       } else {
-        for (let n = centro; n <= ate; n++) decodificar(n)
+        for (let n = centro; n <= ate; n++) {
+          if (filaDeDecodeCheia()) break
+          decodificar(n)
+        }
       }
 
       // Descarta pelo trajeto, nao por uma margem fixa ao redor do quadro
@@ -271,11 +376,8 @@ export default function FilmeScroll() {
         // teto e acabava descartando justamente o que vinha pela frente.
         const de = subindo ? Math.min(atras, centro - 12) : centro - 14
         const ateGuardar = subindo ? centro + 14 : Math.max(ate, centro + 12) + 4
-        for (const [n, bmp] of prontos) {
-          if (n < de || n > ateGuardar) {
-            bmp.close()
-            prontos.delete(n)
-          }
+        for (const n of [...prontos.keys()]) {
+          if (n < de || n > ateGuardar) soltarQuadro(n)
         }
       }
       // O cache comprimido e barato, mas nao infinito.
@@ -505,8 +607,7 @@ export default function FilmeScroll() {
     const aoVoltarContexto = () => {
       desenhado = -1
       ultimaMistura = -1
-      for (const bmp of prontos.values()) bmp.close()
-      prontos.clear()
+      for (const n of [...prontos.keys()]) soltarQuadro(n)
     }
     canvas.addEventListener('contextlost', aoPerderContexto)
     canvas.addEventListener('contextrestored', aoVoltarContexto)
@@ -522,8 +623,7 @@ export default function FilmeScroll() {
       canvas.removeEventListener('contextrestored', aoVoltarContexto)
       vivo = false
       cancelAnimationFrame(raf)
-      for (const bmp of prontos.values()) bmp.close()
-      prontos.clear()
+      for (const n of [...prontos.keys()]) soltarQuadro(n)
       arquivos.clear()
       baixando.clear()
       decodificando.clear()

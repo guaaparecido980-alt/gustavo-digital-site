@@ -24,6 +24,13 @@ export default function Suave() {
     let limpar = () => {}
 
     async function ligar() {
+      // Quem pediu menos movimento recebe o site em pagina normal, nao a
+      // trilha pinada sem filme: com a trilha de pe e o filme parado, a pessoa
+      // rolava quase seis telas olhando o mesmo quadro. O CSS reage a este
+      // atributo desmontando o pin e empilhando as cenas.
+      if (querMenosMovimento()) {
+        document.documentElement.dataset.reduzido = '1'
+      }
       medir()
       requestAnimationFrame(() => medir())
 

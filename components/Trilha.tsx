@@ -35,7 +35,29 @@ function aplicar(el: HTMLElement | null, t: number, saindo: boolean) {
 }
 
 const palco =
-  'absolute inset-0 flex items-center pt-[88px] pb-[92px] sm:pb-[76px]'
+  'cena absolute inset-0 flex items-center pt-[88px] pb-[92px] sm:pb-[76px]'
+
+/**
+ * O quadro que representa cada parada, para a versao sem movimento.
+ *
+ * Ali nao existe filme correndo: cada cena mostra, parada ao fundo, a imagem
+ * exata em que a camera pousaria se houvesse animacao.
+ */
+const QUADRO_DA_CENA = [1, 17, 34, 50, 75, 99, 165]
+
+function FundoDaCena({ i }: { i: number }) {
+  const n = String(QUADRO_DA_CENA[i] ?? 1).padStart(3, '0')
+  return (
+    <img
+      src={`/filme/q${n}.webp`}
+      alt=""
+      aria-hidden
+      loading="lazy"
+      decoding="async"
+      className="cena-fundo"
+    />
+  )
+}
 const bloco = 'painel revela tipo-3d max-w-[44rem]'
 const titulo =
   'text-[clamp(2.1rem,5.2vw,4rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-texto'
@@ -103,7 +125,7 @@ export default function Trilha() {
       {/* ── 0 · HERO ─────────────────────────────────────────── */}
       <div
         ref={guardar(0)}
-        className="absolute inset-0 flex flex-col pt-[88px]"
+        className="cena absolute inset-0 flex flex-col pt-[88px]"
         style={{ willChange: 'opacity, transform' }}
       >
         <div className="wrap flex flex-1 items-center">
@@ -149,6 +171,7 @@ export default function Trilha() {
 
       {/* ── 1 · O PROBLEMA ───────────────────────────────────── */}
       <div ref={guardar(1)} className={palco} style={{ opacity: 0 }}>
+        <FundoDaCena i={1} />
         <div className="wrap">
           <div className={bloco}>
             <p className="kicker mb-5 block">O problema</p>
@@ -166,6 +189,7 @@ export default function Trilha() {
 
       {/* ── 2 · O CUSTO ──────────────────────────────────────── */}
       <div ref={guardar(2)} className={palco} style={{ opacity: 0 }}>
+        <FundoDaCena i={2} />
         <div className="wrap">
           <div className={bloco}>
             <p className="kicker mb-5 block">O custo</p>
@@ -183,6 +207,7 @@ export default function Trilha() {
 
       {/* ── 3 · A VIRADA ─────────────────────────────────────── */}
       <div ref={guardar(3)} className={palco} style={{ opacity: 0 }}>
+        <FundoDaCena i={3} />
         <div className="wrap">
           <div className={bloco}>
             <p className="kicker mb-5 block">A virada</p>
@@ -200,6 +225,7 @@ export default function Trilha() {
 
       {/* ── 4 · OS QUATRO PILARES ────────────────────────────── */}
       <div ref={guardar(4)} className={palco} style={{ opacity: 0 }}>
+        <FundoDaCena i={4} />
         <div className="wrap">
           <div className="revela tipo-3d w-full max-w-[46rem]">
             <p className="kicker mb-5 block">O que sustenta</p>
@@ -236,9 +262,10 @@ export default function Trilha() {
       {/* ── 5 · A TRAVESSIA ──────────────────────────────────── */}
       <div
         ref={guardar(5)}
-        className="absolute inset-0 z-[12] grid place-items-center px-[var(--pad)]"
+        className="cena absolute inset-0 z-[12] grid place-items-center px-[var(--pad)]"
         style={{ opacity: 0 }}
       >
+        <FundoDaCena i={5} />
         <h2 className="painel painel-centro revela tipo-3d max-w-[13ch] text-center text-[clamp(2.4rem,6vw,4.8rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-texto">
           O site que gera{' '}
           <span
@@ -252,6 +279,7 @@ export default function Trilha() {
 
       {/* ── 6 · A CHEGADA ────────────────────────────────────── */}
       <div ref={guardar(6)} className={palco} style={{ opacity: 0 }}>
+        <FundoDaCena i={6} />
         <div className="wrap">
           <div className={bloco}>
             <p className="kicker mb-5 block">Presença</p>
