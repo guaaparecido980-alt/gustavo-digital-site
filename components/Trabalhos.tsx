@@ -93,8 +93,12 @@ export default function Trabalhos() {
             projeto.url ? '' : 'pointer-events-none'
           }`}
         >
+          {/* Duas larguras: no celular a versao de 800px pesa 27KB contra
+              71KB da cheia, e o card nunca passa de 76vw mesmo. */}
           <img
             src={projeto.imagem}
+            srcSet={`${projeto.imagem.replace('.webp', '-800.webp')} 800w, ${projeto.imagem} 1600w`}
+            sizes="(max-width: 640px) 76vw, (max-width: 1024px) 42vw, 26rem"
             alt={`Site da ${projeto.nome}`}
             loading="lazy"
             decoding="async"

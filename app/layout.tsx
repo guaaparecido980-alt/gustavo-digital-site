@@ -92,19 +92,33 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        {/* Os primeiros quadros do filme comecam a baixar junto com o HTML,
-            antes de qualquer JavaScript rodar. E o que tira a espera da
-            abertura: quando o script pede o quadro 1, ele ja esta no cache. */}
+        {/* Os primeiros quadros comecam a baixar junto com o HTML, antes de
+            qualquer JavaScript rodar: quando o script pede o quadro 1, ele ja
+            esta no cache.
+
+            O `media` nao e detalhe — sem ele o celular baixava os quadros da
+            faixa desktop, oito arquivos de 80KB que nunca seriam usados,
+            disputando banda com os quadros que ele realmente precisa. */}
         {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
           <link
-            key={n}
+            key={`d${n}`}
             rel="preload"
             as="image"
             type="image/webp"
+            media="(min-width: 900px)"
             href={`/filme/q00${n}.webp`}
           />
         ))}
-        <link rel="preload" as="image" href="/filme/poster.jpg" />
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <link
+            key={`m${n}`}
+            rel="preload"
+            as="image"
+            type="image/webp"
+            media="(max-width: 899px)"
+            href={`/filme/m/q00${n}.webp`}
+          />
+        ))}
       </head>
       <body suppressHydrationWarning>
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />

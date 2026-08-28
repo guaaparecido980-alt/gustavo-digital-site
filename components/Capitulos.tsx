@@ -9,7 +9,7 @@ import { querMenosMovimento } from '@/lib/qualidade'
 /** Tempo minimo de um salto, para vaos curtos. */
 const DURACAO_MIN = 1.15
 /** Tempo maximo, para o salto longo da travessia ate o mundo aceso. */
-const DURACAO_MAX = 2.8
+const DURACAO_MAX = 3.9
 /**
  * Trava depois de pousar.
  *
@@ -98,9 +98,15 @@ export default function Capitulos() {
       const motor = pegarMotor()
       const alvo = yDoPin(CAPITULOS[i])
       const vao = Math.abs(CAPITULOS[i] - rolagem.pin)
+      // O termo quadratico existe para o salto do mapa.
+      //
+      // Uma escala linear tratava 66 quadros como se fossem quatro vezes 16, e
+      // a rede acendia rapido demais para o tamanho do momento. Com o termo ao
+      // quadrado, os saltos curtos quase nao mudam e o longo ganha mais de um
+      // segundo — que e onde a explosao acontece.
       const duracao = Math.min(
         DURACAO_MAX,
-        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 3.6)
+        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 3.6 + vao * vao * 6)
       )
       animando = true
       acumulado = 0
