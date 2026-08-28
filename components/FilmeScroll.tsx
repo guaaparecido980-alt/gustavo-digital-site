@@ -84,6 +84,24 @@ export default function FilmeScroll() {
     let ultimaMistura = -1
     let raf = 0
 
+    /**
+     * O poster, carregado uma vez e nunca liberado.
+     *
+     * E o seguro contra tela preta: se por qualquer motivo nao houver um
+     * quadro pronto na hora de desenhar, ele entra no lugar. Custa uma imagem
+     * na memoria e evita a falha mais visivel que este componente pode ter.
+     */
+    let poster: HTMLImageElement | null = null
+    const imgPoster = new Image()
+    imgPoster.onload = () => {
+      poster = imgPoster
+      if (desenhado < 1) {
+        pintar(imgPoster)
+        desenhado = 0
+      }
+    }
+    imgPoster.src = FILME.poster
+
     /** Arquivo comprimido, leve. Fica muito tempo. */
     const arquivos = new Map<number, Blob>()
     /** Quadro decodificado, pesado. Fica pouco. */
@@ -103,7 +121,7 @@ export default function FilmeScroll() {
       desenhado = -1
     }
 
-    const pintar = (bmp: ImageBitmap) => {
+    const pintar = (bmp: ImageBitmap | HTMLImageElement) => {
       const cw = canvas.width
       const ch = canvas.height
       const escala = Math.max(cw / bmp.width, ch / bmp.height)
@@ -380,10 +398,32 @@ export default function FilmeScroll() {
         cuidarDaJanela(base)
       }
 
+      /**
+       * Repintura periodica: a cada dois segundos, mesmo sem nada mudar.
+       *
+       * O navegador do celular descarta o conteudo do canvas quando precisa de
+       * memoria, e nem sempre avisa em tempo de o `visibilitychange` resolver.
+       * Como o codigo guarda qual quadro ja desenhou, ele nao redesenhava e
+       * sobrava o fundo preto — foi o que aconteceu depois de horas com a aba
+       * aberta. Um `drawImage` a cada 120 quadros de animacao nao custa nada e
+       * faz qualquer perda se corrigir sozinha.
+       */
+      const revisao = pulso % 120 === 0
+
       const mudou =
-        base !== desenhado || Math.abs(mistura - ultimaMistura) > 0.02
+        revisao ||
+        base !== desenhado ||
+        Math.abs(mistura - ultimaMistura) > 0.02
 
       if (mudou) {
+        // Na revisao periodica, repinta o que ja estava — sem procurar quadro
+        // novo, para nao mexer no estado por causa de uma checagem.
+        if (revisao && base === desenhado) {
+          const atual = prontos.get(desenhado)
+          if (atual) pintar(atual)
+          else if (poster) pintar(poster)
+        }
+
         const emenda = dissolveDaEmenda(pos)
 
         if (emenda) {
@@ -414,6 +454,10 @@ export default function FilmeScroll() {
           // torno de zero no fim de cada salto. Era essa oscilacao que fazia o
           // filme aceitar um quadro adiantado por um instante e depois voltar.
           const escolhido = melhorQuadro(base, base < desenhado)
+          if (escolhido === null && desenhado < 1 && poster) {
+            pintar(poster)
+            desenhado = 0
+          }
           if (escolhido !== null) {
             const bmpA = prontos.get(escolhido)
             if (bmpA) {
@@ -437,11 +481,45 @@ export default function FilmeScroll() {
       raf = requestAnimationFrame(passo)
     }
 
+    /**
+     * Ao voltar do segundo plano, redesenha do zero.
+     *
+     * Depois de um tempo com a aba escondida, o navegador do celular descarta
+     * o conteudo do canvas para liberar memoria — mas o codigo continuava
+     * achando que o quadro ja estava na tela e nao redesenhava nada. O que
+     * sobrava era o fundo preto. Zerar `desenhado` obriga a proxima passada a
+     * pintar de novo.
+     */
+    const aoVoltar = () => {
+      if (document.visibilityState !== 'visible') return
+      desenhado = -1
+      ultimaMistura = -1
+      ultimoCentro = -1
+      if (poster) pintar(poster)
+    }
+    document.addEventListener('visibilitychange', aoVoltar)
+    window.addEventListener('pageshow', aoVoltar)
+
+    /** O contexto do canvas tambem pode ser perdido e devolvido. */
+    const aoPerderContexto = (e: Event) => e.preventDefault()
+    const aoVoltarContexto = () => {
+      desenhado = -1
+      ultimaMistura = -1
+      for (const bmp of prontos.values()) bmp.close()
+      prontos.clear()
+    }
+    canvas.addEventListener('contextlost', aoPerderContexto)
+    canvas.addEventListener('contextrestored', aoVoltarContexto)
+
     dimensionar()
     cuidarDaJanela(1)
     raf = requestAnimationFrame(passo)
 
     return () => {
+      document.removeEventListener('visibilitychange', aoVoltar)
+      window.removeEventListener('pageshow', aoVoltar)
+      canvas.removeEventListener('contextlost', aoPerderContexto)
+      canvas.removeEventListener('contextrestored', aoVoltarContexto)
       vivo = false
       cancelAnimationFrame(raf)
       for (const bmp of prontos.values()) bmp.close()
