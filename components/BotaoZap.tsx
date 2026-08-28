@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode
   /** Mensagem que ja vai escrita na conversa. */
   mensagem?: string
-  variante?: 'primario' | 'discreto'
+  variante?: 'primario' | 'discreto' | 'moldura'
   className?: string
 }
 
@@ -29,7 +29,9 @@ export default function BotaoZap({
   const cor =
     variante === 'primario'
       ? 'bg-acento text-[#150E03] hover:bg-acento-2'
-      : 'border border-fio text-texto hover:border-fio-2'
+      : variante === 'moldura'
+        ? 'border border-acento bg-transparent px-5 py-2.5 text-texto hover:bg-acento/10'
+        : 'border border-fio text-texto hover:border-fio-2'
 
   return (
     <a
@@ -42,9 +44,9 @@ export default function BotaoZap({
       <span>{children}</span>
       <span
         aria-hidden
-        className="transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1.5"
+        className="transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-1.5 group-hover:-translate-y-0.5"
       >
-        →
+        {variante === 'moldura' ? '↗' : '→'}
       </span>
     </a>
   )

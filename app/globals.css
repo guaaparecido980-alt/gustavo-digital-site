@@ -25,6 +25,7 @@
 
   --font-display: 'Clash Display', system-ui, sans-serif;
   --font-corpo: 'Satoshi', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', 'Times New Roman', serif;
 
   /* Motion system global: dois easings para todo o site (brief secao 22).
      O "suave" e o easing que a marca ja usava. */
@@ -101,8 +102,14 @@
   }
 
   [id] {
-    scroll-margin-top: 84px;
+    scroll-margin-top: 108px;
   }
+
+  /* O espaco do CTA fixo do celular fica DENTRO do rodape (ver o pb do
+     <footer> em page.tsx), nao como padding do body: ali ele virava uma
+     faixa morta de 76px depois do rodape, e a pagina continuava rolando sem
+     nada para mostrar. */
+
 }
 
 @layer utilities {
@@ -120,6 +127,160 @@
     color: var(--color-acento);
     font-weight: 700;
   }
+
+  /* Contorno nas letras, nao painel. O branco precisa ler sobre o ouro. */
+  .tipo-3d {
+    text-shadow:
+      0 1px 1px #08080a,
+      0 0 14px #08080a,
+      0 0 28px rgba(8, 8, 10, 0.92);
+  }
+
+  .tipo-3d h1,
+  .tipo-3d h2,
+  .tipo-3d h3 {
+    -webkit-text-stroke: 0.45px rgba(8, 8, 10, 0.65);
+    paint-order: stroke fill;
+    text-shadow:
+      0 1px 1px #08080a,
+      0 0 18px #08080a,
+      0 0 36px #08080a;
+  }
+
+  .tipo-3d p {
+    color: var(--color-texto);
+  }
+}
+
+.grao {
+  opacity: 0.42;
+  mix-blend-mode: overlay;
+  background-image: repeating-linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.055) 0 1px,
+    transparent 1px 4px
+  );
+}
+
+.poeira-tela span {
+  position: absolute;
+  border-radius: 50%;
+  background: #f2a33c;
+  box-shadow: 0 0 10px rgba(242, 163, 60, 0.85);
+  animation: poeira-flutua 5.6s ease-in-out infinite;
+}
+
+@keyframes poeira-flutua {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(6px, -10px, 0);
+  }
+}
+
+.card-vidro {
+  overflow: hidden;
+  border: 1px solid rgba(242, 163, 60, 0.22);
+  background: rgba(16, 16, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.card-vitrine {
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition:
+    transform 0.35s var(--ease-premium),
+    box-shadow 0.35s var(--ease-premium),
+    border-color 0.35s var(--ease-premium);
+}
+
+.card-vitrine:hover,
+.card-vitrine-ativo {
+  border-color: rgba(242, 163, 60, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px rgba(242, 163, 60, 0.28),
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 0 28px rgba(242, 163, 60, 0.18);
+}
+
+.fio-dado {
+  stroke: rgba(242, 163, 60, 0.28);
+  stroke-width: 0.18;
+  stroke-dasharray: 1.2 1.8;
+  animation: fio-corre 2.8s linear infinite;
+}
+
+.fio-dado-ativo {
+  stroke: rgba(242, 163, 60, 0.85);
+  stroke-width: 0.28;
+}
+
+@keyframes fio-corre {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+.hud-vidro {
+  overflow: hidden;
+  border: 1px solid rgba(242, 163, 60, 0.28);
+  background: #0e0d0c;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.hud-pulso {
+  animation: hud-pulso 1.6s var(--ease-suave) infinite;
+  transform-origin: center;
+}
+
+@keyframes hud-pulso {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+.hero-intro > * {
+  animation: hero-sobe 1.05s var(--ease-premium) both;
+}
+.hero-intro > *:nth-child(1) {
+  animation-delay: 0.08s;
+}
+.hero-intro > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.hero-intro > *:nth-child(3) {
+  animation-delay: 0.36s;
+}
+.hero-intro > *:nth-child(4) {
+  animation-delay: 0.5s;
+}
+
+@keyframes hero-sobe {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Acessibilidade: quem pediu menos movimento recebe menos movimento.
@@ -133,4 +294,279 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ===========================================================
+   Revelacao por capitulo.
+
+   Cada ato da trilha marca [data-ativo] quando o salto termina; os filhos
+   diretos de .revela sobem em cascata. E CSS puro: o loop de rolagem so
+   liga e desliga um atributo, quem anima e o compositor.
+   =========================================================== */
+.revela > * {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  filter: blur(5px);
+  transition:
+    opacity 0.72s var(--ease-premium),
+    transform 0.72s var(--ease-premium),
+    filter 0.72s var(--ease-premium);
+}
+
+[data-ativo='1'] .revela > * {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.revela > *:nth-child(1) { transition-delay: 0.04s; }
+.revela > *:nth-child(2) { transition-delay: 0.14s; }
+.revela > *:nth-child(3) { transition-delay: 0.24s; }
+.revela > *:nth-child(4) { transition-delay: 0.34s; }
+.revela > *:nth-child(5) { transition-delay: 0.44s; }
+
+/* O filete do kicker cresce da esquerda quando o ato entra. */
+.fio-ato {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.9s var(--ease-premium) 0.1s;
+}
+
+[data-ativo='1'] .fio-ato {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revela > *,
+  .fio-ato {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* ===========================================================
+   Abertura.
+
+   Sai por animacao de CSS, nao por JavaScript: se um script quebrar ou a
+   rede morrer, a tela some do mesmo jeito e o site aparece. O JS so
+   antecipa, marcando [data-pronto] quando os quadros chegam antes.
+   =========================================================== */
+.abertura {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background: var(--color-ink);
+  animation: abertura-sai 0.7s var(--ease-premium) 3.2s forwards;
+}
+
+.abertura[data-pronto='1'] {
+  animation: abertura-sai 0.7s var(--ease-premium) forwards;
+}
+
+@keyframes abertura-sai {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.abertura-barra {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: var(--color-acento);
+  transition: transform 0.25s linear;
+  animation: abertura-barra 3.2s linear forwards;
+}
+
+/* A barra tambem anda sozinha: e o retrato do tempo maximo de espera. */
+@keyframes abertura-barra {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.abertura[data-pronto='1'] .abertura-barra {
+  animation: none;
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura {
+    animation-delay: 0s;
+    animation-duration: 0.01ms;
+  }
+}
+
+/* Trabalhos: entram uma vez, quando aparecem na tela. */
+.card-entra {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 0.8s var(--ease-premium),
+    transform 0.8s var(--ease-premium);
+}
+
+.card-entra[data-dentro='1'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-entra {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===========================================================
+   Painel de leitura.
+
+   Nas cenas dos pilares e da chegada, as linhas douradas do filme passam
+   exatamente atras das letras. Contorno em cada letra nao resolve num fundo
+   tao vivo, e uma caixa retangular com blur criaria uma borda dura no meio
+   da imagem. A saida e um veu em gradiente ancorado no bloco de texto: forte
+   onde a tipografia comeca, dissolvido antes de virar forma.
+   =========================================================== */
+.painel {
+  position: relative;
+  isolation: isolate;
+}
+
+.painel::before {
+  content: '';
+  position: absolute;
+  inset: -14% -22% -16% -18%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    130% 105% at 22% 50%,
+    rgba(8, 8, 10, 0.46) 0%,
+    rgba(8, 8, 10, 0.34) 40%,
+    rgba(8, 8, 10, 0.14) 64%,
+    transparent 78%
+  );
+}
+
+/* Centralizado (a travessia) pede o veu centrado tambem. */
+.painel-centro::before {
+  background: radial-gradient(
+    100% 100% at 50% 50%,
+    rgba(8, 8, 10, 0.44) 0%,
+    rgba(8, 8, 10, 0.3) 44%,
+    transparent 74%
+  );
+}
+
+/* A barra de CTA do celular entra deslizando, depois da primeira dobra. */
+.cta-fixo {
+  transform: translate3d(0, 110%, 0);
+  opacity: 0;
+  transition:
+    transform 0.55s var(--ease-premium),
+    opacity 0.4s linear;
+}
+
+.cta-fixo[data-dentro='1'] {
+  transform: none;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-fixo {
+    transition: none;
+  }
+}
+
+/* ===========================================================
+   Pilares em card.
+
+   Quatro topicos empilhados em texto corrido sobre a animacao pesam demais
+   para ler de uma vez. Em card, cada um carrega o proprio contraste — o que
+   permite aliviar o veu geral e deixar o filme aparecer em volta.
+   =========================================================== */
+.pilar {
+  position: relative;
+  border: 1px solid rgb(255 255 255 / 0.09);
+  background: rgb(20 20 25 / 0.38);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  padding: 1.1rem 1.2rem;
+  transition:
+    border-color 0.5s var(--ease-premium),
+    background-color 0.5s var(--ease-premium);
+}
+
+.pilar[data-aceso='1'] {
+  border-color: rgb(242 163 60 / 0.42);
+  background: rgb(24 20 14 / 0.5);
+}
+
+.pilar::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--color-acento);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.5s var(--ease-premium);
+}
+
+.pilar[data-aceso='1']::after {
+  transform: scaleY(1);
+}
+
+/* ===========================================================
+   Cabecalho.
+
+   Sobre o filme ele pode ser transparente — a imagem e escura e a marca le
+   bem. Nas secoes de baixo o conteudo rola por tras e passava por cima do
+   logotipo. A faixa escura entra junto com a barra de CTA, no mesmo ponto da
+   rolagem, e da chao para a marca sem pesar na primeira dobra.
+   =========================================================== */
+.cabecalho {
+  background: linear-gradient(
+    to bottom,
+    rgb(8 8 10 / 0.4),
+    rgb(8 8 10 / 0)
+  );
+  transition: background-color 0.4s var(--ease-premium);
+}
+
+.cabecalho[data-solto='1'] {
+  background: rgb(8 8 10 / 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-fio);
+}
+
+/* ===========================================================
+   Esteira dos trabalhos.
+
+   Rolagem horizontal sem barra visivel: a barra denunciaria a mecanica e
+   cortaria a faixa de imagens ao meio. O arrasto continua funcionando, e a
+   esteira anda sozinha quando ninguem esta mexendo.
+   =========================================================== */
+.esteira {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  /* Sangra ate as bordas da tela: card cortado sinaliza que ha mais adiante */
+  margin-inline: calc(var(--pad) * -1);
+  padding-inline: var(--pad);
+}
+
+.esteira::-webkit-scrollbar {
+  display: none;
 }

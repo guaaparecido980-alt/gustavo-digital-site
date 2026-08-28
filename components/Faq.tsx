@@ -11,7 +11,7 @@ export default function Faq() {
   function alternar(i: number) {
     const vai = aberta === i ? null : i
     setAberta(vai)
-    if (vai !== null) track('faq_abrir', { pergunta: perguntas[i].p })
+    if (vai !== null) track('faq_open', { pergunta: perguntas[i].p })
   }
 
   return (

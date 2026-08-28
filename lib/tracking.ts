@@ -26,7 +26,10 @@ declare global {
       loaded?: boolean
       callMethod?: (...args: unknown[]) => void
       queue?: unknown[]
+      version?: string
+      push?: unknown
     }
+    _fbq?: Window['fbq']
     gtag?: (...args: unknown[]) => void
   }
 }
@@ -34,6 +37,83 @@ declare global {
 /** Monta o link do WhatsApp. Sem mensagem, usa a padrao. */
 export function linkZap(mensagem: string = MSG_PADRAO): string {
   return `https://wa.me/${WHATS}?text=${encodeURIComponent(mensagem)}`
+}
+
+type GtagConsent = {
+  ad_storage: 'denied' | 'granted'
+  analytics_storage: 'denied' | 'granted'
+  ad_user_data: 'denied' | 'granted'
+  ad_personalization: 'denied' | 'granted'
+  functionality_storage?: 'granted'
+  security_storage?: 'granted'
+  wait_for_update?: number
+}
+
+function gtag(..._args: unknown[]): void {
+  window.dataLayer = window.dataLayer || []
+  window.dataLayer.push(arguments)
+}
+
+/**
+ * Consent Mode v2 e o loader do GTM. Roda no cliente (useEffect), nunca
+ * como <script> no layout — no React 19 isso dispara o overlay do Next.
+ * A ordem continua a mesma: default denied, depois cookie, depois o GTM.
+ */
+export function iniciarConsentimentoEGtm(): void {
+  if (typeof window === 'undefined') return
+  if (window.gtag) return
+
+  window.dataLayer = window.dataLayer || []
+  window.gtag = gtag
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  } satisfies GtagConsent)
+
+  try {
+    if (document.cookie.includes(`${COOKIE}=1`)) {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      } satisfies GtagConsent)
+    }
+  } catch {
+    /* cookie bloqueado */
+  }
+
+  if (!window.fbq) {
+    const fbq = function (...args: unknown[]) {
+      if (fbq.callMethod) fbq.callMethod(...args)
+      else fbq.queue?.push(args)
+    } as NonNullable<Window['fbq']>
+    fbq.queue = []
+    fbq.loaded = false
+    fbq.version = '2.0'
+    fbq.push = fbq
+    window.fbq = fbq
+    window._fbq = fbq
+  }
+
+  window.dataLayer.push({
+    'gtm.start': Date.now(),
+    event: 'gtm.js',
+  })
+  const s = document.createElement('script')
+  s.async = true
+  s.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`
+  const ligar = () => document.head.appendChild(s)
+  if (document.readyState === 'complete') {
+    window.setTimeout(ligar, 0)
+  } else {
+    window.addEventListener('load', ligar, { once: true })
+  }
 }
 
 /** Empurra um evento pro dataLayer do GTM. */
@@ -99,10 +179,7 @@ export function gravarConsentimento(aceitou: boolean): void {
   const v = aceitou ? '1' : '0'
   document.cookie = `${COOKIE}=${v};path=/;max-age=${SEIS_MESES};SameSite=Lax`
 
-  if (!aceitou) {
-    track('cookie_consent', { consent: 'denied' })
-    return
-  }
+  if (!aceitou) return
 
   window.gtag?.('consent', 'update', {
     ad_storage: 'granted',

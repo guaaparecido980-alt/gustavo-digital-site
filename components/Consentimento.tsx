@@ -36,10 +36,10 @@ export default function Consentimento() {
       className="fixed inset-x-0 bottom-0 z-[90] flex flex-col gap-4 border-t border-fio bg-ink-2 px-[var(--pad)] py-5 sm:flex-row sm:items-center sm:justify-between"
     >
       <p className="max-w-[62ch] text-sm text-mudo">
-        Uso cookies para entender como o site é usado e melhorar a experiência.
-        Você escolhe.{' '}
+        Usamos cookies para medir resultados (Google e Meta) e melhorar sua
+        experiência. Você pode aceitar ou recusar — veja a{' '}
         <a href="/privacidade.html" className="text-acento underline">
-          Política de privacidade
+          Política de Privacidade
         </a>
         .
       </p>

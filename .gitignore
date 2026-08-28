@@ -5,3 +5,13 @@ next-env.d.ts
 *.tsbuildinfo
 .DS_Store
 .env*.local
+
+# Fontes do filme: os mp4 do Higgsfield ficam so na maquina. O que o site
+# serve sao os quadros ja cortados em public/filme.
+filme-fonte/
+
+# Ferramentas baixadas para experimento (upscaler), nao fazem parte do site.
+.ferramentas/
+
+# Backup do prototipo WebGL, guardado ate o filme estar aprovado.
+.backup-3d/

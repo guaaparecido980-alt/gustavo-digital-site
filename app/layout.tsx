@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import { GTM_ID, PIXEL_ID } from '@/lib/tracking'
 import { perguntas } from '@/lib/projetos'
 import Consentimento from '@/components/Consentimento'
+import Rastreio from '@/components/Rastreio'
 import './globals.css'
 
 const SITE = 'https://gustavodigital.online'
@@ -84,69 +84,50 @@ const ldFaq = {
   })),
 }
 
-/* Consent Mode v2 (LGPD). Precisa rodar ANTES do GTM, senao o GTM
-   assume consentimento e a conformidade cai. */
-const consentDefault = `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-window.gtag = gtag;
-gtag('consent','default',{
-  ad_storage:'denied', analytics_storage:'denied',
-  ad_user_data:'denied', ad_personalization:'denied',
-  functionality_storage:'granted', security_storage:'granted', wait_for_update:500
-});
-try{ if(document.cookie.indexOf('gd_consent=1')>-1){
-  gtag('consent','update',{ad_storage:'granted',analytics_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
-}}catch(e){}
-`
-
-/* Stub do Meta Pixel. Enfileira chamadas; o fbevents.js so baixa apos o aceite. */
-const pixelStub = `
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!1;n.version='2.0';n.queue=[]}(window,document,'script');
-`
-
-const gtmLoader = `
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');
-`
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
+        {/* Os primeiros quadros do filme comecam a baixar junto com o HTML,
+            antes de qualquer JavaScript rodar. E o que tira a espera da
+            abertura: quando o script pede o quadro 1, ele ja esta no cache. */}
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <link
+            key={n}
+            rel="preload"
+            as="image"
+            type="image/webp"
+            href={`/filme/q00${n}.webp`}
+          />
+        ))}
+        <link rel="preload" as="image" href="/filme/poster.jpg" />
+      </head>
+      <body suppressHydrationWarning>
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="" />
         <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
         <link
           href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap"
+          rel="stylesheet"
+        />
 
-        <Script
-          id="consent-default"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: consentDefault }}
+        <Rastreio
+          ldServico={JSON.stringify(ldServico)}
+          ldFaq={JSON.stringify(ldFaq)}
         />
-        <Script
-          id="pixel-stub"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: pixelStub }}
-        />
-        <Script
-          id="gtm"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: gtmLoader }}
-        />
-      </head>
-      <body>
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -170,15 +151,6 @@ export default function RootLayout({
         {children}
 
         <Consentimento />
-
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ldServico) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ldFaq) }}
-        />
       </body>
     </html>
   )
