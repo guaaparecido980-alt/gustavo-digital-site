@@ -364,11 +364,18 @@ export default function FilmeScroll() {
       //
       // Sem a segunda condicao, um quadro que termina de baixar enquanto a
       // pessoa esta parada nunca era mandado para decodificacao — e a tela
-      // ficava preta depois do F5 ate alguem rolar. Mesma causa do travamento
-      // ao voltar correndo para o inicio, onde os quadros ja tinham sido
-      // liberados da memoria.
+      // ficava preta depois do F5 ate alguem rolar.
+      //
+      // A frequencia muda com o estado: parado, a cada tres quadros de
+      // animacao. Cada passada manda no maximo seis quadros para a fila, e a
+      // cada quinze isso levava quase tres segundos para preparar os 66 quadros
+      // do salto ate o mundo — se a pessoa rolasse antes, o filme partia com a
+      // fila pela metade. Em movimento a revisao volta a ser rara: ali o custo
+      // precisa ir todo para o desenho.
       pulso++
-      if (base !== ultimoCentro || pulso % 15 === 0 || desenhado === -1) {
+      const emRepouso = Math.abs(rolagem.velocidade) < 0.6
+      const cadencia = emRepouso ? 3 : 15
+      if (base !== ultimoCentro || pulso % cadencia === 0 || desenhado === -1) {
         ultimoCentro = base
         cuidarDaJanela(base)
       }
