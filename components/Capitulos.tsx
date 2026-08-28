@@ -232,11 +232,16 @@ export default function Capitulos() {
       if (Math.abs(arrasto) > FLICK) {
         const destino = indicePartida + (arrasto > 0 ? 1 : -1)
         if (destino >= 0 && destino < CAPITULOS.length) {
-          // Mesma escala do desktop. Com 700ms fixos, o salto da chegada ao
-          // mundo — 66 quadros — passava cinco vezes mais rapido no celular
-          // que no computador, e a rede acendia antes de dar para ver.
+          // Escala do desktop, encurtada.
+          //
+          // Com 700ms fixos a rede acendia antes de dar para ver. Com a
+          // duracao cheia do desktop (3,57s no salto do mapa) o celular
+          // travava: sao 66 quadros para decodificar num aparelho mais lento,
+          // com o scroll nativo preso o tempo todo. Sessenta por cento e o
+          // ponto em que da para acompanhar a explosao sem prender o dedo.
           const vao = Math.abs(CAPITULOS[destino] - rolagem.pin)
-          irAte(destino, duracaoDoSalto(vao) * 1000)
+          const ms = Math.min(2200, duracaoDoSalto(vao) * 1000 * 0.6)
+          irAte(destino, ms)
           return
         }
       }
