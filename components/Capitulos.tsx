@@ -94,20 +94,24 @@ export default function Capitulos() {
       animacao = requestAnimationFrame(passo)
     }
 
+    /**
+     * Quanto tempo o salto leva, pela distancia percorrida no filme.
+     *
+     * O termo quadratico e para o salto do mapa: uma escala linear tratava os
+     * 66 quadros da chegada como quatro vezes um salto de 16, e a rede acendia
+     * rapido demais para o tamanho do momento.
+     */
+    const duracaoDoSalto = (vao: number) =>
+      Math.min(
+        DURACAO_MAX,
+        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 3.6 + vao * vao * 6)
+      )
+
     const irPara = (i: number) => {
       const motor = pegarMotor()
       const alvo = yDoPin(CAPITULOS[i])
       const vao = Math.abs(CAPITULOS[i] - rolagem.pin)
-      // O termo quadratico existe para o salto do mapa.
-      //
-      // Uma escala linear tratava 66 quadros como se fossem quatro vezes 16, e
-      // a rede acendia rapido demais para o tamanho do momento. Com o termo ao
-      // quadrado, os saltos curtos quase nao mudam e o longo ganha mais de um
-      // segundo — que e onde a explosao acontece.
-      const duracao = Math.min(
-        DURACAO_MAX,
-        Math.max(DURACAO_MIN, DURACAO_MIN + vao * 3.6 + vao * vao * 6)
-      )
+      const duracao = duracaoDoSalto(vao)
       animando = true
       acumulado = 0
 
@@ -228,10 +232,16 @@ export default function Capitulos() {
       if (Math.abs(arrasto) > FLICK) {
         const destino = indicePartida + (arrasto > 0 ? 1 : -1)
         if (destino >= 0 && destino < CAPITULOS.length) {
-          irAte(destino, 700)
+          // Mesma escala do desktop. Com 700ms fixos, o salto da chegada ao
+          // mundo — 66 quadros — passava cinco vezes mais rapido no celular
+          // que no computador, e a rede acendia antes de dar para ver.
+          const vao = Math.abs(CAPITULOS[destino] - rolagem.pin)
+          irAte(destino, duracaoDoSalto(vao) * 1000)
           return
         }
       }
+      // Voltar ao lugar depois de um toque curto e sempre rapido: nao e uma
+      // cena, e uma correcao.
       irAte(indiceAtual(), 520)
     }
 
